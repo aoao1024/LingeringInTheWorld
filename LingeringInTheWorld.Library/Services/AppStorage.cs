@@ -15,10 +15,21 @@ public class AppStorage : IAppStorage
     private SQLiteAsyncConnection Connection =>
         _connection ??= new SQLiteAsyncConnection(AppDbPath);
     
+    private readonly IPreferenceStorage _preferenceStorage;
     
+    public AppStorage(IPreferenceStorage preferenceStorage) {
+        _preferenceStorage = preferenceStorage;
+    }
+
+    public bool IsInitialized =>
+        _preferenceStorage.Get(AppStorageConstant.VersionKey,
+            default(int)) == AppStorageConstant.Version;
+
     public async Task InitializeAsync()
     {
         await Connection.CreateTableAsync<Diary>();
+        _preferenceStorage.Set(AppStorageConstant.VersionKey,
+            AppStorageConstant.Version);
     }
 
     
@@ -35,4 +46,15 @@ public class AppStorage : IAppStorage
         await Connection.Table<Diary>()
             .Where(d => d.Title.Contains(keyword))
             .ToListAsync();
+    
+    public async Task CloseAsync() => await Connection.CloseAsync();
+
+}
+
+public static class AppStorageConstant
+{
+    public const int Version = 1;
+    
+    public const string VersionKey = nameof(AppStorageConstant) + "." + nameof(Version);
+    //AppStorageConstant.Version
 }

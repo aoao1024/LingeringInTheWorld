@@ -7,12 +7,25 @@ namespace LingeringInTheWorld.Library.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     private readonly IAppStorage _appStorage;
-    
-    public MainWindowViewModel(IAppStorage appStorage)
+    private readonly IRootNavigationService _rootNavigationService;
+    private readonly IMenuNavigationService _menuNavigationService;
+
+    public MainWindowViewModel(IAppStorage appStorage,
+        IRootNavigationService rootNavigationService,
+        IMenuNavigationService menuNavigationService)
     {
         _appStorage = appStorage;
+        _rootNavigationService = rootNavigationService;
+        _menuNavigationService = menuNavigationService;
 
         OnInitializedCommand = new RelayCommand(OnInitialized);
+    }
+    
+    private ViewModelBase _content;
+    
+    public ViewModelBase Content {
+        get => _content;
+        set => SetProperty(ref _content, value);
     }
     
     public void OnInitialized() {
@@ -20,9 +33,12 @@ public class MainWindowViewModel : ViewModelBase
         //     _rootNavigationService.NavigateTo(RootNavigationConstant
         //         .InitializationView);
         // } else {
-        //     _rootNavigationService.NavigateTo(RootNavigationConstant.MainView);
-        //     _menuNavigationService.NavigateTo(MenuNavigationConstant.TodayView);
+        //     _rootNavigationService.NavigateTo(RootNavigationConstant.MenuView);
+        //     _menuNavigationService.NavigateTo(MenuNavigationConstant.MainView);
         // }
+        
+        _rootNavigationService.NavigateTo(RootNavigationConstant.MenuView);
+        _menuNavigationService.NavigateTo(MenuNavigationConstant.MainView);
     }
     public ICommand OnInitializedCommand { get; }
 
