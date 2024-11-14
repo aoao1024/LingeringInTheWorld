@@ -14,7 +14,7 @@ public class MenuNavigationService: IMenuNavigationService {
             MenuNavigationConstant.LedgerView => ServiceLocator.Current
                 .LedgerViewModel, 
             MenuNavigationConstant.TodoView => ServiceLocator.Current
-                .TodoViewModel,
+                .TodoListViewModel,
             _ => throw new Exception("未知的视图。")
         };
 

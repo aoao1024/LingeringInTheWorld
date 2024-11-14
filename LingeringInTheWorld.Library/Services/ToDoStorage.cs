@@ -5,7 +5,7 @@ using SQLite;
 namespace LingeringInTheWorld.Library.Services;
 public class ToDoStorage : IToDoStorage
 {
-    public const string DbName = "todo.sqlite3";
+    public const string DbName = "appdb.sqlite3";
     public static readonly string TodoDbPath = PathHelper.GetLocalFilePath(DbName);
     private SQLiteAsyncConnection _connection;
     //public bool IsInitialized => File.Exists(TodoDbPath);

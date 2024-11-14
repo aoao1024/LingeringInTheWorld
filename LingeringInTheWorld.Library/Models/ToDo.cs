@@ -1,6 +1,6 @@
 namespace LingeringInTheWorld.Library.Models;
 
-[SQLite.Table("todo")]
+
 public class ToDo
 {
     [SQLite.Column("id")] public int Id { get; set; }

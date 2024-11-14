@@ -1,6 +1,6 @@
 namespace LingeringInTheWorld.Library.ViewModels;
 
-public class TodoViewModel : ViewModelBase
+public class TodoListViewModel : ViewModelBase
 {
     
 }
