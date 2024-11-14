@@ -5,11 +5,11 @@ using LingeringInTheWorld.Library.Services;
 namespace LingeringInTheWorld.Library.ViewModels;
 
 public class InitializationViewModel : ViewModelBase {
-    private readonly IAlertService _appStorage;
+    private readonly IAppStorage _appStorage;
     private readonly IRootNavigationService _rootNavigationService;
     private readonly IMenuNavigationService _menuNavigationService;
 
-    public InitializationViewModel(IAlertService appStorage,
+    public InitializationViewModel(IAppStorage appStorage,
         IRootNavigationService rootNavigationService,
         IMenuNavigationService menuNavigationService) {
         _appStorage = appStorage;
@@ -22,9 +22,9 @@ public class InitializationViewModel : ViewModelBase {
     private ICommand OnInitializedCommand { get; }
 
     public async Task OnInitializedAsync() {
-        // if (!_appStorage.IsInitialized) {
-        //     await _appStorage.InitializeAsync();
-        // }
+        if (!_appStorage.IsInitialized) {
+            await _appStorage.InitializeAsync();
+        }
 
         await Task.Delay(1000);
 
