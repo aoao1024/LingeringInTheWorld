@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingeringInTheWorld", "LingeringInTheWorld\LingeringInTheWorld.csproj", "{5BED10ED-7957-4E6B-970F-F2447B6BD635}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingeringInTheWorld.Library", "LingeringInTheWorld.Library\LingeringInTheWorld.Library.csproj", "{673C1572-A9DB-41AE-9C40-EAC4FC440618}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingeringInTheWorld.UnitTest", "LingeringInTheWorld.UnitTest\LingeringInTheWorld.UnitTest.csproj", "{5E905254-54B1-4846-B3B0-BEFB7505057B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BED10ED-7957-4E6B-970F-F2447B6BD635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BED10ED-7957-4E6B-970F-F2447B6BD635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BED10ED-7957-4E6B-970F-F2447B6BD635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BED10ED-7957-4E6B-970F-F2447B6BD635}.Release|Any CPU.Build.0 = Release|Any CPU
+		{673C1572-A9DB-41AE-9C40-EAC4FC440618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{673C1572-A9DB-41AE-9C40-EAC4FC440618}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{673C1572-A9DB-41AE-9C40-EAC4FC440618}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{673C1572-A9DB-41AE-9C40-EAC4FC440618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E905254-54B1-4846-B3B0-BEFB7505057B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E905254-54B1-4846-B3B0-BEFB7505057B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E905254-54B1-4846-B3B0-BEFB7505057B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E905254-54B1-4846-B3B0-BEFB7505057B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
