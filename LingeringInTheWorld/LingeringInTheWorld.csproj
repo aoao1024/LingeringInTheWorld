@@ -33,4 +33,10 @@
     <ItemGroup>
       <ProjectReference Include="..\LingeringInTheWorld.Library\LingeringInTheWorld.Library.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\DiaryView.axaml.cs">
+        <DependentUpon>DiaryView.axaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
 </Project>

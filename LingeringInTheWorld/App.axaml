@@ -3,6 +3,7 @@
              x:Class="LingeringInTheWorld.App"
              xmlns:local="using:LingeringInTheWorld"
              xmlns:semi="https://irihi.tech/semi"
+             xmlns:u-semi="https://irihi.tech/ursa/themes/semi"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
     
@@ -18,5 +19,6 @@
   
     <Application.Styles>
         <semi:SemiTheme Locale="zh-CN"/>
+        <u-semi:SemiTheme Locale="zh-CN"/>
     </Application.Styles>
 </Application>
