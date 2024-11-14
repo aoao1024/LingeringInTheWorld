@@ -17,8 +17,9 @@ public class ToDoStorage : IToDoStorage
     public async Task<int> DeleteToDoItemAsync(int id)
     =>await Connection.DeleteAsync<ToDo>(id);
 
-    public async Task DeleteToDoItemsAsync(int[] ids)
+    public async Task<bool> DeleteToDoItemsAsync(int[] ids)
     {
+        var result = true;
         await Connection.RunInTransactionAsync(async (transaction) =>
         {
             try
@@ -30,10 +31,11 @@ public class ToDoStorage : IToDoStorage
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                result = false;
                 transaction.Rollback();
             }
         });
-        
+        return result;
     }
     public async Task UpdateToDoItemAsync(int id, object deadline=null, object title = null, object content = null)
     {

@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace LingeringInTheWorld.Views;
 
-public partial class TodoView : UserControl
+public partial class ToDoListView : UserControl
 {
-    public TodoView()
+    public ToDoListView()
     {
         InitializeComponent();
     }
