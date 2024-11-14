@@ -38,5 +38,8 @@
       <Compile Update="Views\DiaryView.axaml.cs">
         <DependentUpon>DiaryView.axaml</DependentUpon>
       </Compile>
+      <Compile Update="Views\ToDoListView.axaml.cs">
+        <DependentUpon>ToDoListView.axaml</DependentUpon>
+      </Compile>
     </ItemGroup>
 </Project>

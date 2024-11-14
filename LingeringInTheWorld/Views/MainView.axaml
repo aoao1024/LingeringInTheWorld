@@ -31,6 +31,7 @@
             Source="{Binding TodayImage.ImageBytes, Converter={StaticResource ByteArrayToBitmapConverter}}"
             Stretch="UniformToFill" />
         
+        <StackPanel>
             <StackPanel Margin="8"
                         IsVisible="{Binding IsLoading}">
                 <ProgressBar Foreground="White"
@@ -50,14 +51,15 @@
                          Converter={StaticResource NegativeConverter}}">
             </StackPanel>
 
-            <StackPanel Background="#66000000"
-                        VerticalAlignment="Bottom">
-                <Label Foreground="White"
-                       Margin="8"
-                       FontSize="12"
-                       Content="{Binding TodayImage.Copyright}">
-                </Label>
-            </StackPanel>
+        </StackPanel>
+        
+        <StackPanel Background="#66000000"
+                    VerticalAlignment="Bottom">
+            <Label Foreground="White"
+                   Margin="8"
+                   FontSize="12"
+                   Content="{Binding TodayImage.Copyright}">
+            </Label>
+        </StackPanel>
     </Grid>
-
 </UserControl>
