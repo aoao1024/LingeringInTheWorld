@@ -8,6 +8,48 @@
              xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LingeringInTheWorld.Views.DiaryView"
+             x:Name="TheDiaryView"
              DataContext="{Binding DiaryViewModel, Source={StaticResource ServiceLocator}}">
-   
+    <UserControl.Resources>
+        <lc:DiaryToStringConverter x:Key="DiaryToString"></lc:DiaryToStringConverter>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ais:AvaloniaInfiniteScrollControl Grid.Row="0"
+                                           ItemsSource="{Binding DiaryCollection}"
+                                           Margin="12,12,12,0">
+            <ais:AvaloniaInfiniteScrollControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="0,0,0,12"
+                                Background="Transparent">
+                        <i:Interaction.Behaviors>
+                            <ia:EventTriggerBehavior EventName="Tapped">
+                                <ia:InvokeCommandAction Command="{Binding DataContext.ShowDiaryCommand, ElementName=TheDiaryView}"
+                                                        CommandParameter="{Binding }">
+                                </ia:InvokeCommandAction>
+                            </ia:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                        <TextBlock Text="{Binding Converter={StaticResource DiaryToString} , ConverterParameter=preview}"
+                                   FontWeight="Bold" />
+                        <TextBlock
+                            Text="{Binding Converter={StaticResource DiaryToString} , ConverterParameter=details}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ais:AvaloniaInfiniteScrollControl.ItemTemplate>
+        </ais:AvaloniaInfiniteScrollControl>
+        <TextBlock Grid.Row="1"
+                   Text="{Binding Status}"
+                   Margin="12"
+                   HorizontalAlignment="Center">
+        </TextBlock>
+        <Button Margin="12"
+                Content="写日记"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                Command="{Binding AddDiaryCommand}" />
+
+    </Grid>
 </UserControl>

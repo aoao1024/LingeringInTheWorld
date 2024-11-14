@@ -38,6 +38,14 @@ public class MainViewModel : ViewModelBase
        
         Task.Run(async () =>
         {
+            IsLoading = true;   //显示加载进度条,正在加载
+            await Task.Delay(1000);  //模拟加载数据IsLoading = false;
+            IsLoading = false;  //隐藏加载进度条
+
+        });
+        
+        Task.Run(async () =>
+        {
             TodayImage = await _todayImageService.GetTodayImageAsync(); //获取今日图片
             var updateResult = await _todayImageService.CheckUpdateAsync();
             if (updateResult.HasUpdate) {

@@ -14,10 +14,10 @@ public class Diary
     public string Tags { get; set; }           // 标签（逗号分隔的字符串）
     public string ImagePaths { get; set; }     // 图片路径（逗号分隔的字符串）
     
-    // private string _snippet;                   // 用于显示预览的字段
-    // //日记第一句话，用于显示预览
-    // [SQLite.Ignore]
-    // public string Snippet =>
-    //     _snippet ??= Content.Split('。')[0].Replace("\r\n", " ");
+    private string _snippet;                   // 用于显示预览的字段
+    //日记第一句话，用于显示预览
+    [SQLite.Ignore]
+    public string Snippet =>
+        _snippet ??= Content.Split('。')[0].Replace("\r\n", " ");
 
 }

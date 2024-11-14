@@ -57,6 +57,12 @@ public class ServiceLocator
     public TodoListViewModel TodoListViewModel =>
         _serviceProvider.GetRequiredService<TodoListViewModel>();
     
+    public DiaryDetailViewModel DiaryDetailViewModel =>
+        _serviceProvider.GetRequiredService<DiaryDetailViewModel>();
+    
+    public DiaryAddViewModel DiaryAddViewModel =>
+        _serviceProvider.GetRequiredService<DiaryAddViewModel>();
+    
     public ServiceLocator()
     {
         //注册对象
@@ -67,6 +73,7 @@ public class ServiceLocator
         serviceCollection.AddSingleton<IAlertService, AlertService>();
         serviceCollection.AddSingleton<IRootNavigationService, RootNavigationService>();
         serviceCollection.AddSingleton<IMenuNavigationService, MenuNavigationService>();
+        serviceCollection.AddSingleton<IContentNavigationService, ContentNavigationService>();
         serviceCollection.AddSingleton<InitializationViewModel>();
         serviceCollection.AddSingleton<ITodayImageService, BingImageService>();
         serviceCollection.AddSingleton<ITodayImageStorage, TodayImageStorage>();
@@ -76,6 +83,9 @@ public class ServiceLocator
         serviceCollection.AddSingleton<DiaryViewModel>();
         serviceCollection.AddSingleton<LedgerViewModel>();
         serviceCollection.AddSingleton<TodoListViewModel>();
+        serviceCollection.AddSingleton<DiaryDetailViewModel>();
+        serviceCollection.AddSingleton<DiaryAddViewModel>();
+        
         
         //取对象
         _serviceProvider = serviceCollection.BuildServiceProvider();

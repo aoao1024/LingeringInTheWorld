@@ -31,7 +31,7 @@
             Source="{Binding TodayImage.ImageBytes, Converter={StaticResource ByteArrayToBitmapConverter}}"
             Stretch="UniformToFill" />
         
-        <StackPanel>
+        <StackPanel VerticalAlignment="Center">
             <StackPanel Margin="8"
                         IsVisible="{Binding IsLoading}">
                 <ProgressBar Foreground="White"

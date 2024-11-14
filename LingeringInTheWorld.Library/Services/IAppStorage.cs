@@ -8,9 +8,12 @@ public interface IAppStorage
     
     Task InitializeAsync();
     
-    Task InsertAsync(Diary diary);
+    //插入日记
+    Task InsertDiaryAsync(Diary diary);
     
-    Task<IList<Diary>> ListAsync();
+    //列出所有日记
+    Task<IList<Diary>> ListDiaryAsync();
     
-    Task<IList<Diary>> QueryAsync(string keyword);
+    //查询日记
+    Task<IList<Diary>> QueryDiaryAsync(string keyword);
 }

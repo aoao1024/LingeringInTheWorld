@@ -1,0 +1,14 @@
+namespace LingeringInTheWorld.Library.Services;
+
+public interface IContentNavigationService
+{
+    void NavigateTo(string view, object parameter = null);  //导航目标，可选参数
+}
+
+public static class ContentNavigationConstant {
+    
+        public const string DiaryDetailView = nameof(DiaryDetailView);
+        
+        public const string DiaryAddView = nameof(DiaryAddView);
+    
+}

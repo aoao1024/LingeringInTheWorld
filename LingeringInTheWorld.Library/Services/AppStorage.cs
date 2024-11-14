@@ -33,16 +33,16 @@ public class AppStorage : IAppStorage
     }
 
     
-    public async Task InsertAsync(Diary diary)
+    public async Task InsertDiaryAsync(Diary diary)
     {
         await Connection.InsertAsync(diary);
     }
     
-    public async Task<IList<Diary>> ListAsync()=>
+    public async Task<IList<Diary>> ListDiaryAsync()=>
         await Connection.Table<Diary>().ToListAsync();
     
     
-    public async Task<IList<Diary>> QueryAsync(string keyword) => 
+    public async Task<IList<Diary>> QueryDiaryAsync(string keyword) => 
         await Connection.Table<Diary>()
             .Where(d => d.Title.Contains(keyword))
             .ToListAsync();
