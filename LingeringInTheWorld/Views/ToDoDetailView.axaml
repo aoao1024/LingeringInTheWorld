@@ -7,29 +7,41 @@
              DataContext="{Binding ToDoDetailViewModel, Source={StaticResource ServiceLocator}}">
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <!-- 标题 -->
-        <TextBlock Grid.Row="0" Text="代办事项详情" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,20"/>
-        <!-- 标题输入框 -->
-        <TextBox Grid.Row="1" Width="700" FontSize="18" Watermark="请输入标题" HorizontalAlignment="Left"
-                 Text="{Binding ToDo.Title}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- 较大的文本框 -->
-        <TextBox Grid.Row="2" Width="700" Height="200" FontSize="16" TextWrapping="Wrap"
-                 Watermark="请输入代办内容" Margin="0,10,0,0" HorizontalAlignment="Left"
-                 Text="{Binding ToDo.Content}"/>
+        <!-- 边框容器 -->
+        <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Padding="20"
+                VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <!-- 标题 -->
+                <TextBlock Grid.Row="0" Text="代办事项详情" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,20"/>
+                <!-- 标题输入框 -->
+                <TextBox Grid.Row="1" Width="700" FontSize="18" Watermark="请输入标题" HorizontalAlignment="Left"
+                         Text="{Binding ToDo.Title}"/>
 
-        <!-- 截止时间选择器 -->
-        <DatePicker Grid.Row="3" Width="400" Margin="-50,10,0,0" SelectedDate="{Binding ToDo.DeadLine
-        , Mode=TwoWay}" HorizontalAlignment="Left"/>
+                <!-- 较大的文本框 -->
+                <TextBox Grid.Row="2" Width="700" Height="200" FontSize="16" TextWrapping="Wrap"
+                         Watermark="请输入代办内容" Margin="0,10,0,0" HorizontalAlignment="Left"
+                         Text="{Binding ToDo.Content}"/>
 
-        <!-- 确定按钮 -->
-        <Button Grid.Row="4" Content="确定" Width="200" Height="30" Margin="0,20,0,0" HorizontalAlignment="Center"
-                Command="{Binding SubmitCommand}"/>
+                <!-- 截止时间选择器 -->
+                <DatePicker Grid.Row="3" Width="400" Margin="-50,10,0,0" SelectedDate="{Binding ToDo.DeadLine, Mode=TwoWay}" HorizontalAlignment="Left"/>
+
+                <!-- 确定按钮 -->
+                <Button Grid.Row="4" Content="确定" Width="200" Height="30" Margin="0,20,0,0" HorizontalAlignment="Center"
+                        Command="{Binding SubmitCommand}"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
