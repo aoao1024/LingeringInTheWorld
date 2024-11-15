@@ -9,6 +9,7 @@
         <entry key="LingeringInTheWorld/Views/DiaryAddView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/DiaryDetailView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/DiaryView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
+        <entry key="LingeringInTheWorld/Views/InitializationView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/LedgerVieModel.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/LedgerView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/MainView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />

@@ -11,6 +11,24 @@ public class ToDoStorage : IToDoStorage
     //public bool IsInitialized => File.Exists(TodoDbPath);
     private SQLiteAsyncConnection Connection =>
         _connection ??= new SQLiteAsyncConnection(TodoDbPath);
+    //对照favorite改的
+    private readonly IPreferenceStorage _preferenceStorage;
+
+    public ToDoStorage(IPreferenceStorage preferenceStorage) {
+        _preferenceStorage = preferenceStorage;
+    }
+
+    public bool IsInitialized =>
+        _preferenceStorage.Get(ToDoStorageConstant.VersionKey,
+            default(int)) == ToDoStorageConstant.Version;
+
+    public async Task InitializeAsync() {
+        await Connection.CreateTableAsync<ToDo>();
+        _preferenceStorage.Set(ToDoStorageConstant.VersionKey,
+            ToDoStorageConstant.Version);
+    }
+
+    
     public async Task<int> AddToDoItemAsync(ToDo toDo) 
         => await Connection.InsertAsync(toDo);
     
@@ -52,4 +70,10 @@ public class ToDoStorage : IToDoStorage
     public async Task<IList<ToDo>> GetTodoListAsync(Expression<Func<ToDo, bool>> where, int skip, int take)
         => await Connection.Table<ToDo>().Where(where).Skip(skip).Take(take).ToListAsync();
 
+}
+public static class ToDoStorageConstant {
+    public const string VersionKey =
+        nameof(ToDoStorageConstant) + "." + nameof(Version);
+
+    public const int Version = 1;
 }

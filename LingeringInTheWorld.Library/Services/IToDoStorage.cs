@@ -10,6 +10,8 @@ public interface IToDoStorage
     /*没有就创建一个数据库表*/
     //Task<bool> InitializeAsync();
     /*增加*/
+    bool IsInitialized { get; }
+    Task InitializeAsync();
     Task<int> AddToDoItemAsync(ToDo toDo);
     /*删除*/
     Task<int> DeleteToDoItemAsync(int id);
