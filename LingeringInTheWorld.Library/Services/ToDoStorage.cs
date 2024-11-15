@@ -49,7 +49,6 @@ public class ToDoStorage : IToDoStorage
         if (content != null) toDo.Content = (string)content;
         await Connection.UpdateAsync(toDo);
     }
-
     public async Task<IList<ToDo>> GetTodoListAsync(Expression<Func<ToDo, bool>> where, int skip, int take)
         => await Connection.Table<ToDo>().Where(where).Skip(skip).Take(take).ToListAsync();
 
