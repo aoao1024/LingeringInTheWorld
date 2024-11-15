@@ -62,7 +62,8 @@ public class ServiceLocator
     
     public DiaryAddViewModel DiaryAddViewModel =>
         _serviceProvider.GetRequiredService<DiaryAddViewModel>();
-    
+    public ToDoDetailViewModel ToDoDetailViewModel =>
+        _serviceProvider.GetRequiredService<ToDoDetailViewModel>();
     public ServiceLocator()
     {
         //注册对象
@@ -87,6 +88,7 @@ public class ServiceLocator
         serviceCollection.AddSingleton<DiaryAddViewModel>();
         serviceCollection.AddSingleton<ITodoStorageService, TodoStorageService>();
         serviceCollection.AddSingleton<IToDoStorage, ToDoStorage>();
+        serviceCollection.AddSingleton<ToDoDetailViewModel>();
         
         //取对象
         _serviceProvider = serviceCollection.BuildServiceProvider();
