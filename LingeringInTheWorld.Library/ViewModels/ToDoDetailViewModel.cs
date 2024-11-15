@@ -11,7 +11,7 @@ public class ToDoDetailViewModel :ViewModelBase
     public ToDoDetailViewModel(IToDoStorage toDoStorage)
     {
         _toDoStorage = toDoStorage;
-        SubmitCommand = new RelayCommand<ToDo>(Submit);
+        SubmitCommand = new AsyncRelayCommand(Submit);
         
     }
 
@@ -39,13 +39,19 @@ public class ToDoDetailViewModel :ViewModelBase
 
     // public ICommand OnLoadedCommand { get; }
 
-    //确定按钮的点击事件
-    public IRelayCommand<ToDo> SubmitCommand;
+    //确定按钮的点击事件  带不带参数呢？好像不带？
+    /*public IRelayCommand<ToDo> SubmitCommand;
 
     public void  Submit(ToDo toDo)
     {
         //更新
         _toDoStorage.UpdateToDoItemAsync(ToDo.Id,ToDo.DeadLine,ToDo.Title,ToDo.Content);
+    }*/
+    public ICommand SubmitCommand { get; }
+
+    public async Task Submit()
+    {
+        await _toDoStorage.UpdateToDoItemAsync(ToDo.Id,ToDo.DeadLine,ToDo.Title,ToDo.Content);
     }
 
 }
