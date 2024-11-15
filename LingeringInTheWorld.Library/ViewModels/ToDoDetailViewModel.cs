@@ -1,6 +1,6 @@
 namespace LingeringInTheWorld.Library.ViewModels;
 
-public class DetailViewModel
+public class ToDoDetailViewModel
 {
     
 }
