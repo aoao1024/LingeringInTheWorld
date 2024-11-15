@@ -25,9 +25,7 @@ public class InitializationViewModel : ViewModelBase {
         if (!_appStorage.IsInitialized) {
             await _appStorage.InitializeAsync();
         }
-
         await Task.Delay(1000);
-
         _rootNavigationService.NavigateTo(RootNavigationConstant.MenuView);
         _menuNavigationService.NavigateTo(MenuNavigationConstant.MainView);
     }

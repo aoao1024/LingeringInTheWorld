@@ -13,8 +13,8 @@ public class MenuNavigationService: IMenuNavigationService {
                 .DiaryViewModel,
             MenuNavigationConstant.LedgerView => ServiceLocator.Current
                 .LedgerViewModel, 
-            MenuNavigationConstant.TodoView => ServiceLocator.Current
-                .TodoListViewModel,
+            MenuNavigationConstant.ToDoListView => ServiceLocator.Current
+                .ToDoListViewModel,
             _ => throw new Exception("未知的视图。")
         };
 

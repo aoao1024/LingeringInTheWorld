@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LingeringInTheWorld.Views.ToDoListView"
-             DataContext="{Binding TodoListViewModel,Source={StaticResource ServiceLocator}}">
+             DataContext="{Binding ToDoListViewModel,Source={StaticResource ServiceLocator}}">
      <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -49,13 +49,13 @@
                         HorizontalAlignment="Left"
                             Margin="0,0,0,8"
                             Content="查看详细"
-                            Command="{Binding ShowDetailCommand}"
+                            Command="{Binding ShowToDoItemDetailCommand}"
                             VerticalAlignment="Center" />
                     <Button 
                         Grid.Column="3"
                         HorizontalAlignment="Left"
                         Margin="3,0,0,8"
-                        Command="{Binding ShowDetailCommand}"
+                        Command="{Binding DeleteToDoItemCommand}"
                         VerticalAlignment="Center" >
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
@@ -69,10 +69,15 @@
         </ItemsControl.ItemTemplate>
     </ItemsControl>
         <Button Margin="12"
-                Content="添加"
                 Grid.Row="1"
-                HorizontalAlignment="Stretch"
-                Command="{Binding QueryCommand}" />
+                CornerRadius="25"
+                Command="{Binding AddToDoItemCommand}" >
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/add.ico" Width="25" Height="25"/>
+                </StackPanel>
+            </Button.Content>
+        </Button>
     </Grid>
    
 </UserControl>

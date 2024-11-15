@@ -109,7 +109,7 @@ public class MenuItem{
         new() { Name = "账本", View = MenuNavigationConstant.LedgerView };
 
     private static MenuItem TodoView =>
-        new() { Name = "代办", View = MenuNavigationConstant.TodoView };
+        new() { Name = "代办", View = MenuNavigationConstant.ToDoListView };
 
     public static IEnumerable<MenuItem> MenuItems { get; } = [
         MainView, DiaryView, LedgerView,TodoView

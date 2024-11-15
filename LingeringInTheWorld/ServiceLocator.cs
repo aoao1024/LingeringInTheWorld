@@ -54,8 +54,8 @@ public class ServiceLocator
     public LedgerViewModel LedgerViewModel =>
         _serviceProvider.GetRequiredService<LedgerViewModel>();
     
-    public TodoListViewModel TodoListViewModel =>
-        _serviceProvider.GetRequiredService<TodoListViewModel>();
+    public ToDoListViewModel ToDoListViewModel =>
+        _serviceProvider.GetRequiredService<ToDoListViewModel>();
     
     public DiaryDetailViewModel DiaryDetailViewModel =>
         _serviceProvider.GetRequiredService<DiaryDetailViewModel>();
@@ -82,10 +82,11 @@ public class ServiceLocator
         serviceCollection.AddSingleton<MenuViewModel>();
         serviceCollection.AddSingleton<DiaryViewModel>();
         serviceCollection.AddSingleton<LedgerViewModel>();
-        serviceCollection.AddSingleton<TodoListViewModel>();
+        serviceCollection.AddSingleton<ToDoListViewModel>();
         serviceCollection.AddSingleton<DiaryDetailViewModel>();
         serviceCollection.AddSingleton<DiaryAddViewModel>();
-        
+        serviceCollection.AddSingleton<ITodoStorageService, TodoStorageService>();
+        serviceCollection.AddSingleton<IToDoStorage, ToDoStorage>();
         
         //取对象
         _serviceProvider = serviceCollection.BuildServiceProvider();

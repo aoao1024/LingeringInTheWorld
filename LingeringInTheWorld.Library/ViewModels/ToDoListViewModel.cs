@@ -8,7 +8,7 @@ using LingeringInTheWorld.Library.Services;
 
 namespace LingeringInTheWorld.Library.ViewModels;
 
-public class TodoListViewModel : ViewModelBase
+public class ToDoListViewModel : ViewModelBase
 {
     public ObservableCollection<ToDoItemViewModel> ToDoCollection
     { get; }
@@ -16,14 +16,13 @@ public class TodoListViewModel : ViewModelBase
     private ITodoStorageService _todoStorageService;
     private IList<ToDo> AllToDoItems;
     
-    public  TodoListViewModel(ITodoStorageService todoStorageService)
+    public  ToDoListViewModel(ITodoStorageService todoStorageService)
     {
         _todoStorageService = todoStorageService;
         ToDoCollection = new ObservableCollection<ToDoItemViewModel>();
         OnInitializeCommand=new AsyncRelayCommand(OnInitializeAsync);
     }
     public ICommand OnInitializeCommand { get; }
-
     public async Task OnInitializeAsync()
     {
         AllToDoItems = await _todoStorageService.GetAllTodoListAsync();
@@ -36,7 +35,7 @@ public class TodoListViewModel : ViewModelBase
 }
 public class ToDoItemViewModel :ObservableObject
 {
-    private readonly TodoListViewModel _todoListViewModel;
+    private readonly ToDoListViewModel _toDoListViewModel;
     private ToDo _todo;
     public ToDo ToDo
     {
@@ -47,6 +46,4 @@ public class ToDoItemViewModel :ObservableObject
     {
         ToDo = todo;
     }
-    
-    
 } 

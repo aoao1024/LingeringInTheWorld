@@ -12,5 +12,5 @@ public static class MenuNavigationConstant {
 
     public const string LedgerView = nameof(LedgerView);
     
-    public const string TodoView = nameof(TodoView);
+    public const string ToDoListView = nameof(ToDoListView);
 }
