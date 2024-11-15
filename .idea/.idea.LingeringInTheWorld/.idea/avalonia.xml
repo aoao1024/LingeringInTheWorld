@@ -5,6 +5,7 @@
       <map>
         <entry key="LingeringInTheWorld/App.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/DairyView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
+        <entry key="LingeringInTheWorld/Views/DetailView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/DiaryAddView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/DiaryDetailView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/DiaryView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
