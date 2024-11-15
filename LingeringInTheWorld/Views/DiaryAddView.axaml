@@ -21,7 +21,7 @@
         <!-- 日期时间和天气显示 -->
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
             <TextBlock Text="{Binding CurrentTime}" FontSize="16" VerticalAlignment="Center" Margin="20,2,0,2"/>
-            <TextBlock Text="{Binding CurrentWeather}" FontSize="16" VerticalAlignment="Center" Margin="10,2,0,2"/>
+            <TextBlock Text="{Binding CurrentWeatherCondition}" FontSize="16" VerticalAlignment="Center" Margin="20,2,0,2"/>
         </StackPanel>
 
         <!-- 标题输入框 -->
@@ -29,6 +29,7 @@
                  Grid.Column="1"
                  Width="500" 
                  FontSize="18" 
+                 Margin="20,2,0,2"
                  Watermark="😄为这篇日记起个标题吧~" 
                  HorizontalAlignment="Left"
                  BorderBrush="#B9AEDC"
