@@ -15,7 +15,6 @@ public class InitializationViewModel : ViewModelBase {
         _appStorage = appStorage;
         _rootNavigationService = rootNavigationService;
         _menuNavigationService = menuNavigationService;
-
         OnInitializedCommand = new AsyncRelayCommand(OnInitializedAsync);
     }
     
