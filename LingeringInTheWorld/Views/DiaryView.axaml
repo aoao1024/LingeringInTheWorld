@@ -45,9 +45,10 @@
                    Margin="12"
                    HorizontalAlignment="Center">
         </TextBlock>
-        <Button Margin="12"
-                Content="写日记"
-                Grid.Row="1"
+        <Button Grid.Row="1"
+                Margin="12"
+                Content="记 录 我 的 今 天 !"
+                Foreground="#B9AEDC"
                 HorizontalAlignment="Stretch"
                 Command="{Binding AddDiaryCommand}" />
 

@@ -5,5 +5,45 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LingeringInTheWorld.Views.DiaryAddView"
              DataContext="{Binding DiaryAddViewModel, Source={StaticResource ServiceLocator}}">
-    Welcome to Avalonia!
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/> <!-- 日期时间和天气列 -->
+            <ColumnDefinition Width="*"/>    <!-- 标题输入列，占剩余空间 -->
+        </Grid.ColumnDefinitions>
+
+        <!-- 日期时间和天气显示 -->
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+            <TextBlock Text="{Binding CurrentTime}" FontSize="16" VerticalAlignment="Center" Margin="20,2,0,2"/>
+            <TextBlock Text="{Binding CurrentWeather}" FontSize="16" VerticalAlignment="Center" Margin="10,2,0,2"/>
+        </StackPanel>
+
+        <!-- 标题输入框 -->
+        <TextBox Grid.Row="0" 
+                 Grid.Column="1"
+                 Width="500" 
+                 FontSize="18" 
+                 Watermark="😄为这篇日记起个标题吧~" 
+                 HorizontalAlignment="Left"
+                 BorderBrush="#B9AEDC"
+                 Background="#FFFFFF"
+                 Padding="10" 
+                 CornerRadius="8" 
+                 BorderThickness="0" 
+                 HorizontalContentAlignment="Left"/>
+        
+        <!-- 分割线 -->
+        <Border Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Margin="20,0,20,0"
+                Background="#B9AEDC">
+        </Border>
+       
+    </Grid>
 </UserControl>

@@ -46,4 +46,4 @@ public class ToDoItemViewModel :ObservableObject
     {
         ToDo = todo;
     }
-} 
+}

@@ -19,5 +19,15 @@ public class Diary
     [SQLite.Ignore]
     public string Snippet =>
         _snippet ??= Content.Split('。')[0].Replace("\r\n", " ");
-
+    
+    // 返回图片路径的 List<string>，如果数据库存储的是逗号分隔字符串
+    [SQLite.Ignore]
+    public List<string> ImagePathList =>
+        string.IsNullOrEmpty(ImagePaths) ? new List<string>() : ImagePaths.Split(',').ToList();
+    
+    // 用于设置图片路径集合
+    public void SetImagePaths(List<string> imagePaths)
+    {
+        ImagePaths = string.Join(",", imagePaths);
+    }
 }
