@@ -11,6 +11,8 @@ public class ContentNavigationService : IContentNavigationService {
                 .DiaryDetailViewModel,
             ContentNavigationConstant.DiaryAddView => ServiceLocator.Current
                 .DiaryAddViewModel,
+            ContentNavigationConstant.ToDoDetailView => ServiceLocator.Current
+                .ToDoDetailViewModel,
             _ => throw new Exception("未知的视图。")
         };
         

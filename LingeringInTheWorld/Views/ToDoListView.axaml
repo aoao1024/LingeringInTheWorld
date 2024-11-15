@@ -71,7 +71,7 @@
         <Button Margin="12"
                 Grid.Row="1"
                 CornerRadius="25"
-                Command="{Binding AddToDoItemCommand}" >
+                Command="{Binding AddToDoCommand}" >
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Assets/add.ico" Width="25" Height="25"/>

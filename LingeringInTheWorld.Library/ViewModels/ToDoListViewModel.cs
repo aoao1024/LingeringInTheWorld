@@ -16,11 +16,14 @@ public class ToDoListViewModel : ViewModelBase
     private ITodoStorageService _todoStorageService;
     private IList<ToDo> AllToDoItems;
     
-    public  ToDoListViewModel(ITodoStorageService todoStorageService)
+    public  ToDoListViewModel(ITodoStorageService todoStorageService,IContentNavigationService contentNavigationService)
     {
         _todoStorageService = todoStorageService;
+        _contentNavigationService = contentNavigationService;
         ToDoCollection = new ObservableCollection<ToDoItemViewModel>();
         OnInitializeCommand=new AsyncRelayCommand(OnInitializeAsync);
+        AddToDoCommand=new RelayCommand(AddToDo);
+        
     }
     public ICommand OnInitializeCommand { get; }
     public async Task OnInitializeAsync()
@@ -31,6 +34,16 @@ public class ToDoListViewModel : ViewModelBase
             ToDoItemViewModel toDoItemViewModel = new ToDoItemViewModel(toDoItem);
             if (toDoItemViewModel != null) ToDoCollection.Add(toDoItemViewModel);
         }
+    }
+    //1115
+    private readonly IContentNavigationService _contentNavigationService;
+    public ICommand AddToDoCommand { get; }
+
+    public void  AddToDo()
+    {
+
+        _contentNavigationService.NavigateTo(ContentNavigationConstant.ToDoDetailView,null);
+
     }
 }
 public class ToDoItemViewModel :ObservableObject
@@ -46,4 +59,5 @@ public class ToDoItemViewModel :ObservableObject
     {
         ToDo = todo;
     }
+    
 }
