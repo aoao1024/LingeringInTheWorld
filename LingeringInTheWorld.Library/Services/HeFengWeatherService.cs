@@ -11,11 +11,12 @@ public class HeFengWeatherService : IWeatherService
     private const string Server = "和风天气服务器";
 
     // HttpClient 可以作为静态字段，提高性能
-    private static readonly HttpClient _httpClient = new HttpClient();
+    private static readonly HttpClient _httpClient = new ();
     
     // 可以将 API Key 放在环境变量中，避免硬编码
     private const string ApiKey = "551022de4c4541f1b66014aa55cab174";  // 替换为你的 API Key
-    private const string ApiUrl = "https://devapi.qweather.com/v7/weather/now";
+    private const string ApiUrl = "https://devapi.qweather.com/v7/weather/now"; // 实时天气查询接口
+    private const string GeoApiUrl = "https://geoapi.qweather.com/v2/city/lookup"; // 城市查询接口
 
     public HeFengWeatherService(IAlertService alertService)
     {
@@ -84,7 +85,7 @@ public class HeFengWeatherService : IWeatherService
         // 如果没有获取到数据，则返回 null
         return null;
     }
-    
+
     private async Task<WeatherInfo> ParseWeatherJson(string json)
     {
         try
@@ -114,6 +115,111 @@ public class HeFengWeatherService : IWeatherService
 
         return null;
     }
+    
+    // 实现根据城市名称获取经纬度
+public async Task<(double Latitude, double Longitude)> GetCoordinatesFromLocation(string location)
+{
+    var requestUrl = $"{GeoApiUrl}?key={ApiKey}&location={location}";
+
+    try
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+        request.Headers.Add("Accept-Encoding", "gzip, deflate");
+
+        // 发送请求
+        var response = await _httpClient.SendAsync(request);
+        response.EnsureSuccessStatusCode(); // 确保请求成功
+
+        var stream = await response.Content.ReadAsStreamAsync();
+
+        // 获取响应的字符编码，如果没有指定，则使用 UTF-8
+        var encoding = Encoding.UTF8;
+        if (response.Content.Headers.ContentType?.CharSet != null)
+        {
+            try
+            {
+                encoding = Encoding.GetEncoding(response.Content.Headers.ContentType.CharSet);
+            }
+            catch (ArgumentException)
+            {
+                encoding = Encoding.UTF8; // 如果无法识别编码，则默认使用 UTF-8
+            }
+        }
+
+        // 判断是否为 Gzip 压缩
+        if (response.Content.Headers.ContentEncoding.Contains("gzip"))
+        {
+            // Gzip 解压缩
+            using (var gzipStream = new GZipStream(stream, CompressionMode.Decompress))
+            using (var reader = new StreamReader(gzipStream, encoding))
+            {
+                var json = await reader.ReadToEndAsync();
+                return await ParseCoordinatesJson(json);
+            }
+        }
+        else
+        {
+            // 非 Gzip 压缩，直接读取
+            using (var reader = new StreamReader(stream, encoding))
+            {
+                var json = await reader.ReadToEndAsync();
+                return await ParseCoordinatesJson(json);
+            }
+        }
+    }
+    catch (Exception e)
+    {
+        // 捕获任何异常，可能是网络请求失败，解析失败等
+        await _alertService.AlertAsync(
+            ErrorMessageHelper.HttpClientErrorTitle,
+            ErrorMessageHelper.GetHttpClientError(Server, e.Message));
+    }
+
+    // 如果无法获取经纬度，返回 (0.0, 0.0)
+    return (0.0, 0.0);
+}
+
+// 解析城市经纬度的 JSON 数据
+private async Task<(double Latitude, double Longitude)> ParseCoordinatesJson(string json)
+{
+    try
+    {
+        var jsonResponse = JsonDocument.Parse(json);
+        var cityInfo = jsonResponse.RootElement
+                                    .GetProperty("location")
+                                    .EnumerateArray()
+                                    .FirstOrDefault();
+        if (cityInfo.ValueKind == JsonValueKind.Object)
+        {
+            // 使用 GetString 获取 lat 和 lon，并使用 double.TryParse 转换为数字类型
+            var latitudeString = cityInfo.GetProperty("lat").GetString();
+            var longitudeString = cityInfo.GetProperty("lon").GetString();
+
+            // 尝试将字符串转换为 double
+            if (double.TryParse(latitudeString, out double latitude) &&
+                double.TryParse(longitudeString, out double longitude))
+            {
+                return (latitude, longitude); // 返回经纬度
+            }
+            else
+            {
+                // 如果转换失败，抛出异常或者返回默认值
+                await _alertService.AlertAsync(Server,"无法将经纬度字符串转换为数字");
+            }
+        }
+    }
+    catch (Exception e)
+    {
+        // 解析 JSON 时出现错误
+        await _alertService.AlertAsync(
+            ErrorMessageHelper.JsonDeserializationErrorTitle,
+            ErrorMessageHelper.GetJsonDeserializationError(Server, e.Message));
+    }
+
+    // 如果无法解析或获取经纬度，返回 (42.67, 123.46)
+    return (42.67, 123.46);
+}
+
 }
 
 public class HeFengWeatherResponse

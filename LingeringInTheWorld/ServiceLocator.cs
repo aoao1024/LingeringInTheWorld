@@ -64,6 +64,7 @@ public class ServiceLocator
         _serviceProvider.GetRequiredService<DiaryAddViewModel>();
     public ToDoDetailViewModel ToDoDetailViewModel =>
         _serviceProvider.GetRequiredService<ToDoDetailViewModel>();
+    
     public ServiceLocator()
     {
         //注册对象
@@ -72,6 +73,7 @@ public class ServiceLocator
         serviceCollection.AddSingleton<IPreferenceStorage,FilePreferenceStorage>();
         serviceCollection.AddSingleton<IAppStorage, AppStorage>();
         serviceCollection.AddSingleton<IAlertService, AlertService>();
+        serviceCollection.AddSingleton<IWeatherService, HeFengWeatherService>();
         serviceCollection.AddSingleton<IRootNavigationService, RootNavigationService>();
         serviceCollection.AddSingleton<IMenuNavigationService, MenuNavigationService>();
         serviceCollection.AddSingleton<IContentNavigationService, ContentNavigationService>();

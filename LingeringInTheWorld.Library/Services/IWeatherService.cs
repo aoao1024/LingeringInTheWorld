@@ -11,4 +11,6 @@ public interface IWeatherService
     /// <param name="longitude">经度</param>
     /// <returns>天气信息</returns>
     Task<WeatherInfo> GetWeatherByLocationAsync(double latitude, double longitude);
+
+    Task<(double Latitude, double Longitude)> GetCoordinatesFromLocation(string location);
 }

@@ -29,16 +29,13 @@ public class MainWindowViewModel : ViewModelBase
     }
     
     public void OnInitialized() {
-        // if (!_appStorage.IsInitialized) {
-        //     _rootNavigationService.NavigateTo(RootNavigationConstant
-        //         .InitializationView);
-        // } else {
-        //     _rootNavigationService.NavigateTo(RootNavigationConstant.MenuView);
-        //     _menuNavigationService.NavigateTo(MenuNavigationConstant.MainView);
-        // }
-        
-        _rootNavigationService.NavigateTo(RootNavigationConstant.MenuView);
-        _menuNavigationService.NavigateTo(MenuNavigationConstant.MainView);
+        if (!_appStorage.IsInitialized) {
+            _rootNavigationService.NavigateTo(RootNavigationConstant
+                .InitializationView);
+        } else {
+            _rootNavigationService.NavigateTo(RootNavigationConstant.MenuView);
+            _menuNavigationService.NavigateTo(MenuNavigationConstant.MainView);
+        }
     }
     public ICommand OnInitializedCommand { get; }
 

@@ -28,6 +28,7 @@ public class AppStorage : IAppStorage
     public async Task InitializeAsync()
     {
         await Connection.CreateTableAsync<Diary>();
+        await Connection.CreateTableAsync<ToDo>();
         _preferenceStorage.Set(AppStorageConstant.VersionKey,
             AppStorageConstant.Version);
     }
