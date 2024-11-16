@@ -10,8 +10,7 @@ public interface ITodoStorageService
     /*删除*/
     Task<int> DeleteToDoItemAsync(int id);
     /*修改*/
-    Task UpdateToDoItemDeadlineAsync( int id, bool status);
-
+    Task UpdateToDoItemStatusAsync( int id, bool status);
     /*查询*/
     Task<IList<ToDo>> GetAllTodoListAsync();
 }

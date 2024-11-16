@@ -45,7 +45,11 @@ public class ToDoListViewModel : ViewModelBase
     {
         _contentNavigationService.NavigateTo(ContentNavigationConstant.NewToDoItemView);
     }
-    public async Task
+
+    public async Task SetToDoItemFinishStatus(ToDoItemViewModel toDoItemViewModel)
+    {
+        await _todoStorageService.UpdateToDoItemDeadlineAsync()
+    }
 }
 public class ToDoItemViewModel :ObservableObject
 {

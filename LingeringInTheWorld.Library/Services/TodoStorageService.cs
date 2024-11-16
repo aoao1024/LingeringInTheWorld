@@ -19,7 +19,7 @@ public class TodoStorageService : ITodoStorageService
     public async Task<int> DeleteToDoItemAsync(int id)
         => await _toDoStorage.DeleteToDoItemAsync(id);
 
-    public async Task UpdateToDoItemDeadlineAsync(int id, bool status)
+    public async Task UpdateToDoItemStatusAsync(int id, bool status)
     {
         _toDoStorage.UpdateToDoItemAsync(id, null, null, null, status);
     }
