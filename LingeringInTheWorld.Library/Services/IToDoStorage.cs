@@ -6,9 +6,7 @@ namespace LingeringInTheWorld.Library.Services;
 public interface IToDoStorage
 {
     
-    //bool IsInitialized { get; }
-    /*没有就创建一个数据库表*/
-    //Task<bool> InitializeAsync();
+   
     /*增加*/
     bool IsInitialized { get; }
     Task InitializeAsync();
