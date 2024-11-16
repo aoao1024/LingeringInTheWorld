@@ -14,8 +14,6 @@ public class ToDoDetailViewModel :ViewModelBase
         SubmitCommand = new AsyncRelayCommand(SubmitAsync);
         ToDo = new ToDo();
     }
-   
-
     public ToDo ToDo
     {
         get => _toDo;

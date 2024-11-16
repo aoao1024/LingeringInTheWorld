@@ -8,8 +8,8 @@ public interface IToDoStorage
     
    
     /*增加*/
-    bool IsInitialized { get; }
-    Task InitializeAsync();
+    /*bool IsInitialized { get; }
+    Task InitializeAsync();*/
     Task<int> AddToDoItemAsync(ToDo toDo);
     /*删除*/
     Task<int> DeleteToDoItemAsync(int id);

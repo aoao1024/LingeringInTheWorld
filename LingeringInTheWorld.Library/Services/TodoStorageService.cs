@@ -10,7 +10,7 @@ public class TodoStorageService : ITodoStorageService
     public TodoStorageService(IToDoStorage toDoStorage)
     {
         _toDoStorage = toDoStorage;
-        if (!toDoStorage.IsInitialized) toDoStorage.InitializeAsync();
+        //if (!toDoStorage.IsInitialized) toDoStorage.InitializeAsync();
     }
     
     public async Task<int> AddToDoItemAsync(ToDo toDo)

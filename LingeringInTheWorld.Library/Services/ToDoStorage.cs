@@ -18,7 +18,7 @@ public class ToDoStorage : IToDoStorage
         _preferenceStorage = preferenceStorage;
     }
 
-    public bool IsInitialized =>
+    /*public bool IsInitialized =>
         _preferenceStorage.Get(ToDoStorageConstant.VersionKey,
             default(int)) == ToDoStorageConstant.Version;
 
@@ -26,7 +26,7 @@ public class ToDoStorage : IToDoStorage
         await Connection.CreateTableAsync<ToDo>();
         _preferenceStorage.Set(ToDoStorageConstant.VersionKey,
             ToDoStorageConstant.Version);
-    }
+    }*/
 
     
     public async Task<int> AddToDoItemAsync(ToDo toDo) 
@@ -71,9 +71,9 @@ public class ToDoStorage : IToDoStorage
         => await Connection.Table<ToDo>().Where(where).Skip(skip).Take(take).ToListAsync();
 
 }
-public static class ToDoStorageConstant {
+/*public static class ToDoStorageConstant {
     public const string VersionKey =
         nameof(ToDoStorageConstant) + "." + nameof(Version);
 
     public const int Version = 1;
-}
+}*/
