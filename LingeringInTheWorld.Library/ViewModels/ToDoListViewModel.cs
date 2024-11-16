@@ -28,6 +28,10 @@ public class ToDoListViewModel : ViewModelBase
     public ICommand OnInitializeCommand { get; }
     public async Task OnInitializeAsync()
     {
+        if (ToDoCollection.Count!=0)
+        {
+            ToDoCollection.Clear();
+        }
         AllToDoItems = await _todoStorageService.GetAllTodoListAsync();
         foreach (var toDoItem in AllToDoItems)
         {

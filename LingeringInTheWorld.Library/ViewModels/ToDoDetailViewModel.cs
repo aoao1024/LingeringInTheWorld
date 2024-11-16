@@ -7,29 +7,21 @@ namespace LingeringInTheWorld.Library.ViewModels;
 
 public class ToDoDetailViewModel :ViewModelBase
 {
-    private IToDoStorage _toDoStorage;
-    public ToDoDetailViewModel(IToDoStorage toDoStorage)
+    private ITodoStorageService _todoStorageService;
+    public ToDoDetailViewModel(ITodoStorageService toDoStorageService)
     {
-        _toDoStorage = toDoStorage;
-        SubmitCommand = new AsyncRelayCommand(Submit);
-        
+        _todoStorageService = toDoStorageService;
+        SubmitCommand = new AsyncRelayCommand(SubmitAsync);
+        ToDo = new ToDo();
     }
+   
 
-    public override void SetParameter(object parameter) {
-        if (parameter is not Models.ToDo toDo) {
-            return;
-        }
-
-        ToDo = toDo;
-    }
-
-    public ToDo ToDo {
+    public ToDo ToDo
+    {
         get => _toDo;
         set => SetProperty(ref _toDo, value);
-    }
-
+    } 
     private ToDo _toDo;
-    
     // private bool _isLoading;
     //
     // public bool IsLoading {
@@ -42,11 +34,9 @@ public class ToDoDetailViewModel :ViewModelBase
     //确定按钮的点击事件  带不带参数呢？好像不带？
     public ICommand SubmitCommand { get; }
 
-    public async Task Submit()
+    public async Task SubmitAsync()
     {
-        
-        await _toDoStorage.AddToDoItemAsync(ToDo);
-
+        await _todoStorageService.AddToDoItemAsync(ToDo);
     }
 
 }

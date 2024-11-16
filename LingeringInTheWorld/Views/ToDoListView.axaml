@@ -7,7 +7,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LingeringInTheWorld.Views.ToDoListView"
              DataContext="{Binding ToDoListViewModel,Source={StaticResource ServiceLocator}}">
-   <i:Interaction.Behaviors>
+    <i:Interaction.Behaviors>
     <ia:EventTriggerBehavior EventName="Initialized">
      <ia:InvokeCommandAction Command="{Binding OnInitializeCommand}"></ia:InvokeCommandAction> 
      </ia:EventTriggerBehavior> 
@@ -19,9 +19,9 @@
         </Grid.RowDefinitions>
         <ItemsControl ItemsSource="{Binding ToDoCollection}"
                       Margin="12">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <Border BorderBrush="WhiteSmoke" BorderThickness="1" CornerRadius="5" Padding="10">
+        <ItemsControl.ItemTemplate >
+            <DataTemplate >
+                <Border BorderBrush="WhiteSmoke" BorderThickness="1" CornerRadius="5" Padding="4">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -31,11 +31,11 @@
                     </Grid.ColumnDefinitions>
                     <CheckBox 
                         Grid.Column="0"
-                        IsChecked="True"
+                        IsChecked="{Binding ToDo.Status}"
                         VerticalAlignment="Center"
                     ></CheckBox>
                     <Grid
-                        Margin="10"
+                        Margin="20,0,20,0"
                         Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -44,12 +44,13 @@
                         </Grid.RowDefinitions>
                         <TextBlock 
                             Grid.Row="0"
-                            FontSize="15"
-                            >标题</TextBlock>
-                        <Separator Grid.Row="1" Margin="0,0,0,2"/>
+                            FontSize="18"              
+                            Text="{Binding ToDo.Title}"></TextBlock>
+                        <Separator Grid.Row="1" Margin="0,0,0,0"/>
                         <TextBlock 
                             Grid.Row="2"
-                            FontSize="12">内容</TextBlock>
+                            FontSize="12"
+                            Text="{Binding ToDo.Content}">内容</TextBlock>
                     </Grid>
                     <Button 
                         Grid.Column="2"
@@ -78,10 +79,12 @@
         <Button Margin="12"
                 Grid.Row="1"
                 CornerRadius="25"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
                 Command="{Binding AddToDoCommand}" >
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="/Assets/add.ico" Width="25" Height="25"/>
+                    <Image Source="/Assets/add.ico" Width="35" Height="35"/>
                 </StackPanel>
             </Button.Content>
         </Button>
