@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
+using System.Linq.Expressions;
 using System.Windows.Input;
 using AvaloniaInfiniteScrolling;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -14,12 +15,12 @@ public class ToDoListViewModel : ViewModelBase
 {
     /*public ObservableCollection<ToDoItemViewModel> ToDoCollection
     { get; }*/
-   public AvaloniaInfiniteScrollCollection<ToDoItemViewModel> ToDoCollection { get; }
+   public AvaloniaInfiniteScrollCollection<ToDoItemViewModel> ToDoCollection { get; set; }
     private ITodoStorageService _todoStorageService;
-    private IList<ToDo> AllToDoItems;
+    private IList<ToDoItemViewModel> toDoItemViewModels;
     private string _status;
     private bool _canLoadMore=true;
-
+    public const int PageSize = 10;
     public string Status
     {
         get => _status;
@@ -36,43 +37,53 @@ public class ToDoListViewModel : ViewModelBase
         _contentNavigationService = contentNavigationService;
         OnInitializeCommand=new AsyncRelayCommand(OnInitializeAsync);
         AddToDoCommand=new RelayCommand(AddToDo);
-    }
-    public ICommand OnInitializeCommand { get; }
-    public async Task OnInitializeAsync()
-    {
         ToDoCollection = new AvaloniaInfiniteScrollCollection<ToDoItemViewModel>()
         {
             OnCanLoadMore = () => _canLoadMore,
             OnLoadMore = async () =>
             {
                 Status = Loading;
-                var poetries = await poetryStorage.GetPoetriesAsync(Expression.Lambda<Func<Poetry, bool>>(
+                var AllToDoItems = await _todoStorageService.GetToDoList(Expression.Lambda<Func<ToDo, bool>>(
                         Expression.Constant(true),
-                        Expression.Parameter(typeof(Poetry), "p")),
-                    PoetryCollection.Count, PageSize);
+                        Expression.Parameter(typeof(ToDo), "todo")),
+                    ToDoCollection.Count, PageSize);
                 Status = string.Empty;
-                if (poetries.Count < PageSize)
+                if (AllToDoItems.Count < PageSize)
                 {
                     _canLoadMore = false;
                     Status = NoMoreResult;
                 }
-                if (PoetryCollection.Count == 0 && poetries.Count == 0)
+                if (ToDoCollection.Count == 0 && AllToDoItems.Count == 0)
                 {
                     Status = NoResult;
                 }
-                return poetries;
+                toDoItemViewModels = new List<ToDoItemViewModel>();
+                foreach (var toDoItem in AllToDoItems)
+                {
+                    ToDoItemViewModel toDoItemViewModel = new ToDoItemViewModel(toDoItem,this);
+                    toDoItemViewModels.Add(toDoItemViewModel);
+                }
+                Console.WriteLine(toDoItemViewModels.Count);
+                return toDoItemViewModels;
             }
         };
+    }
+    public ICommand OnInitializeCommand { get; }
+    public async Task OnInitializeAsync()
+    {
+       
+        Console.WriteLine(ToDoCollection.Count);
         /*if (ToDoCollection.Count!=0)
         {
             ToDoCollection.Clear();
         }
-        AllToDoItems = await _todoStorageService.GetAllTodoListAsync();
+       var AllToDoItems = await _todoStorageService.GetAllTodoListAsync();
         foreach (var toDoItem in AllToDoItems)
         {
             ToDoItemViewModel toDoItemViewModel = new ToDoItemViewModel(toDoItem,this);
             if (toDoItemViewModel != null) ToDoCollection.Add(toDoItemViewModel);
         }*/
+      
     }
     //1115
     private readonly IContentNavigationService _contentNavigationService;
@@ -82,7 +93,6 @@ public class ToDoListViewModel : ViewModelBase
     {
         _contentNavigationService.NavigateTo(ContentNavigationConstant.NewToDoItemView);
     }
-
     public async Task SetToDoItemFinishStatusAsync(ToDoItemViewModel toDoItemViewModel)
     {
         Console.WriteLine("更改状态为已完成");

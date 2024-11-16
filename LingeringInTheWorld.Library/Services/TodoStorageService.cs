@@ -28,4 +28,6 @@ public class TodoStorageService : ITodoStorageService
     public async Task<IList<ToDo>> GetAllTodoListAsync()
         => await _toDoStorage.GetTodoListAsync(todo => true, 0, int.MaxValue);
 
+    public async Task<IList<ToDo>> GetToDoList(Expression<Func<ToDo, bool>> where, int skip, int take)
+        => await _toDoStorage.GetTodoListAsync(where, skip, take);
 }

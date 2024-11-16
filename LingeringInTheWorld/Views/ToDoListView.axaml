@@ -22,7 +22,9 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ais:AvaloniaInfiniteScrollControl ItemsSource="{Binding ToDoCollection}">
+        <ais:AvaloniaInfiniteScrollControl
+            Grid.Row="0"
+            ItemsSource="{Binding ToDoCollection}">
             <ais:AvaloniaInfiniteScrollControl.ItemTemplate>
                  <DataTemplate >
                 <Border BorderBrush="WhiteSmoke" 
@@ -38,7 +40,7 @@
                     </Grid.ColumnDefinitions>
                     <CheckBox 
                         Grid.Column="0"
-                        IsChecked="{Binding ToDo.Status ,Mode=TwoWay}"
+                        IsChecked="{Binding ToDo.Status }"
                         VerticalAlignment="Center"
                         IsEnabled="{Binding !ToDo.Status}"
                         
@@ -89,74 +91,7 @@
             </DataTemplate>
             </ais:AvaloniaInfiniteScrollControl.ItemTemplate>
         </ais:AvaloniaInfiniteScrollControl>
-        <!--<ItemsControl ItemsSource="{Binding ToDoCollection}"
-                      Margin="12">
-            <ItemsControl.ItemTemplate >
-            <DataTemplate >
-                <Border BorderBrush="WhiteSmoke" 
-                        BorderThickness="1" CornerRadius="5" 
-                        Padding="4" Margin="0,5"
-                        Background="{Binding ToDo.Status, Converter={StaticResource StatusToBackGroundConverter}}">
-                    <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <CheckBox 
-                        Grid.Column="0"
-                        IsChecked="{Binding  }"
-                        VerticalAlignment="Center"
-                        IsEnabled="{Binding !}"
-                        
-                    ><i:Interaction.Behaviors>
-                        <ia:EventTriggerBehavior EventName="IsCheckedChanged">
-                            <ia:InvokeCommandAction Command="{Binding UpdateToDoItemStatusCommand}"></ia:InvokeCommandAction> 
-                        </ia:EventTriggerBehavior> 
-                    </i:Interaction.Behaviors></CheckBox>
-                    <Grid
-                        Margin="20,0,20,0"
-                        Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <TextBlock 
-                            Grid.Row="0"
-                            FontSize="18"              
-                            Text="{Binding ToDo.Title}"></TextBlock>
-                        <Separator Grid.Row="1" Margin="0,0,0,0"/>
-                        <TextBlock 
-                            Grid.Row="2"
-                            FontSize="12"
-                            Text="{Binding ToDo.Content}">内容</TextBlock>
-                    </Grid>
-                    <Button 
-                        Grid.Column="2"
-                        HorizontalAlignment="Left"
-                            Margin="0,0,0,8"
-                            Content="查看详情"
-                            Command="{Binding ShowToDoItemDetailCommand}"
-                            VerticalAlignment="Center" />
-                    <Button 
-                        Grid.Column="3"
-                        HorizontalAlignment="Left"
-                        Margin="3,0,0,8"
-                        Command="{Binding DeleteToDoItemCommand}"
-                        VerticalAlignment="Center" >
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Assets/delete.ico" Width="16" Height="16"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                </Grid>
-                </Border>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>-->
+      
         <Button Margin="12"
                 Grid.Row="1"
                 CornerRadius="25"

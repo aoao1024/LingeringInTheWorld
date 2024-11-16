@@ -13,4 +13,5 @@ public interface ITodoStorageService
     Task UpdateToDoItemStatusAsync( int id, bool status);
     /*查询*/
     Task<IList<ToDo>> GetAllTodoListAsync();
+    Task<IList<ToDo>> GetToDoList(Expression<Func<ToDo, bool>> where, int skip, int take);
 }
