@@ -8,8 +8,7 @@ public interface IContentNavigationService
 public static class ContentNavigationConstant {
     
         public const string DiaryDetailView = nameof(DiaryDetailView);
-        
         public const string DiaryAddView = nameof(DiaryAddView);
         public const string ToDoDetailView = nameof(ToDoDetailView);
-    
+        public const string NewToDoItemView = nameof(NewToDoItemView);
 }

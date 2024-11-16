@@ -43,7 +43,7 @@ public class ToDoListViewModel : ViewModelBase
 
     public void  AddToDo()
     {
-        _contentNavigationService.NavigateTo(ContentNavigationConstant.ToDoDetailView,null);
+        _contentNavigationService.NavigateTo(ContentNavigationConstant.NewToDoItemView);
     }
 }
 public class ToDoItemViewModel :ObservableObject

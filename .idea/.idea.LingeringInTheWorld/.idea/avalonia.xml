@@ -15,6 +15,7 @@
         <entry key="LingeringInTheWorld/Views/MainView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/MainWindow.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/MenuView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
+        <entry key="LingeringInTheWorld/Views/NewToDoItemView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/ToDoDetailView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/ToDoListView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/TodoView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
