@@ -4,9 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i="using:Avalonia.Xaml.Interactivity"
              xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:lc="using:LingeringInTheWorld.Converters"
+             xmlns:ais="using:AvaloniaInfiniteScrolling"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LingeringInTheWorld.Views.ToDoListView"
              DataContext="{Binding ToDoListViewModel,Source={StaticResource ServiceLocator}}">
+    <UserControl.Resources>
+        <lc:StatusToBackGroundConverter x:Key="StatusToBackGroundConverter"></lc:StatusToBackGroundConverter>
+    </UserControl.Resources>
     <i:Interaction.Behaviors>
     <ia:EventTriggerBehavior EventName="Initialized">
      <ia:InvokeCommandAction Command="{Binding OnInitializeCommand}"></ia:InvokeCommandAction> 
@@ -17,13 +22,16 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ItemsControl ItemsSource="{Binding ToDoCollection}"
-                      Margin="12">
-          
-            <ItemsControl.ItemTemplate >
-            <DataTemplate >
-                <Border BorderBrush="WhiteSmoke" BorderThickness="1" CornerRadius="5" Padding="4" Margin="0,5">
-                <Grid>
+        <ais:AvaloniaInfiniteScrollControl
+            Grid.Row="0"
+            ItemsSource="{Binding ToDoCollection}">
+            <ais:AvaloniaInfiniteScrollControl.ItemTemplate>
+                 <DataTemplate >
+                <Border BorderBrush="WhiteSmoke" 
+                        BorderThickness="1" CornerRadius="5" 
+                        Padding="4" Margin="0,5"
+                        Background="{Binding ToDo.Status, Converter={StaticResource StatusToBackGroundConverter}}">
+                    <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -32,9 +40,15 @@
                     </Grid.ColumnDefinitions>
                     <CheckBox 
                         Grid.Column="0"
-                        IsChecked="{Binding ToDo.Status}"
+                        IsChecked="{Binding ToDo.Status }"
                         VerticalAlignment="Center"
-                    ></CheckBox>
+                        IsEnabled="{Binding !ToDo.Status}"
+                        
+                    ><i:Interaction.Behaviors>
+                        <ia:EventTriggerBehavior EventName="IsCheckedChanged">
+                            <ia:InvokeCommandAction Command="{Binding UpdateToDoItemStatusCommand}"></ia:InvokeCommandAction> 
+                        </ia:EventTriggerBehavior> 
+                    </i:Interaction.Behaviors></CheckBox>
                     <Grid
                         Margin="20,0,20,0"
                         Grid.Column="1">
@@ -57,7 +71,7 @@
                         Grid.Column="2"
                         HorizontalAlignment="Left"
                             Margin="0,0,0,8"
-                            Content="查看详细"
+                            Content="查看详情"
                             Command="{Binding ShowToDoItemDetailCommand}"
                             VerticalAlignment="Center" />
                     <Button 
@@ -75,8 +89,9 @@
                 </Grid>
                 </Border>
             </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+            </ais:AvaloniaInfiniteScrollControl.ItemTemplate>
+        </ais:AvaloniaInfiniteScrollControl>
+      
         <Button Margin="12"
                 Grid.Row="1"
                 CornerRadius="25"

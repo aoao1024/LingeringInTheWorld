@@ -13,11 +13,11 @@ public class ContentNavigationService : IContentNavigationService {
                 .DiaryAddViewModel,
             ContentNavigationConstant.ToDoDetailView => ServiceLocator.Current
                 .ToDoDetailViewModel,
+            ContentNavigationConstant.NewToDoItemView => ServiceLocator.Current
+                .NewToDoItemViewModel,
             _ => throw new Exception("未知的视图。")
         };
-        
         viewModel.SetParameter(parameter);
-        
         ServiceLocator.Current.MenuViewModel.PushContent(viewModel);
     }
 }
