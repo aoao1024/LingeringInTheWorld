@@ -1,38 +1,26 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using CommunityToolkit.Mvvm.Input;
-using LingeringInTheWorld.Library.Models;
 using LingeringInTheWorld.Library.Services;
 
 namespace LingeringInTheWorld.Library.ViewModels;
 
 public class DiaryAddViewModel : ViewModelBase
 {
+    private readonly IWeatherService _weatherService;
     
-    private readonly IAlertService _alertService;
-    private readonly HeFengWeatherService _weatherService;
-    // private readonly LocationService _locationService;
-    
-    private string _currentTime;
-    private string _currentWeatherCondition;  // 天气状况
-    
-    public DiaryAddViewModel(IAlertService alertService)
+    private string _currentTime;    // 当前时间
+    private string _currentWeatherCondition;    // 天气状况
+    private string _currentLocation = "沈阳";    // 当前地址
+
+    public DiaryAddViewModel(IWeatherService weatherService)
     {
-        _alertService = alertService;
         CurrentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        _weatherService = new HeFengWeatherService(alertService);
-        // _locationService = new LocationService(alertService);
-        GetWeatherByLocation();
+        _weatherService = weatherService;
+        GetWeatherByLocation(); // 获取默认位置的天气
     }
     
     public string CurrentTime
     {
         get => _currentTime;
-        set
-        {
-            _currentTime = value;
-            OnPropertyChanged();
-        }
+        set => SetProperty(ref _currentTime, value);
     }
     
     public string CurrentWeatherCondition
@@ -41,26 +29,37 @@ public class DiaryAddViewModel : ViewModelBase
         set => SetProperty(ref _currentWeatherCondition, value);
     }
     
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    public string CurrentLocation
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        get => _currentLocation;
+        set
+        {
+            if (SetProperty(ref _currentLocation, value) && !string.IsNullOrWhiteSpace(CurrentLocation))
+            {
+                // 当地址发生变化时，更新天气
+                GetWeatherByLocation();
+            }
+        }
     }
-    
+
+    // 获取当前位置的天气信息
     public async void GetWeatherByLocation()
     {
-        // 获取当前位置经纬度
-        // var (latitude, longitude) = await _locationService.GetLocationAsync();
-        var latitude = 42.67;
-        var longitude = 123.46;
+        // 假设根据地址获取经纬度，你可以扩展为调用地理位置 API
+        // 以下只是示例
+        var (latitude, longitude) = await _weatherService.GetCoordinatesFromLocation(CurrentLocation);
 
+        // 调用天气服务获取天气信息
         var weatherInfo = await _weatherService.GetWeatherByLocationAsync(latitude, longitude);
 
         if (weatherInfo != null)
         {
-            var condition = weatherInfo.Condition;
-            CurrentWeatherCondition = $"{condition}";
+            CurrentWeatherCondition = $"{weatherInfo.Condition}"; // 更新天气状况
+        }
+        else
+        {
+            CurrentWeatherCondition = "无法获取天气信息"; // 获取不到天气信息时的提示
         }
     }
+    
 }

@@ -9,29 +9,29 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="1"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/> <!-- 日期时间和天气列 -->
-            <ColumnDefinition Width="*"/>    <!-- 标题输入列，占剩余空间 -->
+            <ColumnDefinition Width="*"/> <!-- 标题输入列，占剩余空间 -->
+            <ColumnDefinition Width="300"/> <!-- 其他乱七八糟的 -->
         </Grid.ColumnDefinitions>
 
         <!-- 日期时间和天气显示 -->
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
             <TextBlock Text="{Binding CurrentTime}" FontSize="16" VerticalAlignment="Center" Margin="20,2,0,2"/>
-            <TextBlock Text="{Binding CurrentWeatherCondition}" FontSize="16" VerticalAlignment="Center" Margin="20,2,0,2"/>
+            <TextBox Text="{Binding CurrentWeatherCondition, Mode=TwoWay}" FontSize="16" VerticalAlignment="Center" Margin="20,2,0,2"/>
         </StackPanel>
 
         <!-- 标题输入框 -->
         <TextBox Grid.Row="0" 
                  Grid.Column="1"
-                 Width="500" 
-                 FontSize="18" 
-                 Margin="20,2,0,2"
+                 Margin="20,2,20,2"
                  Watermark="😄为这篇日记起个标题吧~" 
-                 HorizontalAlignment="Left"
+                 HorizontalAlignment="Stretch" 
+                 VerticalAlignment="Stretch"   
                  BorderBrush="#B9AEDC"
                  Background="#FFFFFF"
                  Padding="10" 
@@ -40,11 +40,41 @@
                  HorizontalContentAlignment="Left"/>
         
         <!-- 分割线 -->
-        <Border Grid.Row="2"
-                Grid.ColumnSpan="2"
+        <Border Grid.Row="1"
+                Grid.ColumnSpan="3"
                 Margin="20,0,20,0"
                 Background="#B9AEDC">
         </Border>
-       
+        
+        <!-- 正文输入框 -->
+        <TextBox Grid.Row="2" 
+                 Grid.RowSpan="2"
+                 Grid.ColumnSpan="2"
+                 FontSize="18"
+                 Margin="20,2,20,20"
+                 Watermark="😊 今天发生了什么呢，快点记录下来吧！"
+                 HorizontalAlignment="Stretch" 
+                 VerticalAlignment="Stretch"   
+                 AcceptsReturn="True"          
+                 TextWrapping="Wrap"          
+                 BorderBrush="#B9AEDC"
+                 Background="#FFFFFF"
+                 Padding="10"
+                 BorderThickness="1"
+                 HorizontalContentAlignment="Left" 
+                 VerticalContentAlignment="Top"/>
+        
+        
+        
+        <!-- 定位,现在是写死的，后期会改，自动定位 -->
+        <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <!-- 图标 -->
+            <TextBlock Text="📍" FontSize="16" VerticalAlignment="Center" Margin="10,0,10,20"/>
+    
+            <!-- 地址文本框 -->
+            <TextBox Text="{Binding CurrentLocation, Mode=TwoWay}" FontSize="16" VerticalAlignment="Center" 
+                     HorizontalAlignment="Left" Margin="0,0,10,20" Padding="5" MinWidth="100"/>
+        </StackPanel>
+        <Button Grid.Row="4" Grid.Column="1" Content="我写完啦！" Foreground="#B9AEDC" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,0,20,20"/>
     </Grid>
 </UserControl>
