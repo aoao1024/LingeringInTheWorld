@@ -42,7 +42,11 @@
                         IsChecked="{Binding ToDo.Status}"
                         VerticalAlignment="Center"
                         IsEnabled="{Binding !ToDo.Status}"
-                    ></CheckBox>
+                    ><i:Interaction.Behaviors>
+                        <ia:EventTriggerBehavior EventName="IsCheckedChanged">
+                            <ia:InvokeCommandAction Command="{Binding OnInitializeCommand}"></ia:InvokeCommandAction> 
+                        </ia:EventTriggerBehavior> 
+                    </i:Interaction.Behaviors></CheckBox>
                     <Grid
                         Margin="20,0,20,0"
                         Grid.Column="1">

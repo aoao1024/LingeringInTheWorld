@@ -33,7 +33,7 @@ public class ToDoListViewModel : ViewModelBase
         AllToDoItems = await _todoStorageService.GetAllTodoListAsync();
         foreach (var toDoItem in AllToDoItems)
         {
-            ToDoItemViewModel toDoItemViewModel = new ToDoItemViewModel(toDoItem);
+            ToDoItemViewModel toDoItemViewModel = new ToDoItemViewModel(toDoItem,this);
             if (toDoItemViewModel != null) ToDoCollection.Add(toDoItemViewModel);
         }
     }
@@ -45,6 +45,7 @@ public class ToDoListViewModel : ViewModelBase
     {
         _contentNavigationService.NavigateTo(ContentNavigationConstant.NewToDoItemView);
     }
+    public async Task
 }
 public class ToDoItemViewModel :ObservableObject
 {
@@ -55,9 +56,12 @@ public class ToDoItemViewModel :ObservableObject
         get => _todo;
         set => SetProperty(ref _todo, value);
     }
-    public ToDoItemViewModel(ToDo todo)
+    public ToDoItemViewModel(ToDo todo,ToDoListViewModel toDoListViewModel)
     {
         ToDo = todo;
+        _toDoListViewModel = toDoListViewModel;
     }
+   
+    public void UpdateToDoItemStatus(){}
     
 }
