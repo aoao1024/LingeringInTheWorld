@@ -64,7 +64,29 @@
                  HorizontalContentAlignment="Left" 
                  VerticalContentAlignment="Top"/>
         
-        
+        <!-- 标签区域 -->
+        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Vertical" Margin="0,10,20,20">
+            <!-- 标签输入框和添加按钮 -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBox Width="150" Watermark="添加标签" Text="{Binding NewTag}" />
+                <Button Content="✔" Command="{Binding AddTagCommand}" Margin="5,0,0,0" Width="40" Height="30" />
+            </StackPanel>
+
+            <!-- 显示已添加的标签 -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <ItemsControl ItemsSource="{Binding Tags}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="5,0,5,0">
+                                <TextBlock Text="{Binding}" FontSize="14" VerticalAlignment="Center" />
+                                <Button Content="✕" Command="{Binding DataContext.RemoveTagCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Margin="5,0,0,0" Width="40" Height="20"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </StackPanel>
+
         
         <!-- 定位,现在是写死的，后期会改，自动定位 -->
         <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
