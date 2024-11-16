@@ -20,7 +20,18 @@ public class Diary
     public string Snippet =>
         _snippet ??= Content.Split('。')[0].Replace("\r\n", " ");
     
-    // 返回图片路径的 List<string>，如果数据库存储的是逗号分隔字符串
+    // 返回标签的 List<string>
+    [SQLite.Ignore]
+    public List<string> TagList =>
+        string.IsNullOrEmpty(Tags) ? new List<string>() : Tags.Split(',').ToList();
+    
+    // 用于设置标签集合
+    public void SetTags(List<string> tags)
+    {
+        Tags = string.Join(",", tags);
+    }
+    
+    // 返回图片路径的 List<string>
     [SQLite.Ignore]
     public List<string> ImagePathList =>
         string.IsNullOrEmpty(ImagePaths) ? new List<string>() : ImagePaths.Split(',').ToList();

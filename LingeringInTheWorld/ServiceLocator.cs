@@ -41,7 +41,7 @@ public class ServiceLocator
     public MainViewModel MainViewModel =>
         _serviceProvider.GetRequiredService<MainViewModel>();
 
-    
+    // TODO Delete this
     public IRootNavigationService RootNavigationService =>
         _serviceProvider.GetRequiredService<IRootNavigationService>();
 
@@ -64,8 +64,7 @@ public class ServiceLocator
         _serviceProvider.GetRequiredService<DiaryAddViewModel>();
     public ToDoDetailViewModel ToDoDetailViewModel =>
         _serviceProvider.GetRequiredService<ToDoDetailViewModel>();
-    public NewToDoItemViewModel NewToDoItemViewModel =>
-        _serviceProvider.GetRequiredService<NewToDoItemViewModel>();
+    
     public ServiceLocator()
     {
         //注册对象
@@ -92,7 +91,8 @@ public class ServiceLocator
         serviceCollection.AddSingleton<ITodoStorageService, TodoStorageService>();
         serviceCollection.AddSingleton<IToDoStorage, ToDoStorage>();
         serviceCollection.AddSingleton<ToDoDetailViewModel>();
-        serviceCollection.AddSingleton<NewToDoItemViewModel>();
+        serviceCollection.AddSingleton<ILocationService, IpInfoLocationService>();
+        
         //取对象
         _serviceProvider = serviceCollection.BuildServiceProvider();
 
