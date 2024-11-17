@@ -15,9 +15,12 @@ public class ToDoListViewModel : ViewModelBase
 {
     /*public ObservableCollection<ToDoItemViewModel> ToDoCollection
     { get; }*/
-   public AvaloniaInfiniteScrollCollection<ToDoItemViewModel> ToDoCollection { get; set; }
+    private AvaloniaInfiniteScrollCollection<ToDoItemViewModel> _toDoCollection;
+   public AvaloniaInfiniteScrollCollection<ToDoItemViewModel> ToDoCollection { 
+       get=>_toDoCollection;
+       set=>SetProperty(ref _toDoCollection,value); }
     private ITodoStorageService _todoStorageService;
-    private IList<ToDoItemViewModel> toDoItemViewModels;
+   
     private string _status;
     private bool _canLoadMore=true;
     public const int PageSize = 10;
@@ -37,7 +40,12 @@ public class ToDoListViewModel : ViewModelBase
         _contentNavigationService = contentNavigationService;
         OnInitializeCommand=new AsyncRelayCommand(OnInitializeAsync);
         AddToDoCommand=new RelayCommand(AddToDo);
-        ToDoCollection = new AvaloniaInfiniteScrollCollection<ToDoItemViewModel>()
+       
+    }
+    public ICommand OnInitializeCommand { get; }
+    public async Task OnInitializeAsync()
+    {
+        ToDoCollection = new AvaloniaInfiniteScrollCollection<ToDoItemViewModel>
         {
             OnCanLoadMore = () => _canLoadMore,
             OnLoadMore = async () =>
@@ -57,22 +65,19 @@ public class ToDoListViewModel : ViewModelBase
                 {
                     Status = NoResult;
                 }
-                toDoItemViewModels = new List<ToDoItemViewModel>();
+                IList<ToDoItemViewModel> toDoItemViewModels = new List<ToDoItemViewModel> ();
                 foreach (var toDoItem in AllToDoItems)
                 {
                     ToDoItemViewModel toDoItemViewModel = new ToDoItemViewModel(toDoItem,this);
                     toDoItemViewModels.Add(toDoItemViewModel);
                 }
+                Console.WriteLine($"OnLoadMore: Loaded {toDoItemViewModels.Count} items");
                 Console.WriteLine(toDoItemViewModels.Count);
                 return toDoItemViewModels;
             }
         };
-    }
-    public ICommand OnInitializeCommand { get; }
-    public async Task OnInitializeAsync()
-    {
-       
-        Console.WriteLine(ToDoCollection.Count);
+        await ToDoCollection.LoadMoreAsync();
+        //Console.WriteLine(ToDoCollection.Count);
         /*if (ToDoCollection.Count!=0)
         {
             ToDoCollection.Clear();
