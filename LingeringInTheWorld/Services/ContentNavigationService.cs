@@ -7,6 +7,8 @@ namespace LingeringInTheWorld.Services;
 public class ContentNavigationService : IContentNavigationService {
     public void NavigateTo(string view, object parameter = null) {
         ViewModelBase viewModel = view switch {
+            ContentNavigationConstant.DiaryView => ServiceLocator.Current
+                .DiaryViewModel,
             ContentNavigationConstant.DiaryDetailView => ServiceLocator.Current
                 .DiaryDetailViewModel,
             ContentNavigationConstant.DiaryAddView => ServiceLocator.Current

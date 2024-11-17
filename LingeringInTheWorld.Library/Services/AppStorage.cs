@@ -33,19 +33,20 @@ public class AppStorage : IAppStorage
             AppStorageConstant.Version);
     }
 
-    
+    //插入日记
     public async Task InsertDiaryAsync(Diary diary)
     {
         await Connection.InsertAsync(diary);
     }
     
+    //列出所有日记
     public async Task<IList<Diary>> ListDiaryAsync()=>
         await Connection.Table<Diary>().ToListAsync();
     
-    
-    public async Task<IList<Diary>> QueryDiaryAsync(string keyword) => 
+    //根据标题查询日记
+    public async Task<IList<Diary>> QueryDiaryAsync(string title) => 
         await Connection.Table<Diary>()
-            .Where(d => d.Title.Contains(keyword))
+            .Where(d => d.Title.Contains(title))
             .ToListAsync();
     
     public async Task CloseAsync() => await Connection.CloseAsync();

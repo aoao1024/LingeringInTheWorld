@@ -117,108 +117,108 @@ public class HeFengWeatherService : IWeatherService
     }
     
     // 实现根据城市名称获取经纬度
-public async Task<(double Latitude, double Longitude)> GetCoordinatesFromLocation(string location)
-{
-    var requestUrl = $"{GeoApiUrl}?key={ApiKey}&location={location}";
-
-    try
+    public async Task<(double Latitude, double Longitude)> GetCoordinatesFromLocation(string location)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
-        request.Headers.Add("Accept-Encoding", "gzip, deflate");
+        var requestUrl = $"{GeoApiUrl}?key={ApiKey}&location={location}";
 
-        // 发送请求
-        var response = await _httpClient.SendAsync(request);
-        response.EnsureSuccessStatusCode(); // 确保请求成功
-
-        var stream = await response.Content.ReadAsStreamAsync();
-
-        // 获取响应的字符编码，如果没有指定，则使用 UTF-8
-        var encoding = Encoding.UTF8;
-        if (response.Content.Headers.ContentType?.CharSet != null)
+        try
         {
-            try
-            {
-                encoding = Encoding.GetEncoding(response.Content.Headers.ContentType.CharSet);
-            }
-            catch (ArgumentException)
-            {
-                encoding = Encoding.UTF8; // 如果无法识别编码，则默认使用 UTF-8
-            }
-        }
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+            request.Headers.Add("Accept-Encoding", "gzip, deflate");
 
-        // 判断是否为 Gzip 压缩
-        if (response.Content.Headers.ContentEncoding.Contains("gzip"))
-        {
-            // Gzip 解压缩
-            using (var gzipStream = new GZipStream(stream, CompressionMode.Decompress))
-            using (var reader = new StreamReader(gzipStream, encoding))
+            // 发送请求
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode(); // 确保请求成功
+
+            var stream = await response.Content.ReadAsStreamAsync();
+
+            // 获取响应的字符编码，如果没有指定，则使用 UTF-8
+            var encoding = Encoding.UTF8;
+            if (response.Content.Headers.ContentType?.CharSet != null)
             {
-                var json = await reader.ReadToEndAsync();
-                return await ParseCoordinatesJson(json);
+                try
+                {
+                    encoding = Encoding.GetEncoding(response.Content.Headers.ContentType.CharSet);
+                }
+                catch (ArgumentException)
+                {
+                    encoding = Encoding.UTF8; // 如果无法识别编码，则默认使用 UTF-8
+                }
             }
-        }
-        else
-        {
-            // 非 Gzip 压缩，直接读取
-            using (var reader = new StreamReader(stream, encoding))
+
+            // 判断是否为 Gzip 压缩
+            if (response.Content.Headers.ContentEncoding.Contains("gzip"))
             {
-                var json = await reader.ReadToEndAsync();
-                return await ParseCoordinatesJson(json);
-            }
-        }
-    }
-    catch (Exception e)
-    {
-        // 捕获任何异常，可能是网络请求失败，解析失败等
-        await _alertService.AlertAsync(
-            ErrorMessageHelper.HttpClientErrorTitle,
-            ErrorMessageHelper.GetHttpClientError(Server, e.Message));
-    }
-
-    // 如果无法获取经纬度，返回 (0.0, 0.0)
-    return (0.0, 0.0);
-}
-
-// 解析城市经纬度的 JSON 数据
-private async Task<(double Latitude, double Longitude)> ParseCoordinatesJson(string json)
-{
-    try
-    {
-        var jsonResponse = JsonDocument.Parse(json);
-        var cityInfo = jsonResponse.RootElement
-                                    .GetProperty("location")
-                                    .EnumerateArray()
-                                    .FirstOrDefault();
-        if (cityInfo.ValueKind == JsonValueKind.Object)
-        {
-            // 使用 GetString 获取 lat 和 lon，并使用 double.TryParse 转换为数字类型
-            var latitudeString = cityInfo.GetProperty("lat").GetString();
-            var longitudeString = cityInfo.GetProperty("lon").GetString();
-
-            // 尝试将字符串转换为 double
-            if (double.TryParse(latitudeString, out double latitude) &&
-                double.TryParse(longitudeString, out double longitude))
-            {
-                return (latitude, longitude); // 返回经纬度
+                // Gzip 解压缩
+                using (var gzipStream = new GZipStream(stream, CompressionMode.Decompress))
+                using (var reader = new StreamReader(gzipStream, encoding))
+                {
+                    var json = await reader.ReadToEndAsync();
+                    return await ParseCoordinatesJson(json);
+                }
             }
             else
             {
-                // 如果转换失败，抛出异常或者返回默认值
-                await _alertService.AlertAsync(Server,"无法将经纬度字符串转换为数字");
+                // 非 Gzip 压缩，直接读取
+                using (var reader = new StreamReader(stream, encoding))
+                {
+                    var json = await reader.ReadToEndAsync();
+                    return await ParseCoordinatesJson(json);
+                }
             }
         }
-    }
-    catch (Exception e)
-    {
-        // 解析 JSON 时出现错误
-        await _alertService.AlertAsync(
-            ErrorMessageHelper.JsonDeserializationErrorTitle,
-            ErrorMessageHelper.GetJsonDeserializationError(Server, e.Message));
+        catch (Exception e)
+        {
+            // 捕获任何异常，可能是网络请求失败，解析失败等
+            await _alertService.AlertAsync(
+                ErrorMessageHelper.HttpClientErrorTitle,
+                ErrorMessageHelper.GetHttpClientError(Server, e.Message));
+        }
+
+        // 如果无法获取经纬度，返回 (0.0, 0.0)
+        return (0.0, 0.0);
     }
 
-    // 如果无法解析或获取经纬度，返回 (42.67, 123.46)
-    return (42.67, 123.46);
-}
+    // 解析城市经纬度的 JSON 数据
+    private async Task<(double Latitude, double Longitude)> ParseCoordinatesJson(string json)
+    {
+        try
+        {
+            var jsonResponse = JsonDocument.Parse(json);
+            var cityInfo = jsonResponse.RootElement
+                                        .GetProperty("location")
+                                        .EnumerateArray()
+                                        .FirstOrDefault();
+            if (cityInfo.ValueKind == JsonValueKind.Object)
+            {
+                // 使用 GetString 获取 lat 和 lon，并使用 double.TryParse 转换为数字类型
+                var latitudeString = cityInfo.GetProperty("lat").GetString();
+                var longitudeString = cityInfo.GetProperty("lon").GetString();
+
+                // 尝试将字符串转换为 double
+                if (double.TryParse(latitudeString, out double latitude) &&
+                    double.TryParse(longitudeString, out double longitude))
+                {
+                    return (latitude, longitude); // 返回经纬度
+                }
+                else
+                {
+                    // 如果转换失败，抛出异常或者返回默认值
+                    await _alertService.AlertAsync(Server,"无法将经纬度字符串转换为数字");
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            // 解析 JSON 时出现错误
+            await _alertService.AlertAsync(
+                ErrorMessageHelper.JsonDeserializationErrorTitle,
+                ErrorMessageHelper.GetJsonDeserializationError(Server, e.Message));
+        }
+
+        // 如果无法解析或获取经纬度，返回 (42.67, 123.46)
+        return (42.67, 123.46);
+    }
 
 }
 

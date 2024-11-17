@@ -14,6 +14,6 @@ public interface IAppStorage
     //列出所有日记
     Task<IList<Diary>> ListDiaryAsync();
     
-    //查询日记
-    Task<IList<Diary>> QueryDiaryAsync(string keyword);
+    //根据标题查询日记
+    Task<IList<Diary>> QueryDiaryAsync(string title);
 }
