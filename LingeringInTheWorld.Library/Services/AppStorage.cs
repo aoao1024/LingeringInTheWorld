@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using LingeringInTheWorld.Library.Helpers;
 using LingeringInTheWorld.Library.Models;
 using SQLite;
@@ -48,6 +49,11 @@ public class AppStorage : IAppStorage
         await Connection.Table<Diary>()
             .Where(d => d.Title.Contains(title))
             .ToListAsync();
+    
+    public async Task<List<Diary>> GetDiariesAsync(
+    Expression<Func<Diary, bool>> where, int skip, int take) =>
+    await Connection.Table<Diary>().Where(where).Skip(skip).Take(take)
+        .ToListAsync();
     
     public async Task CloseAsync() => await Connection.CloseAsync();
 
