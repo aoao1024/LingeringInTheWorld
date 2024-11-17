@@ -95,6 +95,7 @@ public class ServiceLocator
         serviceCollection.AddSingleton<ToDoDetailViewModel>();
         serviceCollection.AddSingleton<ILocationService, IpInfoLocationService>();
         serviceCollection.AddSingleton<NewToDoItemViewModel>();
+        
         //取对象
         _serviceProvider = serviceCollection.BuildServiceProvider();
 

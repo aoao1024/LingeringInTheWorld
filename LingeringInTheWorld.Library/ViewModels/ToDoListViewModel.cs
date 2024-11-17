@@ -106,6 +106,19 @@ public class ToDoListViewModel : ViewModelBase
         toDoItemViewModel.ToDo.Status = !toDoItemViewModel.ToDo.Status;
         ToDoCollection.Add(toDoItemViewModel);
     }
+
+    public async Task<int> DeleteToDoItemAsync(ToDoItemViewModel toDoItemViewModel)
+    {
+       int deleteIndex= await _todoStorageService.DeleteToDoItemAsync(toDoItemViewModel.ToDo.Id);
+       ToDoCollection.RemoveAt(ToDoCollection.IndexOf(toDoItemViewModel));
+       return deleteIndex;
+    }
+
+    public void ShowToDoItemDetailInfo(ToDoItemViewModel toDoItemViewModel)
+    {
+        _contentNavigationService.NavigateTo(ContentNavigationConstant.ToDoDetailView);
+    }
+    
 }
 public class ToDoItemViewModel :ObservableObject
 {
@@ -121,6 +134,8 @@ public class ToDoItemViewModel :ObservableObject
         ToDo = todo;
         _toDoListViewModel = toDoListViewModel;
         UpdateToDoItemStatusCommand = new AsyncRelayCommand(UpdateToDoItemStatusAsync);
+        DeletToDoItemCommand = new AsyncRelayCommand(DeletToDoItemAsync);
+        ShowToDoItemDetailCommand = new RelayCommand(ShowToDoItemDetailInfo);
     }
     public ICommand UpdateToDoItemStatusCommand { get; }
     public async Task UpdateToDoItemStatusAsync()
@@ -129,5 +144,15 @@ public class ToDoItemViewModel :ObservableObject
         Console.WriteLine(ToDo.Status);
         await _toDoListViewModel.SetToDoItemFinishStatusAsync(this);
     }
+    public ICommand DeletToDoItemCommand { get; }
+    public async Task<int> DeletToDoItemAsync()
+        => await _toDoListViewModel.DeleteToDoItemAsync(this);
+
+    public ICommand ShowToDoItemDetailCommand { get; }
+    public void ShowToDoItemDetailInfo()
+    {
+        _toDoListViewModel.ShowToDoItemDetailInfo(this);
+    }
     
+
 }
