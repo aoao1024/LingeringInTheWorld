@@ -44,10 +44,10 @@
                     IsChecked="{Binding  ToDo.Status}"
                     VerticalAlignment="Center"
                     IsEnabled="{Binding !ToDo.Status}"
-                    
                 ><i:Interaction.Behaviors>
                     <ia:EventTriggerBehavior EventName="IsCheckedChanged">
-                        <ia:InvokeCommandAction Command="{Binding UpdateToDoItemStatusCommand}"></ia:InvokeCommandAction> 
+                        <ia:InvokeCommandAction Command="{Binding UpdateToDoItemStatusCommand}">
+                        </ia:InvokeCommandAction> 
                     </ia:EventTriggerBehavior> 
                 </i:Interaction.Behaviors></CheckBox>
                 <Grid

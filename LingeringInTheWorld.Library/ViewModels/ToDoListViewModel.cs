@@ -40,12 +40,34 @@ public class ToDoListViewModel : ViewModelBase
         _contentNavigationService = contentNavigationService;
         OnInitializeCommand=new AsyncRelayCommand(OnInitializeAsync);
         AddToDoCommand=new RelayCommand(AddToDo);
-       
+        ToDoCollection = new AvaloniaInfiniteScrollCollection<ToDoItemViewModel>
+        {
+            OnCanLoadMore = () => _canLoadMore,
+            OnLoadMore = async () =>
+            {
+                var AllToDoItems = await _todoStorageService.GetToDoList(Expression.Lambda<Func<ToDo, bool>>(
+                        Expression.Constant(true),
+                        Expression.Parameter(typeof(ToDo), "todo")),
+                    ToDoCollection.Count, PageSize);
+                if (AllToDoItems.Count < PageSize)
+                {
+                    _canLoadMore = false;
+                }
+                IList<ToDoItemViewModel> toDoItemViewModels = new List<ToDoItemViewModel> ();
+                foreach (var toDoItem in AllToDoItems)
+                {
+                    ToDoItemViewModel toDoItemViewModel = new ToDoItemViewModel(toDoItem,this);
+                    toDoItemViewModels.Add(toDoItemViewModel);
+                }
+                return toDoItemViewModels;
+            }
+        };
+      
     }
     public ICommand OnInitializeCommand { get; }
     public async Task OnInitializeAsync()
     {
-        ToDoCollection = new AvaloniaInfiniteScrollCollection<ToDoItemViewModel>
+        /*ToDoCollection = new AvaloniaInfiniteScrollCollection<ToDoItemViewModel>
         {
             OnCanLoadMore = () => _canLoadMore,
             OnLoadMore = async () =>
@@ -75,7 +97,7 @@ public class ToDoListViewModel : ViewModelBase
                 Console.WriteLine(toDoItemViewModels.Count);
                 return toDoItemViewModels;
             }
-        };
+        };*/
         await ToDoCollection.LoadMoreAsync();
         //Console.WriteLine(ToDoCollection.Count);
         /*if (ToDoCollection.Count!=0)
@@ -140,8 +162,6 @@ public class ToDoItemViewModel :ObservableObject
     public ICommand UpdateToDoItemStatusCommand { get; }
     public async Task UpdateToDoItemStatusAsync()
     {
-        Console.WriteLine("UpdateToDoItemStatusAsync");
-        Console.WriteLine(ToDo.Status);
         await _toDoListViewModel.SetToDoItemFinishStatusAsync(this);
     }
     public ICommand DeletToDoItemCommand { get; }
