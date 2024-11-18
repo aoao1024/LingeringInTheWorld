@@ -34,7 +34,7 @@ public class ToDoStorage : IToDoStorage
     
     public async Task<int> DeleteToDoItemAsync(int id)
     =>await Connection.DeleteAsync<ToDo>(id);
-
+    
     public async Task UpdateToDoItemAsync(int id, DateTime? deadline, string title, string content, bool status)
     {
         var toDo =await Connection.FindAsync<ToDo>(id);
@@ -47,7 +47,7 @@ public class ToDoStorage : IToDoStorage
         if (status != null) toDo.Status = (bool)status;
         await Connection.UpdateAsync(toDo);
     }
-
+    
     public async Task<bool> DeleteToDoItemsAsync(int[] ids)
     {
         var result = true;

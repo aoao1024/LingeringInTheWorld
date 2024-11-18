@@ -6,6 +6,7 @@
              xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
              xmlns:lc="using:LingeringInTheWorld.Converters"
              xmlns:ais="using:AvaloniaInfiniteScrolling"
+             x:Name="TheResultView"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LingeringInTheWorld.Views.ToDoListView"
              DataContext="{Binding ToDoListViewModel,Source={StaticResource ServiceLocator}}">
@@ -73,7 +74,8 @@
                     HorizontalAlignment="Left"
                         Margin="0,0,0,8"
                         Content="查看详情"
-                        Command="{Binding ShowToDoItemDetailCommand}"
+                        Command="{Binding ShowToDoItemDetailCommand }"
+                        CommandParameter="{Binding}"
                         VerticalAlignment="Center" />
                 <Button 
                     Grid.Column="3"

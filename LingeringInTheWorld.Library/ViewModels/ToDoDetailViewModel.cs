@@ -7,10 +7,10 @@ namespace LingeringInTheWorld.Library.ViewModels;
 
 public class ToDoDetailViewModel :ViewModelBase
 {
-    private ITodoStorageService _todoStorageService;
-    public ToDoDetailViewModel(ITodoStorageService toDoStorageService)
+    private IToDoStorage _todoStorage;
+    public ToDoDetailViewModel(IToDoStorage toDoStorage)
     {
-        _todoStorageService = toDoStorageService;
+        _todoStorage = toDoStorage;
         SubmitCommand = new AsyncRelayCommand(SubmitAsync);
         ToDo = new ToDo();
     }
@@ -19,6 +19,9 @@ public class ToDoDetailViewModel :ViewModelBase
         get => _toDo;
         set => SetProperty(ref _toDo, value);
     } 
+    public override void SetParameter(object parameter) {
+        ToDo = parameter as ToDo;
+    }
     private ToDo _toDo;
     // private bool _isLoading;
     //
@@ -34,7 +37,7 @@ public class ToDoDetailViewModel :ViewModelBase
 
     public async Task SubmitAsync()
     {
-        await _todoStorageService.AddToDoItemAsync(ToDo);
+        await _todoStorage.UpdateToDoItemAsync(_toDo.Id,_toDo.DeadLine,_toDo.Title,_toDo.Content,_toDo.Status);
     }
 
 }

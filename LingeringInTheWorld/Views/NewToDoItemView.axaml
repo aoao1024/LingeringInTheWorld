@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:u="https://irihi.tech/ursa"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LingeringInTheWorld.Views.NewToDoItemView"
              DataContext="{Binding NewToDoItemViewModel, Source={StaticResource ServiceLocator}}">
@@ -27,8 +28,7 @@
                          Text="{Binding ToDo.Content}"/>
 
                 <!-- 截止时间选择器 -->
-                <DatePicker Grid.Row="3" Width="400" Margin="-50,10,0,0" SelectedDate="{Binding ToDo.DeadLine, Mode=TwoWay}" HorizontalAlignment="Left"/>
-
+                <u:DateTimePicker Grid.Row="3" Width="400" Margin="0,10,0,0" SelectedDate="{Binding ToDo.DeadLine, Mode=TwoWay}" HorizontalAlignment="Left"/>
                 <!-- 确定按钮 -->
                 <Button Grid.Row="4" Content="确定"  Width="200" HorizontalAlignment="Center"
                         Command="{Binding AddNewToDoItemCommand}"/>

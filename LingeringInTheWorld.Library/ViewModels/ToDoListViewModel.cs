@@ -16,30 +16,37 @@ public class ToDoListViewModel : ViewModelBase
     /*public ObservableCollection<ToDoItemViewModel> ToDoCollection
     { get; }*/
     private AvaloniaInfiniteScrollCollection<ToDoItemViewModel> _toDoCollection;
-   public AvaloniaInfiniteScrollCollection<ToDoItemViewModel> ToDoCollection { 
-       get=>_toDoCollection;
-       set=>SetProperty(ref _toDoCollection,value); }
+
+    public AvaloniaInfiniteScrollCollection<ToDoItemViewModel> ToDoCollection
+    {
+        get => _toDoCollection;
+        set => SetProperty(ref _toDoCollection, value);
+    }
+
     private ITodoStorageService _todoStorageService;
-   
+
     private string _status;
-    private bool _canLoadMore=true;
+    private bool _canLoadMore = true;
     public const int PageSize = 10;
+
     public string Status
     {
         get => _status;
         private set => SetProperty(ref _status, value);
     }
+
     public const string Loading = "正在载入";
 
     public const string NoResult = "没有满足条件的结果";
 
     public const string NoMoreResult = "没有更多结果";
-    public  ToDoListViewModel(ITodoStorageService todoStorageService,IContentNavigationService contentNavigationService)
+
+    public ToDoListViewModel(ITodoStorageService todoStorageService, IContentNavigationService contentNavigationService)
     {
         _todoStorageService = todoStorageService;
         _contentNavigationService = contentNavigationService;
-        OnInitializeCommand=new AsyncRelayCommand(OnInitializeAsync);
-        AddToDoCommand=new RelayCommand(AddToDo);
+        OnInitializeCommand = new AsyncRelayCommand(OnInitializeAsync);
+        AddToDoCommand = new RelayCommand(AddToDo);
         ToDoCollection = new AvaloniaInfiniteScrollCollection<ToDoItemViewModel>
         {
             OnCanLoadMore = () => _canLoadMore,
@@ -53,18 +60,22 @@ public class ToDoListViewModel : ViewModelBase
                 {
                     _canLoadMore = false;
                 }
-                IList<ToDoItemViewModel> toDoItemViewModels = new List<ToDoItemViewModel> ();
+
+                IList<ToDoItemViewModel> toDoItemViewModels = new List<ToDoItemViewModel>();
                 foreach (var toDoItem in AllToDoItems)
                 {
-                    ToDoItemViewModel toDoItemViewModel = new ToDoItemViewModel(toDoItem,this);
+                    ToDoItemViewModel toDoItemViewModel = new ToDoItemViewModel(toDoItem, this);
                     toDoItemViewModels.Add(toDoItemViewModel);
                 }
+
                 return toDoItemViewModels;
             }
         };
-      
+
     }
+
     public ICommand OnInitializeCommand { get; }
+
     public async Task OnInitializeAsync()
     {
         /*ToDoCollection = new AvaloniaInfiniteScrollCollection<ToDoItemViewModel>
@@ -110,16 +121,18 @@ public class ToDoListViewModel : ViewModelBase
             ToDoItemViewModel toDoItemViewModel = new ToDoItemViewModel(toDoItem,this);
             if (toDoItemViewModel != null) ToDoCollection.Add(toDoItemViewModel);
         }*/
-      
+
     }
+
     //1115
     private readonly IContentNavigationService _contentNavigationService;
     public ICommand AddToDoCommand { get; }
 
-    public void  AddToDo()
+    public void AddToDo()
     {
         _contentNavigationService.NavigateTo(ContentNavigationConstant.NewToDoItemView);
     }
+
     public async Task SetToDoItemFinishStatusAsync(ToDoItemViewModel toDoItemViewModel)
     {
         Console.WriteLine("更改状态为已完成");
@@ -131,17 +144,77 @@ public class ToDoListViewModel : ViewModelBase
 
     public async Task<int> DeleteToDoItemAsync(ToDoItemViewModel toDoItemViewModel)
     {
-       int deleteIndex= await _todoStorageService.DeleteToDoItemAsync(toDoItemViewModel.ToDo.Id);
-       ToDoCollection.RemoveAt(ToDoCollection.IndexOf(toDoItemViewModel));
-       return deleteIndex;
+        int deleteIndex = await _todoStorageService.DeleteToDoItemAsync(toDoItemViewModel.ToDo.Id);
+        ToDoCollection.RemoveAt(ToDoCollection.IndexOf(toDoItemViewModel));
+        return deleteIndex;
     }
 
-    public void ShowToDoItemDetailInfo(ToDoItemViewModel toDoItemViewModel)
+    public void ShowToDoItemDetailInfo(ToDoItemViewModel toDo)
     {
-        _contentNavigationService.NavigateTo(ContentNavigationConstant.ToDoDetailView);
+        _contentNavigationService.NavigateTo(ContentNavigationConstant.ToDoDetailView,toDo.ToDo);
     }
-    
 }
+
+//1118
+//     private readonly IToDoStorage _toDoStorage;
+//
+//     private readonly IContentNavigationService _contentNavigationService;
+//
+//     
+//
+//     public ToDoListViewModel(IToDoStorage toDoStorage, IContentNavigationService contentNavigationService) {
+//         _contentNavigationService = contentNavigationService;
+//         ToDoCollection = new AvaloniaInfiniteScrollCollection<ToDo> {
+//             OnCanLoadMore = () => _canLoadMore,
+//             OnLoadMore = async () => {
+//                 Status = Loading;
+//                 var toDos = await toDoStorage.GetTodoListAsync(null,
+//                     ToDoCollection.Count, PageSize);
+//                 Status = string.Empty;
+//
+//                 if (toDos.Count < PageSize) {
+//                     _canLoadMore = false;
+//                     Status = NoMoreResult;
+//                 }
+//
+//                 if (ToDoCollection.Count == 0 && toDos.Count == 0) {
+//                     Status = NoResult;
+//                 }
+//
+//                 return toDos;
+//
+//             }
+//         };
+//         ShowToDoCommand = new RelayCommand<ToDo>(ShowToDo);
+//     }
+//
+//     private bool _canLoadMore;
+//
+//     
+//
+//     public AvaloniaInfiniteScrollCollection<ToDo> ToDoCollection { get; }
+//
+//     private string _status;
+//
+//     public string Status {
+//         get => _status;
+//         private set => SetProperty(ref _status, value);
+//     }
+//
+//     public const string Loading = "正在载入";
+//
+//     public const string NoResult = "没有满足条件的结果";
+//
+//     public const string NoMoreResult = "没有更多结果";
+//
+//     public const int PageSize = 20;
+//
+//     public IRelayCommand<ToDo> ShowToDoCommand { get; }
+//
+//     public void ShowToDo(ToDo toDo) =>
+//         _contentNavigationService.NavigateTo(ContentNavigationConstant.ToDoDetailView, toDo);
+// }
+
 public class ToDoItemViewModel :ObservableObject
 {
     private readonly ToDoListViewModel _toDoListViewModel;
@@ -157,7 +230,7 @@ public class ToDoItemViewModel :ObservableObject
         _toDoListViewModel = toDoListViewModel;
         UpdateToDoItemStatusCommand = new AsyncRelayCommand(UpdateToDoItemStatusAsync);
         DeletToDoItemCommand = new AsyncRelayCommand(DeletToDoItemAsync);
-        ShowToDoItemDetailCommand = new RelayCommand(ShowToDoItemDetailInfo);
+        ShowToDoItemDetailCommand = new RelayCommand<ToDoItemViewModel>(ShowToDoItemDetailInfo);
     }
     public ICommand UpdateToDoItemStatusCommand { get; }
     public async Task UpdateToDoItemStatusAsync()
@@ -168,10 +241,10 @@ public class ToDoItemViewModel :ObservableObject
     public async Task<int> DeletToDoItemAsync()
         => await _toDoListViewModel.DeleteToDoItemAsync(this);
 
-    public ICommand ShowToDoItemDetailCommand { get; }
-    public void ShowToDoItemDetailInfo()
+    public IRelayCommand<ToDoItemViewModel> ShowToDoItemDetailCommand { get; }
+    public void ShowToDoItemDetailInfo(ToDoItemViewModel todo)
     {
-        _toDoListViewModel.ShowToDoItemDetailInfo(this);
+        _toDoListViewModel.ShowToDoItemDetailInfo(todo);
     }
     
 
