@@ -11,5 +11,5 @@ public class ToDo :ObservableObject
     public string Title { get; set; }=string.Empty;
     public string Content { get; set; } = string.Empty;
     public bool Status { get; set; }
-    public DateTime DeadLine { get; set; }
+    public DateTime? DeadLine { get; set; }
 }

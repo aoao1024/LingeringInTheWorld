@@ -20,7 +20,10 @@ public class ToDoDetailViewModel :ViewModelBase
         set => SetProperty(ref _toDo, value);
     } 
     public override void SetParameter(object parameter) {
-        ToDo = parameter as ToDo;
+        if (parameter is not ToDo toDo) {
+            return;
+        }
+        ToDo = toDo;
     }
     private ToDo _toDo;
     // private bool _isLoading;
