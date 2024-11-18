@@ -27,12 +27,12 @@
                                 Background="Transparent">
                         <i:Interaction.Behaviors>
                             <ia:EventTriggerBehavior EventName="Tapped">
-                                <ia:InvokeCommandAction Command="{Binding DataContext.ShowDiaryCommand, ElementName=TheDiaryView}"
+                                <ia:InvokeCommandAction Command="{Binding DataContext.ShowDiaryDetailCommand, ElementName=TheDiaryView}"
                                                         CommandParameter="{Binding }">
                                 </ia:InvokeCommandAction>
                             </ia:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
-                        <TextBlock Text="{Binding Converter={StaticResource DiaryToString} , ConverterParameter=preview}"
+                        <TextBlock Text="{Binding Title}"
                                    FontWeight="Bold" />
                         <TextBlock
                             Text="{Binding Converter={StaticResource DiaryToString} , ConverterParameter=details}" />

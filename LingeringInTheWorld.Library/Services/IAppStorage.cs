@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using LingeringInTheWorld.Library.Models;
 
 namespace LingeringInTheWorld.Library.Services;
@@ -14,6 +15,12 @@ public interface IAppStorage
     //列出所有日记
     Task<IList<Diary>> ListDiaryAsync();
     
-    //查询日记
-    Task<IList<Diary>> QueryDiaryAsync(string keyword);
+    //根据标题查询日记
+    Task<IList<Diary>> QueryDiaryAsync(string title);
+    
+    Task<List<Diary>> GetDiariesAsync(
+        Expression<Func<Diary, bool>> where, // 查询条件
+        int skip, // 跳过的记录数
+        int take // 每次获取的记录数
+    );
 }
