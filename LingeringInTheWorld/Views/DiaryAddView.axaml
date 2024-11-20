@@ -3,13 +3,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:lc="using:LingeringInTheWorld.Converters"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LingeringInTheWorld.Views.DiaryAddView"
              DataContext="{Binding DiaryAddViewModel, Source={StaticResource ServiceLocator}}">
     <UserControl.Resources>
         <lc:ByteArrayToBitmapConverter x:Key="ByteArrayToBitmapConverter"></lc:ByteArrayToBitmapConverter>
-        <!-- <lc:NegativeConverter x:Key="NegativeConverter"></lc:NegativeConverter> -->
     </UserControl.Resources>
+    <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="Initialized">
+            <ia:InvokeCommandAction Command="{Binding OnInitializeCommand}"></ia:InvokeCommandAction> 
+        </ia:EventTriggerBehavior> 
+    </i:Interaction.Behaviors>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,8 +35,7 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
             <TextBlock Text="{Binding CurrentTime}" FontSize="16" VerticalAlignment="Center" Margin="20,2,0,2" />
             <TextBox Text="{Binding CurrentWeatherCondition, Mode=TwoWay}" FontSize="16" VerticalAlignment="Center"
-                     MinWidth="70"
-                     Margin="20,2,0,2" />
+                     MinWidth="70" Margin="20,2,0,2" />
         </StackPanel>
 
         <!-- 标题输入框 -->
@@ -96,9 +101,7 @@
                     <TextBlock Text="标签" FontSize="12" Foreground="Gray" HorizontalAlignment="Center" />
                 </Border>
                 <!-- 使用 ScrollViewer 让标签区域支持滚动 -->
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
-                              HorizontalAlignment="Stretch">
-
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch">
                     <!-- 使用 WrapPanel 来自动换行 -->
                     <WrapPanel HorizontalAlignment="Left">
                         <ItemsControl ItemsSource="{Binding Tags}">
@@ -111,13 +114,11 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="0,5,10,5">
                                         <Border Background="#F0F0F0" Padding="2" CornerRadius="4">
-                                            <TextBlock Text="{Binding}" FontSize="14" Padding="5,0"
-                                                       VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding}" FontSize="14" Padding="5,0" VerticalAlignment="Center" />
                                         </Border>
                                         <Button Content="✕" FontWeight="Normal" Foreground="#B9AEDC"
                                                 Command="{Binding DataContext.RemoveTagCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}" Padding="0" Width="30"
-                                                Height="20" />
+                                                CommandParameter="{Binding}" Padding="0" Width="30" Height="20" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -144,7 +145,7 @@
                     <TextBlock Text="图片" FontSize="12" Foreground="Gray" HorizontalAlignment="Center" />
                 </Border>
                 <!-- 使用 ScrollViewer 让图片区域支持滚动 -->
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                               HorizontalAlignment="Stretch">
                     <!-- 使用 WrapPanel 来自动换行 -->
                     <WrapPanel HorizontalAlignment="Left">

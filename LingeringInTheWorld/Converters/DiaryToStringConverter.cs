@@ -14,9 +14,13 @@ public class DiaryToStringConverter : IValueConverter
         if (value is Diary diary)
         {
             // 判断传入的参数是否为 "details" 或 "preview"，选择不同的转换方法
-            if (parameter is string param && param == "details")
+            if (parameter is string a && a == "details")
             {
                 return ConvertForDetails(diary);
+            }
+            else if (parameter is string b && b == "snippet")
+            {
+                return ConvertForSnippet(diary);
             }
             else
             {
@@ -31,16 +35,24 @@ public class DiaryToStringConverter : IValueConverter
     private object ConvertForDetails(Diary diary)
     {
         // 如果 Location 字段不为空，则添加"位置: <Location>"，否则不添加
-        var location = !string.IsNullOrEmpty(diary.Location) ? $"位置: {diary.Location}" : string.Empty;
+        var location = !string.IsNullOrEmpty(diary.Location) ? $"📍 {diary.Location}" : string.Empty;
         
         // 如果 Tags 字段不为空，则添加"标签: <Tags>"，否则不添加
-        var tags = !string.IsNullOrEmpty(diary.Tags) ? $"标签: {diary.Tags}" : string.Empty;
+        var tags = !string.IsNullOrEmpty(diary.Tags) ? $"🏷 {diary.Tags}" : string.Empty;
         
+        // 使用空格或者逗号连接所有非空的字段
+        var result = $"{location}   {tags}".Trim();
+
+        return result;
+    }
+    
+    private object ConvertForSnippet(Diary diary)
+    {
         // 如果 Snippet 字段不为空，则添加"预览: <Snippet>"，否则不添加
-        var snippet = !string.IsNullOrEmpty(diary.Snippet) ? $"预览: {diary.Snippet}" : string.Empty;
+        var snippet = !string.IsNullOrEmpty(diary.Snippet) ? $" {diary.Snippet}" : string.Empty;
 
         // 使用空格或者逗号连接所有非空的字段
-        var result = $"{location}  {tags}  {snippet}".Trim();
+        var result = $"{snippet}".Trim();
 
         return result;
     }
@@ -51,7 +63,7 @@ public class DiaryToStringConverter : IValueConverter
     {
         // 格式化输出：标题 · 创建时间 · 天气
         string formattedDate = diary.DateTime.ToString("yyyy-MM-dd");
-        return $"{diary.Title} · {formattedDate} · {diary.Weather}";
+        return $"{formattedDate}  ·  {diary.Weather}  ·  {diary.Title}";
     }
 
     // IValueConverter 的 ConvertBack 方法通常是不能使用的，抛出异常

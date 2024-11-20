@@ -12,15 +12,23 @@ public interface IAppStorage
     //插入日记
     Task InsertDiaryAsync(Diary diary);
     
+    //删除日记
+    Task DeleteDiaryAsync(int id);
+    
     //列出所有日记
     Task<IList<Diary>> ListDiaryAsync();
     
+    //根据ID查询日记
+    Task<Diary> QueryDiaryByIdAsync(int id);
+    
     //根据标题查询日记
-    Task<IList<Diary>> QueryDiaryAsync(string title);
+    Task<IList<Diary>> QueryDiaryByTitleAsync(string title);
     
     Task<List<Diary>> GetDiariesAsync(
         Expression<Func<Diary, bool>> where, // 查询条件
         int skip, // 跳过的记录数
         int take // 每次获取的记录数
     );
+    
+    event EventHandler<Diary> Updated;
 }

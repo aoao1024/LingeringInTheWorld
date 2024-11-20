@@ -15,7 +15,7 @@ public class DiaryAddViewModel : ViewModelBase
     private readonly IAlertService _alertService;
     private readonly IWeatherService _weatherService;
     private readonly ILocationService _locationService;
-    private readonly IContentNavigationService _contentNavigationService;
+    private readonly MenuViewModel _menuViewModel;
 
     private string _currentTime; // 当前时间
     private string _currentWeatherCondition; // 天气状况
@@ -25,33 +25,35 @@ public class DiaryAddViewModel : ViewModelBase
     private string _newLocation; // 新输入的地址
     private string _newTag; // 新标签
     private ObservableCollection<byte[]> _uploadedImages; // 用于存储上传的多张图片数据
-
     public ObservableCollection<string> Tags { get; set; }
 
 
     public DiaryAddViewModel(IAppStorage appStorage,IAlertService alertService, 
             IWeatherService weatherService, ILocationService locationService,
-            IContentNavigationService contentNavigationService)
+            MenuViewModel menuViewModel)
     {
         _appStorage = appStorage;
         _alertService = alertService;
         _weatherService = weatherService;
         _locationService = locationService;
-        _contentNavigationService = contentNavigationService;
+        _menuViewModel = menuViewModel;
         
         Tags = new ObservableCollection<string>();
         UploadedImages = new ObservableCollection<byte[]>();
+        
+        OnInitializeCommand = new RelayCommand(OnInitialize);
         UpdateLocationCommand = new RelayCommand(UpdateLocation);
         AddTagCommand = new RelayCommand(AddTag);
         RemoveTagCommand = new RelayCommand<string>(RemoveTag);
         UploadImageCommand = new AsyncRelayCommand<Control>(UploadImage);
         RemoveImageCommand = new RelayCommand<byte[]>(RemoveImage);
         SaveDiaryCommand = new RelayCommand(SaveDiaryAsync);
-        Initialize();
     }
 
+    public ICommand OnInitializeCommand { get; }
+    
     // 初始化方法，确保每次加载时重新初始化
-    private async void Initialize()
+    private async void OnInitialize()
     {
         CurrentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // 更新当前时间
         Title = string.Empty; // 清空标题
@@ -137,17 +139,24 @@ public class DiaryAddViewModel : ViewModelBase
                 DateTime = DateTime.Now,
                 Weather = CurrentWeatherCondition,
                 Location = CurrentLocation,
-                Tags = string.Join(",", Tags),
-                ImagePaths = string.Join(",", UploadedImages.Select(image => Convert.ToBase64String(image)))
+                Tags = string.Join(" | ", Tags),
+                Images = string.Join(",", UploadedImages.Select(image => Convert.ToBase64String(image)))
             };
 
             // 保存到数据库
             await _appStorage.InsertDiaryAsync(newDiary);
 
-            // 提示用户保存成功
-            await _alertService.AlertAsync("保存成功", "日记已成功保存！");
-            
-            _contentNavigationService.NavigateTo(ContentNavigationConstant.DiaryView);
+            if (await _appStorage.QueryDiaryByIdAsync(newDiary.Id) != null)
+            {
+                // 提示用户保存成功
+                await _alertService.AlertAsync("保存成功", "日记已成功保存！");
+                _menuViewModel.GoBack();
+            }
+            else
+            {
+                // 提示用户保存失败
+                await _alertService.AlertAsync("保存失败", "日记保存失败！");
+            }
             
         }
     }
