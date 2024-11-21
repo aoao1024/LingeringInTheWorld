@@ -93,7 +93,7 @@ public class MenuViewModel: ViewModelBase
     
 }
 
-public class MenuItem{
+public partial class MenuItem{
     public string View { get; private init; }
     public string Name { get; private init; }
 

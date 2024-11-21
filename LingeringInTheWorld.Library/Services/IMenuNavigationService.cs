@@ -13,4 +13,12 @@ public static class MenuNavigationConstant {
     public const string LedgerView = nameof(LedgerView);
     
     public const string ToDoListView = nameof(ToDoListView);
+    
+    public const string MonthView = nameof(MonthView);
+
+    public const string AccountingListView = nameof(AccountingListView);
+
+    public const string DetailView = nameof(DetailView);
+
+    public const string ExpectedExpensesView = nameof(ExpectedExpensesView);
 }

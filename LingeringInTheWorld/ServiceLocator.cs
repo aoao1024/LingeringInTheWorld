@@ -1,5 +1,6 @@
 using System;
 using Avalonia;
+using CashBook.DesignViewModels;
 using LingeringInTheWorld.Library.Services;
 using LingeringInTheWorld.Library.ViewModels;
 using LingeringInTheWorld.Services;
@@ -67,6 +68,35 @@ public class ServiceLocator
 
     public NewToDoItemViewModel NewToDoItemViewModel =>
         _serviceProvider.GetRequiredService<NewToDoItemViewModel>();
+    
+    public CashMainWindowViewModel CashMainWindowViewModel =>
+        _serviceProvider.GetService<CashMainWindowViewModel>();
+
+    public CashMainViewModel CashMainViewModel =>
+        _serviceProvider.GetService<CashMainViewModel>();
+
+    public AccountingListDesignViewModel AccountingListDesignViewModel =>
+        _serviceProvider.GetService<AccountingListDesignViewModel>();
+
+
+    public AccountingListViewModel AccountingListViewModel =>
+        _serviceProvider.GetService<AccountingListViewModel>();
+
+    public AccountingListDesignViewModel ResultDesignViewModel =>
+        _serviceProvider.GetService<AccountingListDesignViewModel>();
+
+    public DetailViewModel DetailViewModel =>
+        _serviceProvider.GetService<DetailViewModel>();
+    
+    public DetailViewModel1 DetailViewModel1 =>
+        _serviceProvider.GetService<DetailViewModel1>();
+
+    public MonthViewModel MonthViewModel =>
+        _serviceProvider.GetService<MonthViewModel>();
+
+    public ExpectedExpensesViewModel ExpectedExpensesViewModel =>
+        _serviceProvider.GetService<ExpectedExpensesViewModel>();
+    
     public ServiceLocator()
     {
         //注册对象
@@ -95,6 +125,34 @@ public class ServiceLocator
         serviceCollection.AddSingleton<ToDoDetailViewModel>();
         serviceCollection.AddSingleton<ILocationService, IpInfoLocationService>();
         serviceCollection.AddSingleton<NewToDoItemViewModel>();
+        
+        
+       
+        serviceCollection.AddSingleton<CashMainWindowViewModel>();
+        serviceCollection.AddSingleton<CashMainViewModel>();
+        serviceCollection.AddSingleton<AccountingListViewModel>();
+        serviceCollection.AddSingleton<DetailViewModel>();
+        serviceCollection.AddSingleton<DetailViewModel1>();
+        serviceCollection.AddSingleton<MonthViewModel>();
+        serviceCollection.AddSingleton<ExpectedExpensesViewModel>();
+
+        serviceCollection
+            .AddSingleton<IRootNavigationService, RootNavigationService>();
+        serviceCollection
+            .AddSingleton<IMenuNavigationService, MenuNavigationService>();
+        serviceCollection
+            .AddSingleton<IContentNavigationService,
+                ContentNavigationService>();
+        serviceCollection.AddSingleton<IAccountingStorage, AccountingStorage>();
+        serviceCollection.AddSingleton<IExpectedExpensesStorage, ExpectedExpensesStorage>();
+        serviceCollection.AddSingleton<IMonthStatisticsService, MonthStatisticsService>();
+
+        serviceCollection
+            .AddSingleton<IPreferenceStorage, FilePreferenceStorage>();
+        serviceCollection.AddSingleton<IAlertService, AlertService>();
+
+        serviceCollection.AddSingleton<AccountingListDesignViewModel>();
+        
         
         //取对象
         _serviceProvider = serviceCollection.BuildServiceProvider();

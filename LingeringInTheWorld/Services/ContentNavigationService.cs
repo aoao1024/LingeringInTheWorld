@@ -17,9 +17,13 @@ public class ContentNavigationService : IContentNavigationService {
                 .ToDoDetailViewModel,
             ContentNavigationConstant.NewToDoItemView => ServiceLocator.Current
                 .NewToDoItemViewModel,
+            ContentNavigationConstant.DetailView => ServiceLocator.Current
+                .DetailViewModel,
             _ => throw new Exception("未知的视图。")
         };
-        viewModel.SetParameter(parameter);
+        if (parameter != null) {
+            viewModel.SetParameter(parameter);
+        }
         ServiceLocator.Current.MenuViewModel.PushContent(viewModel);
     }
 }
