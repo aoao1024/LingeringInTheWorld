@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:lc="using:LingeringInTheWorld.Converters"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
+             x:Class="LingeringInTheWorld.Views.MonthView"
+             d:DataContext="{Binding MonthViewModel, Source={StaticResource ServiceLocator}}">
+	<UserControl.Resources>
+		<lc:NegativeConverter x:Key="NegativeConverter"></lc:NegativeConverter>
+	</UserControl.Resources>
+	<i:Interaction.Behaviors>
+		<ia:EventTriggerBehavior EventName="Loaded">
+			<ia:InvokeCommandAction Command="{Binding OnLoadedCommand}"></ia:InvokeCommandAction>
+		</ia:EventTriggerBehavior>
+	</i:Interaction.Behaviors>
+	<ScrollViewer>
+		<StackPanel Margin="8">
+
+			<Grid ShowGridLines="False" Margin="10"
+				  ColumnDefinitions="100, 398"
+				  RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+				<Label Grid.Row="2" VerticalAlignment="Center" Grid.Column="0">本月收入</Label>
+				<TextBlock Margin="5"
+						   Grid.Row="2"
+						   Grid.Column="1"
+						   FontSize="24"
+						   HorizontalAlignment="Center"
+						   Text="{Binding MonthStatistics.TotalIncome}">
+				</TextBlock>
+				<Label Grid.Row="3" VerticalAlignment="Center" Grid.Column="0">本月支出</Label>
+				<TextBlock Margin="5"
+						   Grid.Row="3"
+						   Grid.Column="1"
+						   FontSize="24"
+						   HorizontalAlignment="Center"
+						   Text="{Binding MonthStatistics.TotalOutcome}">
+				</TextBlock>
+				<Label Grid.Row="4" VerticalAlignment="Center" Grid.Column="0">预期花销</Label>
+				<TextBlock Margin="5"
+						   Grid.Row="4"
+						   Grid.Column="1"
+						   FontSize="24"
+						   HorizontalAlignment="Center"
+						   Text="{Binding ExpectedExpenses.Value}">
+				</TextBlock>
+			</Grid>
+
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>

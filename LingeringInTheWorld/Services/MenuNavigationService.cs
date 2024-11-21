@@ -5,7 +5,7 @@ using LingeringInTheWorld.Library.ViewModels;
 namespace LingeringInTheWorld.Services;
 
 public class MenuNavigationService: IMenuNavigationService {
-    public void NavigateTo(string view, object parameter = null) {
+    public void NavigateTo(string view) {
         ViewModelBase viewModel = view switch {
             MenuNavigationConstant.MainView => ServiceLocator.Current
                 .MainViewModel,
@@ -23,10 +23,7 @@ public class MenuNavigationService: IMenuNavigationService {
                 .ToDoListViewModel,
             _ => throw new Exception("未知的视图。")
         };
-        if (parameter is not null) {
-            viewModel.SetParameter(parameter);
-        }
-
+        
         ServiceLocator.Current.MenuViewModel.SetMenuAndContent(view, viewModel);
     }
 }
