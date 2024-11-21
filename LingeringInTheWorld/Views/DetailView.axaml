@@ -1,0 +1,90 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:lc="using:LingeringInTheWorld.Converters"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
+             x:Class="LingeringInTheWorld.Views.DetailView"
+             d:DataContext="{Binding DetailViewModel, Source={StaticResource ServiceLocator}}">
+	<UserControl.Resources>
+		<lc:NegativeConverter x:Key="NegativeConverter"></lc:NegativeConverter>
+	</UserControl.Resources>
+	<i:Interaction.Behaviors>
+		<ia:EventTriggerBehavior EventName="Loaded">
+			<ia:InvokeCommandAction Command="{Binding OnLoadedCommand}"></ia:InvokeCommandAction>
+		</ia:EventTriggerBehavior>
+	</i:Interaction.Behaviors>
+	<ScrollViewer>
+		<StackPanel Margin="8">
+
+			<Grid ShowGridLines="False" Margin="10"
+				  ColumnDefinitions="100, 398"
+				  RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+				<Label Grid.Row="0" VerticalAlignment="Center" Grid.Column="0">收入/支出</Label>
+
+				<StackPanel Grid.Row="0"
+						  Margin="0 5"
+						  Grid.Column="1"
+						  Width="400">
+					<Grid  ColumnDefinitions="100, 100">
+						<RadioButton GroupName="TypeSelect"  
+									 Grid.Row="0" 
+									 Grid.Column="0"
+									 IsChecked="{Binding IsIncome}"
+									 Command="{Binding IncomeCommand}"
+									 Content="收入"  />
+						<RadioButton GroupName="TypeSelect" 
+									 Grid.Row="0" 
+									 Grid.Column="1" 
+									 IsChecked="{Binding IsOutcome}"
+									 Command="{Binding OutcomeCommand}"
+									 Content="支出"/>
+					</Grid>
+				</StackPanel>
+
+
+				<Label Grid.Row="1" VerticalAlignment="Center" Grid.Column="0">账单类型</Label>
+				<ComboBox Grid.Row="1"
+						  Margin="0 5"
+						  Width="400"
+						  Grid.Column="1"
+						  ItemsSource="{Binding CategorySelectList}"
+						  SelectedItem="{Binding Accounting.Category}"/>
+				<Label Grid.Row="2" VerticalAlignment="Center" Grid.Column="0">金额</Label>
+				<TextBox Grid.Row="2"
+					     Grid.Column="1"
+						 Width="400"
+						 Margin="0 5"
+					     Text="{Binding Accounting.Amount}" />
+				<Label Grid.Row="3" VerticalAlignment="Center" Grid.Column="0">时间</Label>
+				<CalendarDatePicker Grid.Row="3" Grid.Column="1"
+									Margin="0 5"
+									Width="400"
+									SelectedDate="{Binding Accounting.Time}" />
+				<Label Grid.Row="4" VerticalAlignment="Center" Grid.Column="0">备注</Label>
+				<TextBox Grid.Row="4"
+					     Grid.Column="1"
+						 Width="400"
+						 Margin="0 5"
+					     Text="{Binding Accounting.Content}" />
+
+				<TextBox Grid.Row="5"
+						Grid.Column="0"
+						IsVisible="False"
+						Text="{Binding Accounting.Id}" />
+			</Grid>
+
+
+			<Button Margin="12"
+					HorizontalAlignment="Center"
+					Content="提交"
+					Grid.Row="1"
+					Command="{Binding SumbitCommand}" />
+		</StackPanel>
+
+	</ScrollViewer>
+</UserControl>

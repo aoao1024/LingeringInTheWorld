@@ -25,4 +25,9 @@
       <Folder Include="Services\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\LingeringInTheWorld.Library\LingeringInTheWorld.Library.csproj" />
+      <ProjectReference Include="..\LingeringInTheWorld\LingeringInTheWorld.csproj" />
+    </ItemGroup>
+
 </Project>

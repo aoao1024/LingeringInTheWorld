@@ -10,7 +10,7 @@ public static class MenuNavigationConstant {
 
     public const string DiaryView = nameof(DiaryView);
 
-    public const string LedgerView = nameof(LedgerView);
+    public const string CashInitializationView = nameof(CashInitializationView);
     
     public const string ToDoListView = nameof(ToDoListView);
 }

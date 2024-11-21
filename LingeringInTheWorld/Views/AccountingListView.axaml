@@ -1,0 +1,104 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:lc="using:LingeringInTheWorld.Converters"
+             xmlns:ais="using:AvaloniaInfiniteScrolling"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
+             x:Class="LingeringInTheWorld.Views.AccountingListView"
+             x:Name="TheResultView"
+             d:DataContext="{Binding AccountingListDesignViewModel, Source={StaticResource ServiceLocator}}">
+    <UserControl.Resources>
+        <lc:AccountingToStringConverter x:Key="AccountingToString"></lc:AccountingToStringConverter>
+    </UserControl.Resources>
+
+	<i:Interaction.Behaviors>
+		<ia:EventTriggerBehavior EventName="Loaded">
+			<ia:InvokeCommandAction Command="{Binding OnLoadedCommand}"></ia:InvokeCommandAction>
+		</ia:EventTriggerBehavior>
+	</i:Interaction.Behaviors>
+
+	<StackPanel Margin="8">
+
+		<Grid ShowGridLines="False" Margin="10"
+			  ColumnDefinitions="100 300"
+			  RowDefinitions="Auto, Auto, Auto">
+
+			<Label Grid.Row="0" VerticalAlignment="Center" Grid.Column="0">收入支出</Label>
+			<ComboBox Grid.Row="0"
+					  Margin="0 5"
+					  Width="300"
+					  Grid.Column="1"
+					  ItemsSource="{Binding TypeSelectList}"
+					  SelectedItem="{Binding SelectedType}"/>
+			<Label Grid.Row="1" VerticalAlignment="Center" Grid.Column="0">月份</Label>
+			<DatePicker Grid.Row="1" Grid.Column="1"
+						Margin="0 5"
+						Width="300"
+						DayVisible="False"
+						SelectedDate="{Binding Month}"
+				/>
+
+			<Button Margin="12"
+				HorizontalAlignment="Center"
+				Content="搜索"
+				Grid.Row="3"
+				Grid.Column="1"
+				Command="{Binding SumbitCommand}" />
+
+		</Grid>
+
+		<ScrollViewer Height="360">
+			<StackPanel>
+				<ItemsRepeater ItemsSource="{Binding AccountingCollection}">
+					<ItemsRepeater.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Border Margin="5 5"
+										CornerRadius="5"
+										BorderBrush="Red" BorderThickness="1"
+										Padding="5">
+									<TextBlock Text="{Binding Type}" HorizontalAlignment="Center" />
+								</Border>
+
+								<Label Margin="20 5 5 5" VerticalAlignment="Center">金额：</Label>
+								<TextBlock Margin="0 5" FontWeight="Bold"
+										   Padding="0 5"
+										   Width="100"
+										   HorizontalAlignment="Center"
+											Text="{Binding Amount}"/>
+
+								<Label  Margin="20 5 5 5" VerticalAlignment="Center">时间：</Label>
+								<TextBlock Margin="0 5" FontWeight="Bold"
+										   Padding="0 5"
+										    Width="300"
+										   HorizontalAlignment="Center"
+											Text="{Binding Time}"/>
+
+								<Label Margin="20 5 5 5" VerticalAlignment="Center">类别：</Label>
+								<TextBlock Margin="0 5" FontWeight="Bold"
+										   Padding="0 5"
+										    Width="100"
+										   HorizontalAlignment="Center"
+											Text="{Binding Category}"/>
+
+								<Label Margin="20 5 5 5" VerticalAlignment="Center">备注：</Label>
+								<TextBlock Margin="0 5" FontWeight="Bold"
+										   Padding="0 5"
+										   HorizontalAlignment="Center"
+											Text="{Binding Content}"/>
+							</StackPanel>
+
+						</DataTemplate>
+					</ItemsRepeater.ItemTemplate>
+				</ItemsRepeater>
+			</StackPanel>
+		</ScrollViewer>
+	</StackPanel>
+	
+  
+</UserControl>

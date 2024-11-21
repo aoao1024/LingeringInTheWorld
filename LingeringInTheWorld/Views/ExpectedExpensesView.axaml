@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:lc="using:LingeringInTheWorld.Converters"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
+             x:Class="LingeringInTheWorld.Views.ExpectedExpensesView"
+             d:DataContext="{Binding ExpectedExpensesViewModel, Source={StaticResource ServiceLocator}}">
+	<UserControl.Resources>
+		<lc:NegativeConverter x:Key="NegativeConverter"></lc:NegativeConverter>
+	</UserControl.Resources>
+	<i:Interaction.Behaviors>
+		<ia:EventTriggerBehavior EventName="Loaded">
+			<ia:InvokeCommandAction Command="{Binding OnLoadedCommand}"></ia:InvokeCommandAction>
+		</ia:EventTriggerBehavior>
+	</i:Interaction.Behaviors>
+	<ScrollViewer>
+		<StackPanel Margin="8">
+
+			<Border Margin="5" CornerRadius="10" Background="LightBlue">
+				<TextBlock Margin="5"
+					HorizontalAlignment="Center"
+					FontSize="24"
+					Text="设置本月预期花销" />
+			</Border>
+			<Grid ShowGridLines="False" Margin="10"
+				  ColumnDefinitions="100, 398"
+				  RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+				<Label Grid.Row="2" VerticalAlignment="Center" Grid.Column="0">本月预期花销</Label>
+				<TextBox Grid.Row="2"
+					     Grid.Column="1"
+						 Width="400"
+						 Margin="0 5"
+					     Text="{Binding ExpectedExpenses.Value}" />
+			</Grid>
+
+
+			<Button Margin="12"
+					HorizontalAlignment="Center"
+					Content="提交"
+					Grid.Row="1"
+					Command="{Binding SumbitCommand}" />
+		</StackPanel>
+
+	</ScrollViewer>
+</UserControl>
