@@ -10,7 +10,7 @@
         x:Class="LingeringInTheWorld.Views.CashMainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="CashBook"
-        DataContext="{Binding MainWindowViewModel, Source={StaticResource ServiceLocator}}"
+        DataContext="{Binding CashMainWindowViewModel, Source={StaticResource ServiceLocator}}"
         Content="{Binding Content}">
     <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior EventName="Initialized">

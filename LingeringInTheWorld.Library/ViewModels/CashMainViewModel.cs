@@ -6,9 +6,9 @@ using LingeringInTheWorld.Library.Services;
 namespace LingeringInTheWorld.Library.ViewModels;
 
 public class CashMainViewModel : ViewModelBase {
-    private readonly IMenuNavigationService _menuNavigationService;
+    private readonly ICashMenuNavigationService _menuNavigationService;
 
-    public CashMainViewModel(IMenuNavigationService menuNavigationService) {
+    public CashMainViewModel(ICashMenuNavigationService menuNavigationService) {
         _menuNavigationService = menuNavigationService;
 
         OpenPaneCommand = new RelayCommand(OpenPane);
@@ -96,16 +96,16 @@ public class CashMenuItem {
     private CashMenuItem() { }
 
     private static CashMenuItem TodayView =>
-        new() { Name = "本月花销", View = MenuNavigationConstant.MonthView };
+        new() { Name = "本月花销", View = CashMenuNavigationConstant.MonthView };
 
     private static CashMenuItem AccountingListView =>
-        new() { Name = "账单搜索", View = MenuNavigationConstant.AccountingListView };
+        new() { Name = "账单搜索", View = CashMenuNavigationConstant.AccountingListView };
 
     private static CashMenuItem DetailView =>
-        new() { Name = "添加账单", View = MenuNavigationConstant.DetailView };
+        new() { Name = "添加账单", View = CashMenuNavigationConstant.DetailView };
 
     private static CashMenuItem ExpectedExpensesView =>
-       new() { Name = "设置预期花销", View = MenuNavigationConstant.ExpectedExpensesView };
+       new() { Name = "设置预期花销", View = CashMenuNavigationConstant.ExpectedExpensesView };
 
     public static IEnumerable<CashMenuItem> CashMenuItems{ get; } = [
         TodayView, 

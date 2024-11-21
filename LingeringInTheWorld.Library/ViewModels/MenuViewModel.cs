@@ -105,14 +105,14 @@ public partial class MenuItem{
     private static MenuItem DiaryView =>
         new() { Name = "日记", View = MenuNavigationConstant.DiaryView };
 
-    private static MenuItem LedgerView =>
-        new() { Name = "账本", View = MenuNavigationConstant.LedgerView };
+    private static MenuItem CashInitializationView =>
+        new() { Name = "账本", View = MenuNavigationConstant.CashInitializationView };
 
     private static MenuItem TodoView =>
         new() { Name = "代办", View = MenuNavigationConstant.ToDoListView };
 
     public static IEnumerable<MenuItem> MenuItems { get; } = [
-        MainView, DiaryView, LedgerView,TodoView
+        MainView, DiaryView, CashInitializationView ,TodoView
     ];
 
 }

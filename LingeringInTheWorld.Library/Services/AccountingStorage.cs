@@ -68,7 +68,7 @@ public class AccountingStorage : IAccountingStorage {
             query = Connection.Table<Accounting>()
                 .Where(x => x.Time >= start && x.Time <= end);
         }
-        if (!string.IsNullOrEmpty(type) && type != "����")
+        if (!string.IsNullOrEmpty(type) && type != "所有")
         {
             query = query.Where(x => x.Type == type);
         }

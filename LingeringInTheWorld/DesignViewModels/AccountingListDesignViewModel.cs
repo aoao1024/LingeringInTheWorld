@@ -8,7 +8,7 @@ namespace CashBook.DesignViewModels;
 
 public class AccountingListDesignViewModel : AccountingListViewModel {
     public AccountingListDesignViewModel(IAccountingStorage accountingStorage,
-        IContentNavigationService contentNavigationService) :
+        ICashContentNavigationService contentNavigationService) :
         base(accountingStorage, contentNavigationService) { }
 
     public new AvaloniaInfiniteScrollCollection<Accounting> AccountingCollection { get; } = [

@@ -12,9 +12,4 @@ public static class ContentNavigationConstant
     public const string DiaryAddView = nameof(DiaryAddView);
     public const string ToDoDetailView = nameof(ToDoDetailView);
     public const string NewToDoItemView = nameof(NewToDoItemView);
-    public const string TodayDetailView = nameof(TodayDetailView);
-
-    public const string ResultView = nameof(ResultView);
-
-    public const string DetailView = nameof(DetailView);
 }

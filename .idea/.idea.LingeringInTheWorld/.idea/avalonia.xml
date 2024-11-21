@@ -5,6 +5,7 @@
       <map>
         <entry key="LingeringInTheWorld/App.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/AccountingListView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
+        <entry key="LingeringInTheWorld/Views/CashInitializationView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/CashMainView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/CashMainWindow.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/DairyView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />

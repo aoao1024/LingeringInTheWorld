@@ -35,6 +35,8 @@ public class ServiceLocator
     
     public InitializationViewModel InitializationViewModel => 
         _serviceProvider.GetRequiredService<InitializationViewModel>();
+    public CashInitializationViewModel CashInitializationViewModel => 
+        _serviceProvider.GetRequiredService<CashInitializationViewModel>();
     
     public MainWindowViewModel MainWindowViewModel => 
         _serviceProvider.GetRequiredService<MainWindowViewModel>();
@@ -95,7 +97,7 @@ public class ServiceLocator
         _serviceProvider.GetService<MonthViewModel>();
 
     public ExpectedExpensesViewModel ExpectedExpensesViewModel =>
-        _serviceProvider.GetService<ExpectedExpensesViewModel>();
+        _serviceProvider.GetRequiredService<ExpectedExpensesViewModel>();
     
     public ServiceLocator()
     {
@@ -110,6 +112,7 @@ public class ServiceLocator
         serviceCollection.AddSingleton<IMenuNavigationService, MenuNavigationService>();
         serviceCollection.AddSingleton<IContentNavigationService, ContentNavigationService>();
         serviceCollection.AddSingleton<InitializationViewModel>();
+        serviceCollection.AddSingleton<CashInitializationViewModel>();
         serviceCollection.AddSingleton<ITodayImageService, BingImageService>();
         serviceCollection.AddSingleton<ITodayImageStorage, TodayImageStorage>();
         serviceCollection.AddSingleton<MainWindowViewModel>();
@@ -137,12 +140,12 @@ public class ServiceLocator
         serviceCollection.AddSingleton<ExpectedExpensesViewModel>();
 
         serviceCollection
-            .AddSingleton<IRootNavigationService, RootNavigationService>();
+            .AddSingleton<ICashRootNavigationService, CashRootNavigationService>();
         serviceCollection
-            .AddSingleton<IMenuNavigationService, MenuNavigationService>();
+            .AddSingleton<ICashMenuNavigationService, CashMenuNavigationService>();
         serviceCollection
-            .AddSingleton<IContentNavigationService,
-                ContentNavigationService>();
+            .AddSingleton<ICashContentNavigationService,
+                CashContentNavigationService>();
         serviceCollection.AddSingleton<IAccountingStorage, AccountingStorage>();
         serviceCollection.AddSingleton<IExpectedExpensesStorage, ExpectedExpensesStorage>();
         serviceCollection.AddSingleton<IMonthStatisticsService, MonthStatisticsService>();

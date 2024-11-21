@@ -12,11 +12,11 @@ namespace LingeringInTheWorld.Library.ViewModels;
 public class AccountingListViewModel : ViewModelBase {
     private readonly IAccountingStorage _accountingStorage;
 
-    private readonly IContentNavigationService _contentNavigationService;
+    private readonly ICashContentNavigationService _contentNavigationService;
 
     private Expression<Func<Accounting, bool>> _where;
 
-    public AccountingListViewModel(IAccountingStorage accountingStorage, IContentNavigationService contentNavigationService) {
+    public AccountingListViewModel(IAccountingStorage accountingStorage, ICashContentNavigationService contentNavigationService) {
         _contentNavigationService = contentNavigationService;
         _accountingStorage = accountingStorage;
 
@@ -91,7 +91,7 @@ public class AccountingListViewModel : ViewModelBase {
     public IRelayCommand<Accounting> ShowAccountingCommand { get; }
 
     public void ShowAccounting(Accounting Accounting) =>
-        _contentNavigationService.NavigateTo(ContentNavigationConstant.DetailView, Accounting);
+        _contentNavigationService.NavigateTo(CashContentNavigationConstant.DetailView, Accounting);
 
     public ICommand SumbitCommand { get; }
     public ICommand OnLoadedCommand { get; }
