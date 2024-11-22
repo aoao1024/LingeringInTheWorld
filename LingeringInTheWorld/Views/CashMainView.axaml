@@ -32,7 +32,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0"
-                            Background="#3498DB"
+                            Background="#B9AEDC"
                             VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch"
                             Command="{Binding ClosePaneCommand}">
@@ -42,7 +42,7 @@
                     </Button>
 
                     <Grid Grid.Column="1">
-                        <Label Foreground="#3498DB"
+                        <Label Foreground="#B9AEDC"
                                VerticalAlignment="Center"
                                FontSize="20"
                                Margin="10,0,0,0"
@@ -89,7 +89,7 @@
                         Width="50"
                         HorizontalAlignment="Stretch"
                         Command="{Binding OpenPaneCommand}">
-                    <icon:Icon Foreground="#3498DB"
+                    <icon:Icon Foreground="#B9AEDC"
                                Value="fa-bars">
                     </icon:Icon>
                 </Button>
@@ -99,20 +99,21 @@
                         HorizontalAlignment="Stretch"
                         Command="{Binding GoBackCommand}"
                         IsVisible="{Binding ContentStack.Count, Converter={StaticResource CountToBoolConverter}, ConverterParameter=1}">
-                    <icon:Icon Foreground="#3498DB"
+                    <icon:Icon Foreground="#B9AEDC"
                                Value="fa-arrow-left">
                     </icon:Icon>
                 </Button>
 
                 <Grid Grid.Column="2"
-                      Background="#3498DB">
+                      Background="#ffffff">
 
-                    <Label Foreground="#ffffff"
+                    <Label Foreground="Purple"
                            VerticalAlignment="Center"
                            FontSize="20"
                            Margin="10,0,0,0"
                            Content="{Binding Title}">
                     </Label>
+
                 </Grid>
             </Grid>
 
