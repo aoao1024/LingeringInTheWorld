@@ -15,7 +15,7 @@
     </UserControl.Resources>
     
     <SplitView DisplayMode="Overlay"
-               IsPaneOpen="{Binding IsPaneOpen}">
+               IsPaneOpen="{Binding IsPaneOpen,Mode=TwoWay}">
         <SplitView.Pane>
             <Grid>
                 <Grid.RowDefinitions>
