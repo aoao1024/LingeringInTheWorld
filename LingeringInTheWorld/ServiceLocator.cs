@@ -54,9 +54,6 @@ public class ServiceLocator
     public DiaryViewModel DiaryViewModel =>
         _serviceProvider.GetRequiredService<DiaryViewModel>();
     
-    public LedgerViewModel LedgerViewModel =>
-        _serviceProvider.GetRequiredService<LedgerViewModel>();
-    
     public ToDoListViewModel ToDoListViewModel =>
         _serviceProvider.GetRequiredService<ToDoListViewModel>();
     
@@ -119,7 +116,6 @@ public class ServiceLocator
         serviceCollection.AddSingleton<MainViewModel>();
         serviceCollection.AddSingleton<MenuViewModel>();
         serviceCollection.AddSingleton<DiaryViewModel>();
-        serviceCollection.AddSingleton<LedgerViewModel>();
         serviceCollection.AddSingleton<ToDoListViewModel>();
         serviceCollection.AddSingleton<DiaryDetailViewModel>();
         serviceCollection.AddSingleton<DiaryAddViewModel>();
@@ -128,9 +124,6 @@ public class ServiceLocator
         serviceCollection.AddSingleton<ToDoDetailViewModel>();
         serviceCollection.AddSingleton<ILocationService, IpInfoLocationService>();
         serviceCollection.AddSingleton<NewToDoItemViewModel>();
-        
-        
-       
         serviceCollection.AddSingleton<CashMainWindowViewModel>();
         serviceCollection.AddSingleton<CashMainViewModel>();
         serviceCollection.AddSingleton<AccountingListViewModel>();
