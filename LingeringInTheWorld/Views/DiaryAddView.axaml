@@ -205,7 +205,7 @@
                 Background="#B9AEDC">
         </Border>
 
-        <!-- 定位,现在是写死的，后期会改，自动定位 -->
+        <!-- IP定位 -->
         <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left"
                     VerticalAlignment="Center" Margin="20,10">
             <!-- 图标 -->

@@ -36,6 +36,7 @@ public class IpInfoLocationService : ILocationService
                 double latitude = double.Parse(coords[0]);
                 double longitude = double.Parse(coords[1]);
 
+                
                 return (latitude, longitude, locationData.city);
             }
             else
@@ -48,7 +49,7 @@ public class IpInfoLocationService : ILocationService
             await _alertService.AlertAsync(Server, $"获取地理位置时发生错误: {ex.Message}");
         }
 
-        return (123.40, 41.80, "沈阳"); // 返回默认值，表示定位失败
+        return (41.48, 123.25, "沈阳"); // 返回默认值，表示定位失败
     }
 }
 

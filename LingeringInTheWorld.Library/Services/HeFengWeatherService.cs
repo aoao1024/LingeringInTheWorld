@@ -7,6 +7,9 @@ using LingeringInTheWorld.Library.Models;
 namespace LingeringInTheWorld.Library.Services;
 public class HeFengWeatherService : IWeatherService
 {
+    // 添加HttpClient的公共属性
+    public HttpClient HttpClient { get; set; }
+    
     private readonly IAlertService _alertService;
     private const string Server = "和风天气服务器";
 
@@ -24,22 +27,23 @@ public class HeFengWeatherService : IWeatherService
     }
 
     // 异步获取天气信息
-   public async Task<WeatherInfo> GetWeatherByLocationAsync(double latitude, double longitude)
-    {
+   public async Task<WeatherInfo> GetWeatherByLocationAsync(double latitude, double longitude) 
+   {
         var requestUrl = $"{ApiUrl}?location={longitude},{latitude}&key={ApiKey}";
 
         try
         {
             var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
             request.Headers.Add("Accept-Encoding", "gzip, deflate");
-            // 发送请求
-            var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode(); // 确保请求成功
 
-            // 获取响应内容并处理压缩（如果有）
+            // 发送请求并获取响应
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode(); // 如果响应不成功，会抛出异常
+
+            // 获取响应内容流
             var stream = await response.Content.ReadAsStreamAsync();
 
-            // 获取响应的字符编码，如果没有指定，则使用 UTF-8
+            // 获取字符编码，默认UTF-8
             var encoding = Encoding.UTF8;
             if (response.Content.Headers.ContentType?.CharSet != null)
             {
@@ -49,14 +53,13 @@ public class HeFengWeatherService : IWeatherService
                 }
                 catch (ArgumentException)
                 {
-                    encoding = Encoding.UTF8; // 如果无法识别编码，则默认使用 UTF-8
+                    encoding = Encoding.UTF8; // 如果无法识别编码，则使用 UTF-8
                 }
             }
 
-            // 判断是否为 Gzip 压缩
+            // 如果内容是 Gzip 压缩格式，解压缩
             if (response.Content.Headers.ContentEncoding.Contains("gzip"))
             {
-                // Gzip 解压缩
                 using (var gzipStream = new GZipStream(stream, CompressionMode.Decompress))
                 using (var reader = new StreamReader(gzipStream, encoding))
                 {
@@ -66,7 +69,7 @@ public class HeFengWeatherService : IWeatherService
             }
             else
             {
-                // 非 Gzip 压缩，直接读取
+                // 非 Gzip 压缩，直接读取内容
                 using (var reader = new StreamReader(stream, encoding))
                 {
                     var json = await reader.ReadToEndAsync();
@@ -74,17 +77,25 @@ public class HeFengWeatherService : IWeatherService
                 }
             }
         }
+        catch (HttpRequestException e)
+        {
+            // 捕获HTTP请求异常
+            await _alertService.AlertAsync(
+                ErrorMessageHelper.HttpClientErrorTitle,
+                ErrorMessageHelper.GetHttpClientError(Server, e.Message));
+        }
         catch (Exception e)
         {
-            // 如果请求过程中有异常，捕获并提示错误信息
+            // 捕获其他类型的异常（如解析错误等）
             await _alertService.AlertAsync(
                 ErrorMessageHelper.HttpClientErrorTitle,
                 ErrorMessageHelper.GetHttpClientError(Server, e.Message));
         }
 
-        // 如果没有获取到数据，则返回 null
+        // 如果发生异常或者未能获取到数据，返回null
         return null;
     }
+
 
     private async Task<WeatherInfo> ParseWeatherJson(string json)
     {
@@ -216,8 +227,8 @@ public class HeFengWeatherService : IWeatherService
                 ErrorMessageHelper.GetJsonDeserializationError(Server, e.Message));
         }
 
-        // 如果无法解析或获取经纬度，返回 (42.67, 123.46)
-        return (42.67, 123.46);
+        // 如果无法解析或获取经纬度，返回 (0.0,0.0)
+        return (0.0,0.0);
     }
 
 }

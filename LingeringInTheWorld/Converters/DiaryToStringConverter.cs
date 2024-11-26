@@ -30,7 +30,7 @@ public class DiaryToStringConverter : IValueConverter
         return null;
     }
 
-    // 方法1: 根据 Location、Tags 和 Snippet 拼接字符串
+    // 方法1: 根据 Location、Tags 拼接字符串
     //<TextBlock Text="{Binding Diary, Converter={StaticResource DiaryToStringConverter}, ConverterParameter=details}" />
     private object ConvertForDetails(Diary diary)
     {
@@ -46,6 +46,7 @@ public class DiaryToStringConverter : IValueConverter
         return result;
     }
     
+    // 方法2: 根据 Snippet 拼接字符串
     private object ConvertForSnippet(Diary diary)
     {
         // 如果 Snippet 字段不为空，则添加"预览: <Snippet>"，否则不添加
@@ -57,11 +58,11 @@ public class DiaryToStringConverter : IValueConverter
         return result;
     }
 
-    // 方法2: 根据 Title、DateTime 和 Weather 格式化输出
+    // 方法3: 根据 DateTime、Weather 和 Title 格式化输出
     //<TextBlock Text="{Binding Diary, Converter={StaticResource DiaryToStringConverter}, ConverterParameter=preview}" />
     private object ConvertForPreview(Diary diary)
     {
-        // 格式化输出：标题 · 创建时间 · 天气
+        // 格式化输出： 创建时间 · 天气 · 标题
         string formattedDate = diary.DateTime.ToString("yyyy-MM-dd");
         return $"{formattedDate}  ·  {diary.Weather}  ·  {diary.Title}";
     }

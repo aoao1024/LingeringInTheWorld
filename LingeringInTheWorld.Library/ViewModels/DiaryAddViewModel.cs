@@ -233,7 +233,7 @@ public class DiaryAddViewModel : ViewModelBase
     // 获取当前位置的天气信息
     private async void GetWeatherByLocation()
     {
-        // 根据ip地址获取经纬度，可以扩展为调用地理位置 API
+        // 根据地址获取经纬度
         var (latitude, longitude) = await _weatherService.GetCoordinatesFromLocation(CurrentLocation);
 
         // 调用天气服务获取天气信息
