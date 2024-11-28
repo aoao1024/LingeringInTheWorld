@@ -69,7 +69,7 @@ public class AppStorage : IAppStorage
     public async Task<List<Diary>> GetDiariesAsync(
     Expression<Func<Diary, bool>> where, int skip, int take) =>
     await Connection.Table<Diary>().Where(where).OrderByDescending(d => d.DateTime)  // 按时间降序排列.Skip(skip).Take(take)
-        .ToListAsync();
+        .Skip(skip).Take(take).ToListAsync();
     
     public event EventHandler<Diary> Updated;
     

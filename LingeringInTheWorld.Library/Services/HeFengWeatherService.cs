@@ -7,9 +7,6 @@ using LingeringInTheWorld.Library.Models;
 namespace LingeringInTheWorld.Library.Services;
 public class HeFengWeatherService : IWeatherService
 {
-    // 添加HttpClient的公共属性
-    public HttpClient HttpClient { get; set; }
-    
     private readonly IAlertService _alertService;
     private const string Server = "和风天气服务器";
 
