@@ -11,41 +11,15 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ASQLiteAsyncConnection_002Ecs_002Fl_003AC_0021_003FUsers_003FGJ_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F61fe11e9d86b4d2a9bd2b806929b7d381a400_003Fa0_003F8e860741_003FSQLiteAsyncConnection_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ATaskContinuation_002Ecs_002Fl_003AC_0021_003FUsers_003FGJ_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fb86cdfe19de105ff2eab7d5d4c613fd91b9adfe4f95bd82e2d6db593e6d3ca3_003FTaskContinuation_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ATestInvoker_002Ecs_002Fl_003AC_0021_003FUsers_003FGJ_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fc3ec25c53b94f51fa21da479c513e551efee2b5ae49a79934686d2bb714d46_003FTestInvoker_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=40f08006_002D0044_002D4ce3_002Dbfb6_002D32de60e433a6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SetToDoItemFinishStatusAsync_Default" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=29f21d6e_002Df682_002D4c22_002D8048_002D55557bd66f76/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DeleteToDoItemAsync_Success" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModels.ToDoListViewModelTest.SetToDoItemFinishStatusAsync_Default&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModels.ToDoListViewModelTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=46b6b29e_002D748b_002D4ff7_002D9f5c_002D3375408e422f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetCoordinatesFromLocation_ReturnsCoordinates #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.Services.HeFengWeatherServiceTest.GetCoordinatesFromLocation_ReturnsCoordinates&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.Services.HeFengWeatherServiceTest.GetCoordinatesFromLocation_InvalidLocation_ReturnsZeroCoordinates&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.Services.HeFengWeatherServiceTest.GetWeatherByLocationAsync_NetworkError_ReturnsNull&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.Services.AppStorageTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.Services.HeFengWeatherServiceTest&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=627950f6_002Dd57f_002D4e42_002D9e49_002D7c30c8cd7376/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SetToDoItemFinishStatusAsync_Default #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModels.ToDoListViewModelTest.SetToDoItemFinishStatusAsync_Default&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=833cbe61_002D9ece_002D4353_002Db1d6_002Da52e6f31b840/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UnitTest1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.Services.ToDoStorageTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModels.ToDoListViewModelTest.SetToDoItemFinishStatusAsync_Default&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cf50a1db_002Df513_002D4261_002D9d6f_002D893bf89fa0b8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="DiaryViewModelTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModels.DiaryViewModelTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModels.DiaryAddViewModelTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.Services.AppStorageTest&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e87b03f0_002D4707_002D4a6d_002D9554_002Dc40fa55f5d31/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetCoordinatesFromLocation_ReturnsCoordinates" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.Services.HeFengWeatherServiceTest.GetCoordinatesFromLocation_ReturnsCoordinates&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
 	</wpf:ResourceDictionary>
