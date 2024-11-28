@@ -8,10 +8,12 @@ namespace LingeringInTheWorld.Library.ViewModels;
 public class NewToDoItemViewModel :ViewModelBase
 {
     private ITodoStorageService _todoStorageService;
+    private IMenuNavigationService _menuNavigationService;
 
-    public NewToDoItemViewModel(ITodoStorageService todoStorageService)
+    public NewToDoItemViewModel(ITodoStorageService todoStorageService,IMenuNavigationService menuNavigationService)
     {
         _todoStorageService = todoStorageService;
+        _menuNavigationService = menuNavigationService;
         AddNewToDoItemCommand = new AsyncRelayCommand(AddNewToDoItemATask);
         ToDo = new ToDo();
         // 给 DeadLine 设置一个默认值，或者可以让其为 null
@@ -28,6 +30,9 @@ public class NewToDoItemViewModel :ViewModelBase
 
     public async Task AddNewToDoItemATask()
     {
+        
         await _todoStorageService.AddToDoItemAsync(ToDo);
+        ToDo = new ToDo();
+        _menuNavigationService.NavigateTo(MenuNavigationConstant.ToDoListView);
     }
 }

@@ -21,7 +21,7 @@ public class TodoStorageService : ITodoStorageService
 
     public async Task UpdateToDoItemStatusAsync(int id, bool status)
     {
-         _toDoStorage.UpdateToDoItemAsync(id, null, null, null, status);
+        await _toDoStorage.UpdateToDoItemAsync(id, null, null, null, status);
     }
     
 
