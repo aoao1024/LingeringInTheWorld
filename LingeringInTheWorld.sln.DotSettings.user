@@ -25,9 +25,10 @@
     &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.Services.HeFengWeatherServiceTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=627950f6_002Dd57f_002D4e42_002D9e49_002D7c30c8cd7376/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SetToDoItemFinishStatusAsync_Default #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=627950f6_002Dd57f_002D4e42_002D9e49_002D7c30c8cd7376/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SetToDoItemFinishStatusAsync_Default #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModels.ToDoListViewModelTest.SetToDoItemFinishStatusAsync_Default&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModel.ToDoDetailViewModelTest.SubmitAsync_ValidToDoItem&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=833cbe61_002D9ece_002D4353_002Db1d6_002Da52e6f31b840/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UnitTest1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -43,9 +44,13 @@
     &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.Services.AppStorageTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e87b03f0_002D4707_002D4a6d_002D9554_002Dc40fa55f5d31/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetCoordinatesFromLocation_ReturnsCoordinates" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e87b03f0_002D4707_002D4a6d_002D9554_002Dc40fa55f5d31/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetCoordinatesFromLocation_ReturnsCoordinates" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.Services.HeFengWeatherServiceTest.GetCoordinatesFromLocation_ReturnsCoordinates&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModel.ToDoDetailViewModelTest.SubmitAsync_ValidToDoItem&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModel.ToDoDetailViewModelTest.SubmitAsync_InvalidToDoItem&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModel.NewToDoItemViewModelTest.AddNewToDoItemATask_ValidToDoItem&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::5E905254-54B1-4846-B3B0-BEFB7505057B::net8.0::LingeringInTheWorld.UnitTest.ViewModel.NewToDoItemViewModelTest.AddNewToDoItemATask_InvalidToDoItem&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	</wpf:ResourceDictionary>

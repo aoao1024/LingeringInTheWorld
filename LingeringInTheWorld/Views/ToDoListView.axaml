@@ -74,6 +74,8 @@
                     HorizontalAlignment="Left"
                         Margin="0,0,0,8"
                         Content="查看详情"
+                        Background="#B9AEDC"
+                        Foreground="#FFFFFF"
                         Command="{Binding ShowToDoItemDetailCommand }"
                         CommandParameter="{Binding}"
                         VerticalAlignment="Center" />

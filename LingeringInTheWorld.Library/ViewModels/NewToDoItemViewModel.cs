@@ -16,7 +16,7 @@ public class NewToDoItemViewModel :ViewModelBase
         _menuNavigationService = menuNavigationService;
         AddNewToDoItemCommand = new AsyncRelayCommand(AddNewToDoItemATask);
         ToDo = new ToDo();
-        // 给 DeadLine 设置一个默认值，或者可以让其为 null
+        // 给 DeadLine 设置一个默认值
         _toDo.DeadLine = DateTime.Now;  // 设置为当前时间
     }
 
