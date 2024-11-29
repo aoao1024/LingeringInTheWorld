@@ -80,7 +80,7 @@ public class DiaryAddViewModel : ViewModelBase
         if (Diary != null)
         {
             // 如果是编辑日记，则将日记的内容填充到对应的属性中
-            CurrentTime = Diary.DateTime.ToString("yyyy-MM-dd HH:mm:ss");
+            CurrentTime = Diary.DateTime.ToString("ddd yyyy-MM-dd HH:mm:ss");
             CurrentWeatherCondition = Diary.Weather;
             Title = Diary.Title;
             Content = Diary.Content;
@@ -91,7 +91,7 @@ public class DiaryAddViewModel : ViewModelBase
         else
         {
             // 如果是新建日记，则初始化时间、位置、天气属性
-            CurrentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // 更新当前时间
+            CurrentTime = DateTime.Now.ToString("ddd yyyy-MM-dd HH:mm:ss"); // 更新当前时间
             await GetLocationAndWeatherByIp();  // 获取位置和天气
         }
     }

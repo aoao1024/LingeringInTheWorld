@@ -63,7 +63,7 @@ public class DiaryToStringConverter : IValueConverter
     private object ConvertForPreview(Diary diary)
     {
         // 格式化输出： 创建时间 · 天气 · 标题
-        string formattedDate = diary.DateTime.ToString("yyyy-MM-dd");
+        string formattedDate = diary.DateTime.ToString("ddd yyyy-MM-dd");
         return $"{formattedDate}  ·  {diary.Weather}  ·  {diary.Title}";
     }
 

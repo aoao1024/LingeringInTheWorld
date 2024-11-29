@@ -28,36 +28,47 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <!-- 搜索区域：日期范围、标题、标签、地理位置 -->
-        <Grid Grid.Row="0" >
+        <Grid Grid.Row="0" Margin="10,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
             <!-- 日期选择框 -->
-            <u:DatePicker Width="150" Margin="5,0" 
-                              SelectedDate="{Binding StartDate}"/>
+            <u:DatePicker Grid.Column="0" Width="180" Margin="0,0,5,0" 
+                              SelectedDate="{Binding DateSearch}"
+                              DisplayFormat="ddd  yyyy-MM-dd"/>
             <!-- 标题搜索框 -->
-            <TextBox Margin="5,0" 
+            <TextBox Grid.Column="1" Margin="5,0" 
                      Watermark="标题"
                      Text="{Binding TitleSearchText}" />
             <!-- 标签搜索框 -->
-            <TextBox Margin="5,0" 
+            <TextBox Grid.Column="2" Margin="5,0" 
                      Watermark="标签"
                      Text="{Binding TagSearchText}" />
             <!-- 地理位置搜索框 -->
-            <TextBox Margin="5,0" 
+            <TextBox Grid.Column="3" Margin="5,0" 
                      Watermark="位置"
                      Text="{Binding LocationSearchText}" />
-            <!-- 搜索按钮 -->
-            <Button  FontSize="18" FontWeight="Normal" Foreground="#B9AEDC" Margin="5,0" 
-                     Command="{Binding SearchCommand}" Padding="2" Width="32" Height="32" >
-                <icon:Icon Foreground="#B9AEDC"
-                           Value="fa-search">
-                </icon:Icon>
-            </Button>
-            <!-- 重置按钮 -->
-            <Button  FontSize="18" FontWeight="Normal" Foreground="#B9AEDC" Margin="5,0" 
-                     Command="{Binding ResetSearchCommand}" Padding="2" Width="32" Height="32" >
-                <icon:Icon Foreground="#B9AEDC"
-                           Value="fa-">
-                </icon:Icon>
-            </Button>
+            
+            <StackPanel Grid.Column="4" Orientation="Horizontal" Margin="0,0,20,0"> 
+                <!-- 搜索按钮 -->
+                <Button  FontSize="18" FontWeight="Normal" Foreground="#B9AEDC" Margin="5,0" 
+                         Command="{Binding SearchDiariesCommand}" Padding="2" Width="32" Height="32" >
+                    <icon:Icon Foreground="#B9AEDC"
+                               Value="fa-search">
+                    </icon:Icon>
+                </Button>
+                <!-- 重置按钮 -->
+                <Button  FontSize="18" FontWeight="Normal" Foreground="#B9AEDC" Margin="5,0" 
+                         Command="{Binding ResetSearchCommand}" Padding="2" Width="32" Height="32" >
+                    <icon:Icon Foreground="#B9AEDC"
+                               Value="fa-sync">
+                    </icon:Icon>
+                </Button>
+            </StackPanel>
         </Grid>
         <ais:AvaloniaInfiniteScrollControl Grid.Row="1" Margin="10,0"
                                            ItemsSource="{Binding DiaryCollection}">
@@ -113,7 +124,7 @@
                HorizontalAlignment="Center">
         </TextBlock>
         <Button Grid.Row="3"
-                Margin="10"
+                Margin="10,5,10,10"
                 Content="记 录 我 的 今 天 !"
                 Foreground="#B9AEDC"
                 HorizontalAlignment="Stretch"
