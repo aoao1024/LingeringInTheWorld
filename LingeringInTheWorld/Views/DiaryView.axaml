@@ -28,38 +28,38 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <!-- 搜索区域：日期范围、标题、标签、地理位置 -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+        <Grid Grid.Row="0" >
             <!-- 日期选择框 -->
             <u:DatePicker Width="150" Margin="5,0" 
                               SelectedDate="{Binding StartDate}"/>
-            
             <!-- 标题搜索框 -->
             <TextBox Margin="5,0" 
                      Watermark="标题"
                      Text="{Binding TitleSearchText}" />
-
             <!-- 标签搜索框 -->
             <TextBox Margin="5,0" 
                      Watermark="标签"
                      Text="{Binding TagSearchText}" />
-            
             <!-- 地理位置搜索框 -->
             <TextBox Margin="5,0" 
                      Watermark="位置"
                      Text="{Binding LocationSearchText}" />
-            
             <!-- 搜索按钮 -->
-            <Button Margin="5,0" Command="{Binding SearchCommand}">
+            <Button  FontSize="18" FontWeight="Normal" Foreground="#B9AEDC" Margin="5,0" 
+                     Command="{Binding SearchCommand}" Padding="2" Width="32" Height="32" >
                 <icon:Icon Foreground="#B9AEDC"
                            Value="fa-search">
                 </icon:Icon>
             </Button>
-
             <!-- 重置按钮 -->
-            <Button Margin="5,0" Command="{Binding ResetSearchCommand}">
+            <Button  FontSize="18" FontWeight="Normal" Foreground="#B9AEDC" Margin="5,0" 
+                     Command="{Binding ResetSearchCommand}" Padding="2" Width="32" Height="32" >
+                <icon:Icon Foreground="#B9AEDC"
+                           Value="fa-">
+                </icon:Icon>
             </Button>
-        </StackPanel>
-        <ais:AvaloniaInfiniteScrollControl Grid.Row="1" Margin="10"
+        </Grid>
+        <ais:AvaloniaInfiniteScrollControl Grid.Row="1" Margin="10,0"
                                            ItemsSource="{Binding DiaryCollection}">
             <ais:AvaloniaInfiniteScrollControl.ItemTemplate>
                 <DataTemplate>
