@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="LingeringInTheWorld.Library/ViewModels/DiaryEditView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/App.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/AccountingListView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/CashInitializationView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
@@ -13,6 +14,7 @@
         <entry key="LingeringInTheWorld/Views/DetailView1.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/DiaryAddView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/DiaryDetailView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
+        <entry key="LingeringInTheWorld/Views/DiaryEditView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/DiaryView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/ExpectedExpensesView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
         <entry key="LingeringInTheWorld/Views/InitializationView.axaml" value="LingeringInTheWorld/LingeringInTheWorld.csproj" />
