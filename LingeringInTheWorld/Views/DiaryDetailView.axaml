@@ -20,7 +20,7 @@
         
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="{Binding Diary, Converter={StaticResource DiaryToString}, ConverterParameter=preview}"
-                       FontSize="22"  Foreground="#B9AEDC" Margin="20,0" VerticalAlignment="Bottom"/>
+                       FontSize="20"  Foreground="#B9AEDC" Margin="20,0" VerticalAlignment="Bottom"/>
             <TextBlock Text="{Binding Diary, Converter={StaticResource DiaryToString}, ConverterParameter=details}"
                        FontSize="16" Foreground="Gray" Margin="20,0" VerticalAlignment="Bottom"/>
         </StackPanel>

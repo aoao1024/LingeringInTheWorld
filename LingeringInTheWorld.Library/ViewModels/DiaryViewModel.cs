@@ -34,6 +34,7 @@ public class DiaryViewModel : ViewModelBase
         _appStorage.Updated += AppStorageOnUpdated;
         AddDiaryCommand = new RelayCommand(AddDiary);
         ShowDiaryDetailCommand = new RelayCommand<Diary>(ShowDiaryDetail);
+        EditDiaryCommand = new RelayCommand<Diary>(EditDiary);
         DeleteDiaryCommand = new RelayCommand<Diary>(DeleteDiary);
         DiaryCollection = new AvaloniaInfiniteScrollCollection<Diary>
         {
@@ -70,19 +71,20 @@ public class DiaryViewModel : ViewModelBase
     }
     
     //事件处理函数，void
-    private async void AppStorageOnUpdated(object sender, Diary diary)
+    private void AppStorageOnUpdated(object sender, Diary diary)
     {
-        // 从Collection中删除这个日记
+        var index = 0;
+        if (DiaryCollection.FirstOrDefault(d => d.Id == diary.Id) != null)
+        {
+            index = DiaryCollection.IndexOf(DiaryCollection.FirstOrDefault(d => d.Id == diary.Id));
+        }
         DiaryCollection.Remove(DiaryCollection.FirstOrDefault(d => d.Id == diary.Id));
-       //  查看数据库中有没有这个日记
         var d = _appStorage.QueryDiaryByIdAsync(diary.Id);
-        //  如果没有，直接返回
         if (d == null)
         {
             return;
         }
-        //  如果有，插入到Collection中
-        DiaryCollection.Insert(0, diary);
+        DiaryCollection.Insert(index, diary);
     }
     
     private bool _canLoadMore = true;
@@ -110,6 +112,11 @@ public class DiaryViewModel : ViewModelBase
     private void ShowDiaryDetail(Diary diary) =>
         _contentNavigationService.NavigateTo(ContentNavigationConstant.DiaryDetailView, diary);
     
+    public IRelayCommand<Diary> EditDiaryCommand { get; }
+    private void EditDiary(Diary diary)
+    {
+        _contentNavigationService.NavigateTo(ContentNavigationConstant.DiaryAddView, diary);
+    }
     
     public IRelayCommand<Diary> DeleteDiaryCommand { get; }
     // 删除日记的实现

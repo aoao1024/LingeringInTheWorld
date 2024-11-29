@@ -43,6 +43,7 @@
                  Grid.Column="1"
                  Grid.ColumnSpan="2"
                  Text="{Binding Title}"
+                 FontSize="18"
                  Margin="20,2,20,2"
                  Watermark="😄为这篇日记起个标题吧~"
                  HorizontalAlignment="Stretch"

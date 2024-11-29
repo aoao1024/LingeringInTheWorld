@@ -37,33 +37,13 @@ namespace LingeringInTheWorld.Library.Models
             }
         }
         
-        // 用于设置标签集合
-        public void SetTags(List<string> tags)
+        // 返回标签的 List<string>，将"|"分隔的字符串转换为 List<string>
+        public List<string> TagsList()
         {
-            Tags = string.Join(" | ", tags);
+            if (string.IsNullOrEmpty(Tags)) return new List<string>();
+            
+            return Tags.Replace(" ", "").Split('|').ToList();
         }
-        
-        // 返回标签的 List<string>
-        [SQLite.Ignore]
-        public List<string> TagList =>
-            string.IsNullOrEmpty(Tags) ? new List<string>() : Tags.Split('|').ToList();
-        
-        
-        // 将字节数组集合存储为字符串（例如，存储为以逗号分隔的Base64字符串）
-        public void SetImageBytes(List<byte[]> imageBytes)
-        {
-            if (imageBytes != null && imageBytes.Any())
-            {
-                // 将每个字节数组转换为Base64字符串并存储
-                var base64Strings = imageBytes.Select(image => Convert.ToBase64String(image)).ToList();
-                Images = string.Join(",", base64Strings);
-            }
-            else
-            {
-                Images = string.Empty;
-            }
-        }
-
         // 返回图片的 List<byte[]>，将 Base64 字符串转换回字节数组
         public List<byte[]> ImageBytesList()
         {
