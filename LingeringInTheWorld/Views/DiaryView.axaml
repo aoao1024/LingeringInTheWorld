@@ -28,7 +28,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <!-- 搜索区域：日期范围、标题、标签、地理位置 -->
-        <Grid Grid.Row="0" Margin="10,10,0,0">
+        <Grid Grid.Row="0" Margin="10,10,20,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -53,7 +53,7 @@
                      Watermark="位置"
                      Text="{Binding LocationSearchText}" />
             
-            <StackPanel Grid.Column="4" Orientation="Horizontal" Margin="0,0,20,0"> 
+            <StackPanel Grid.Column="4" Orientation="Horizontal"> 
                 <!-- 搜索按钮 -->
                 <Button  FontSize="18" FontWeight="Normal" Foreground="#B9AEDC" Margin="5,0" 
                          Command="{Binding SearchDiariesCommand}" Padding="2" Width="32" Height="32" >
@@ -70,11 +70,11 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <ais:AvaloniaInfiniteScrollControl Grid.Row="1" Margin="10,0"
+        <ais:AvaloniaInfiniteScrollControl Grid.Row="1" Margin="10,0,10,5"
                                            ItemsSource="{Binding DiaryCollection}">
             <ais:AvaloniaInfiniteScrollControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="#B9AEDC" BorderThickness="1" Padding="10" Margin="0,5" CornerRadius="4">
+                    <Border BorderBrush="#B9AEDC" BorderThickness="1" Padding="10" Margin="0,0,0,10" CornerRadius="4">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
