@@ -13,17 +13,7 @@ public class DiaryViewModel : ViewModelBase
     private readonly IContentNavigationService _contentNavigationService;
 
     private Expression<Func<Diary, bool>> _where;
-    
-    public override void SetParameter(object parameter) {
-        if (parameter is not Expression<Func<Diary, bool>> where) {
-            return;
-        }
-
-        _where = where;
-        _canLoadMore = true;
-        DiaryCollection.Clear();
-    }
-    
+   
     public DiaryViewModel(IAppStorage appStorage, IAlertService alertService, 
         IContentNavigationService contentNavigationService)
     {

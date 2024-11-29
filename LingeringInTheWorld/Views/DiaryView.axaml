@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:icon="https://github.com/projektanker/icons.avalonia"
+             xmlns:u="https://irihi.tech/ursa"
              xmlns:ais="using:AvaloniaInfiniteScrolling"
              xmlns:lc="using:LingeringInTheWorld.Converters"
              xmlns:i="using:Avalonia.Xaml.Interactivity"
@@ -21,11 +22,44 @@
     <!-- </i:Interaction.Behaviors> -->
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ais:AvaloniaInfiniteScrollControl Grid.Row="0" Margin="10"
+        <!-- 搜索区域：日期范围、标题、标签、地理位置 -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <!-- 日期选择框 -->
+            <u:DatePicker Width="150" Margin="5,0" 
+                              SelectedDate="{Binding StartDate}"/>
+            
+            <!-- 标题搜索框 -->
+            <TextBox Margin="5,0" 
+                     Watermark="标题"
+                     Text="{Binding TitleSearchText}" />
+
+            <!-- 标签搜索框 -->
+            <TextBox Margin="5,0" 
+                     Watermark="标签"
+                     Text="{Binding TagSearchText}" />
+            
+            <!-- 地理位置搜索框 -->
+            <TextBox Margin="5,0" 
+                     Watermark="位置"
+                     Text="{Binding LocationSearchText}" />
+            
+            <!-- 搜索按钮 -->
+            <Button Margin="5,0" Command="{Binding SearchCommand}">
+                <icon:Icon Foreground="#B9AEDC"
+                           Value="fa-search">
+                </icon:Icon>
+            </Button>
+
+            <!-- 重置按钮 -->
+            <Button Margin="5,0" Command="{Binding ResetSearchCommand}">
+            </Button>
+        </StackPanel>
+        <ais:AvaloniaInfiniteScrollControl Grid.Row="1" Margin="10"
                                            ItemsSource="{Binding DiaryCollection}">
             <ais:AvaloniaInfiniteScrollControl.ItemTemplate>
                 <DataTemplate>
@@ -73,12 +107,12 @@
                 </DataTemplate>
             </ais:AvaloniaInfiniteScrollControl.ItemTemplate>
         </ais:AvaloniaInfiniteScrollControl>
-        <TextBlock Grid.Row="1"
+        <TextBlock Grid.Row="2"
                Text="{Binding Status}"
                Foreground="Gray"
                HorizontalAlignment="Center">
         </TextBlock>
-        <Button Grid.Row="2"
+        <Button Grid.Row="3"
                 Margin="10"
                 Content="记 录 我 的 今 天 !"
                 Foreground="#B9AEDC"
