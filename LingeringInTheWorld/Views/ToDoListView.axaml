@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:icon="https://github.com/projektanker/icons.avalonia"
              xmlns:i="using:Avalonia.Xaml.Interactivity"
              xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
              xmlns:lc="using:LingeringInTheWorld.Converters"
@@ -85,11 +86,9 @@
                     Margin="3,0,0,8"
                     Command="{Binding DeletToDoItemCommand}"
                     VerticalAlignment="Center" >
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Assets/delete.ico" Width="16" Height="16"/>
-                        </StackPanel>
-                    </Button.Content>
+                    <icon:Icon Foreground="#B9AEDC"
+                               Value="fa-trash">
+                    </icon:Icon>
                 </Button>
             </Grid>
             </Border>

@@ -3,6 +3,8 @@ using AvaloniaInfiniteScrolling;
 using CommunityToolkit.Mvvm.Input;
 using LingeringInTheWorld.Library.Models;
 using LingeringInTheWorld.Library.Services;
+using LinqKit;
+using Microsoft.VisualBasic;
 
 namespace LingeringInTheWorld.Library.ViewModels;
 
@@ -12,18 +14,14 @@ public class DiaryViewModel : ViewModelBase
     private readonly IAlertService _alertService;
     private readonly IContentNavigationService _contentNavigationService;
 
-    private Expression<Func<Diary, bool>> _where;
-    
-    public override void SetParameter(object parameter) {
-        if (parameter is not Expression<Func<Diary, bool>> where) {
-            return;
-        }
+    public DateTime? DateSearch { get; set; }
+    public string TitleSearchText { get; set; }
+    public string TagSearchText { get; set; }
+    public string LocationSearchText { get; set; }
 
-        _where = where;
-        _canLoadMore = true;
-        DiaryCollection.Clear();
-    }
     
+    private Expression<Func<Diary, bool>> _where;
+   
     public DiaryViewModel(IAppStorage appStorage, IAlertService alertService, 
         IContentNavigationService contentNavigationService)
     {
@@ -36,6 +34,8 @@ public class DiaryViewModel : ViewModelBase
         ShowDiaryDetailCommand = new RelayCommand<Diary>(ShowDiaryDetail);
         EditDiaryCommand = new RelayCommand<Diary>(EditDiary);
         DeleteDiaryCommand = new RelayCommand<Diary>(DeleteDiary);
+        SearchDiariesCommand = new RelayCommand(SearchDiaries);
+        ResetSearchCommand = new RelayCommand(ResetSearchFilters);
         DiaryCollection = new AvaloniaInfiniteScrollCollection<Diary>
         {
             OnCanLoadMore = () => _canLoadMore,
@@ -44,11 +44,8 @@ public class DiaryViewModel : ViewModelBase
                 Console.WriteLine("OnLoadMore--------");
                 Status = Loading;
                 var diaries = await _appStorage.GetDiariesAsync(
-                    Expression.Lambda<Func<Diary, bool>>(
-                        Expression.Constant(true),  // 不带条件，加载所有日记
-                        Expression.Parameter(typeof(Diary), "d")
-                    ),
-                    DiaryCollection.Count,  // 从当前已经加载的数据数开始
+                    _where ?? (d => true), // 使用传入的查询条件，默认加载所有数据
+                    DiaryCollection.Count,  // 从当前已加载的数量开始
                     PageSize                // 每次加载的数据量
                 );
                 Status = string.Empty;
@@ -68,6 +65,60 @@ public class DiaryViewModel : ViewModelBase
             }
             
         };
+    }
+    
+    public IRelayCommand SearchDiariesCommand { get; }
+    private void SearchDiaries()
+    {
+        // 调用 SetSearchFilters 方法设置过滤条件并加载数据
+        SetSearchFilters(DateSearch, TitleSearchText, TagSearchText, LocationSearchText);
+    }
+    
+    public IRelayCommand ResetSearchCommand { get; }
+    private void ResetSearchFilters()
+    {
+        // 清空所有搜索条件
+        DateSearch = null;
+        TitleSearchText = string.Empty;
+        TagSearchText = string.Empty;
+        LocationSearchText = string.Empty;
+
+        // 触发属性更改通知，更新界面
+        OnPropertyChanged(nameof(DateSearch));
+        OnPropertyChanged(nameof(TitleSearchText));
+        OnPropertyChanged(nameof(TagSearchText));
+        OnPropertyChanged(nameof(LocationSearchText));
+
+        // 调用查询方法，重新加载全部数据
+        SetSearchFilters(null, string.Empty, string.Empty, string.Empty);
+    }
+    
+    public void SetSearchFilters(DateTime? dateSearch, string title, string tag, string location)
+    {
+        // 清空现有的日记集合
+        DiaryCollection.Clear();
+        // 根据用户输入构建查询条件
+        var predicate = PredicateBuilder.New<Diary>(d => true);
+        if (dateSearch.HasValue)
+        {
+            predicate = predicate.And(d => d.DateTime >= dateSearch.Value);
+        }
+        if (!string.IsNullOrEmpty(title))
+        {
+            predicate = predicate.And(d => d.Title.Contains(title));
+        }
+        if (!string.IsNullOrEmpty(tag))
+        {
+            predicate = predicate.And(d => d.Tags.Contains(tag));
+        }
+        if (!string.IsNullOrEmpty(location))
+        {
+            predicate = predicate.And(d => d.Location.Contains(location));
+        }
+
+        _where = predicate; // 更新查询条件
+        _canLoadMore = true;      // 允许加载更多
+        DiaryCollection.LoadMoreAsync(); // 加载数据
     }
     
     //事件处理函数，void

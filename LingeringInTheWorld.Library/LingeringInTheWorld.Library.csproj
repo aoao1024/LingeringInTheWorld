@@ -13,6 +13,7 @@
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
       <PackageReference Include="Geolocation.NetStandard" Version="1.1.1" />
       <PackageReference Include="Geolocator.Plugin" Version="1.0.2" />
+      <PackageReference Include="LinqKit" Version="1.3.7" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="ReactiveUI" Version="20.1.63" />
       <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
