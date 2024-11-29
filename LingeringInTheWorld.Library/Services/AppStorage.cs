@@ -47,6 +47,13 @@ public class AppStorage : IAppStorage
         await Connection.DeleteAsync<Diary>(id);
     }
 
+    //更新日记
+    public async Task UpdateDiaryAsync(Diary diary)
+    {
+        await Connection.UpdateAsync(diary);
+        Updated?.Invoke(this, diary);
+    }
+    
     //列出所有日记
     public async Task<IList<Diary>> ListDiaryAsync()=>
         await Connection.Table<Diary>().OrderByDescending(d => d.DateTime)

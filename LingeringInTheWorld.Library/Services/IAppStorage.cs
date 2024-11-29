@@ -15,6 +15,9 @@ public interface IAppStorage
     //删除日记
     Task DeleteDiaryAsync(int id);
     
+    //更新日记
+    Task UpdateDiaryAsync(Diary diary);
+    
     //列出所有日记
     Task<IList<Diary>> ListDiaryAsync();
     
