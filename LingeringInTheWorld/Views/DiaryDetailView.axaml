@@ -4,6 +4,67 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LingeringInTheWorld.Views.DiaryDetailView"
+             xmlns:lc="using:LingeringInTheWorld.Converters"
              DataContext="{Binding DiaryDetailViewModel, Source={StaticResource ServiceLocator}}">
-    Welcome to Avalonia!
+    <UserControl.Resources>
+        <lc:DiaryToStringConverter x:Key="DiaryToString"></lc:DiaryToStringConverter>
+        <lc:ByteArrayToBitmapConverter x:Key="ByteArrayToBitmapConverter"></lc:ByteArrayToBitmapConverter>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Diary, Converter={StaticResource DiaryToString}, ConverterParameter=preview}"
+                       FontSize="22"  Foreground="#B9AEDC" Margin="20,0" VerticalAlignment="Bottom"/>
+            <TextBlock Text="{Binding Diary, Converter={StaticResource DiaryToString}, ConverterParameter=details}"
+                       FontSize="16" Foreground="Gray" Margin="20,0" VerticalAlignment="Bottom"/>
+        </StackPanel>
+        
+        <!-- 分割线 -->
+        <Border Grid.Row="1"
+                Margin="50,0"
+                Background="#B9AEDC">
+        </Border>
+        
+        <!-- 日记内容 -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" /> <!-- 第一列：边框留白 -->
+                <ColumnDefinition Width="*" /> <!-- 第二列：日记正文 -->
+                <ColumnDefinition Width="Auto" /> <!-- 第三列：图片 -->
+                <ColumnDefinition Width="40" /> <!-- 第四列：边框留白 -->
+            </Grid.ColumnDefinitions>
+            
+            <!-- 第二列：日记正文，支持换行显示 -->
+            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Margin="0,10">
+                <TextBlock Text="{Binding Diary.Content}" 
+                           TextWrapping="Wrap" 
+                           Margin="10" 
+                           FontSize="18"/>
+            </ScrollViewer>
+            
+            <!-- 第三列：显示图片，纵向排列 -->
+            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" Width="280" Margin="10">
+                <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                    <ItemsControl ItemsSource="{Binding ImageBytesList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Converter={StaticResource ByteArrayToBitmapConverter}}" 
+                                       MaxWidth="250" 
+                                       Margin="0,5"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+            
+        </Grid>
+        
+    </Grid>
+            
 </UserControl>

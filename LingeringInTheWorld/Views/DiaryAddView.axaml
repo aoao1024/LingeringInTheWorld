@@ -41,6 +41,7 @@
         <!-- 标题输入框 -->
         <TextBox Grid.Row="0"
                  Grid.Column="1"
+                 Grid.ColumnSpan="2"
                  Text="{Binding Title}"
                  Margin="20,2,20,2"
                  Watermark="😄为这篇日记起个标题吧~"

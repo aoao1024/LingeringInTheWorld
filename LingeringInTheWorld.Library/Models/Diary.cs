@@ -28,7 +28,10 @@ namespace LingeringInTheWorld.Library.Models
             {
                 if (_snippet == null)
                 {
-                    _snippet = Content.Length > 150 ? Content.Substring(0, 150)+"......" : Content;
+                    // 去掉所有的空格和换行符
+                    string cleanContent = Content.Replace("\r\n", " ").Replace("\n", " ").Replace("\r", " ").Replace(" ", "");
+                    // 获取前100个字符，并加上省略号
+                    _snippet = cleanContent.Length > 100 ? cleanContent.Substring(0, 100) + "..." : cleanContent;
                 }
                 return _snippet;
             }
