@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" /> <!-- 日期时间和天气列 -->
-            <ColumnDefinition Width="*" /> <!-- 标题输入列，占剩余空间 -->
+            <ColumnDefinition Width="*" /> <!-- 标题输入列 -->
             <ColumnDefinition Width="*" /> <!-- 其他乱七八糟 -->
             <ColumnDefinition Width="20" /> <!-- 边框留白 -->
         </Grid.ColumnDefinitions>
@@ -67,7 +67,7 @@
                  Grid.ColumnSpan="2"
                  Text="{Binding Content}"
                  FontSize="18"
-                 Margin="20,2,10,4"
+                 Margin="20,4,10,4"
                  Watermark="😊 今天发生了什么呢，快点记录下来吧！"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch"
