@@ -39,7 +39,7 @@
             <!-- 日期选择框 -->
             <u:DatePicker Grid.Column="0" Width="180" Margin="0,0,5,0" 
                               SelectedDate="{Binding DateSearch}"
-                              DisplayFormat="ddd  yyyy-MM-dd"/>
+                              DisplayFormat="ddd  yyyy-MM-dd" Watermark="日期"/>
             <!-- 标题搜索框 -->
             <TextBox Grid.Column="1" Margin="5,0" 
                      Watermark="标题"

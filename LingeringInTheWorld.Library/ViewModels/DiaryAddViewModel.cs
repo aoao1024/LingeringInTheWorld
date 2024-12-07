@@ -17,6 +17,9 @@ public class DiaryAddViewModel : ViewModelBase
     private readonly IWeatherService _weatherService;
     private readonly ILocationService _locationService;
     private readonly MenuViewModel _menuViewModel;
+    private readonly IAIAnalysisService _aiAnalysisService;
+    private readonly IToDoStorage _todoStorage;
+    private readonly IAccountingStorage _accountingStorage;
 
     private string _currentTime; // 当前时间
     private string _currentWeatherCondition; // 天气状况
@@ -27,6 +30,10 @@ public class DiaryAddViewModel : ViewModelBase
     private string _newTag; // 新标签
     private ObservableCollection<byte[]> _uploadedImages; // 用于存储上传的多张图片数据
     private ObservableCollection<string> _tags; // 标签集合
+    
+    // 用于存储账单和代办事项
+    private ObservableCollection<Accounting> _accountings;
+    private ObservableCollection<ToDo> _toDos;
 
     public override void SetParameter(object parameter) {
         Diary = null;
@@ -45,16 +52,22 @@ public class DiaryAddViewModel : ViewModelBase
     
     public DiaryAddViewModel(IAppStorage appStorage,IAlertService alertService, 
             IWeatherService weatherService, ILocationService locationService,
-            MenuViewModel menuViewModel)
+            MenuViewModel menuViewModel, IAIAnalysisService aiAnalysisService,
+            IToDoStorage todoStorage, IAccountingStorage accountingStorage)
     {
         _appStorage = appStorage;
         _alertService = alertService;
         _weatherService = weatherService;
         _locationService = locationService;
         _menuViewModel = menuViewModel;
+        _aiAnalysisService = aiAnalysisService;
+        _todoStorage = todoStorage;
+        _accountingStorage = accountingStorage;
         
         Tags = new ObservableCollection<string>();
         UploadedImages = new ObservableCollection<byte[]>();
+        Accountings = new ObservableCollection<Accounting>();
+        ToDos = new ObservableCollection<ToDo>();
         
         OnInitializeCommand = new RelayCommand(OnInitialize);
         UpdateLocationCommand = new RelayCommand(UpdateLocation);
@@ -63,6 +76,12 @@ public class DiaryAddViewModel : ViewModelBase
         UploadImageCommand = new AsyncRelayCommand<Control>(UploadImage);
         RemoveImageCommand = new RelayCommand<byte[]>(RemoveImage);
         SaveDiaryCommand = new RelayCommand(SaveDiaryAsync);
+        RemoveAccountingCommand = new RelayCommand<Accounting>(RemoveAccounting);
+        RemoveToDoCommand = new RelayCommand<ToDo>(RemoveToDo);
+        SaveAccountingCommand = new RelayCommand<Accounting>(SaveAccounting);
+        SaveToDoCommand = new RelayCommand<ToDo>(SaveToDo);
+        
+        AIAnalyzeCommand = new RelayCommand(OnAIAnalyze);
     }
 
     public ICommand OnInitializeCommand { get; }
@@ -76,6 +95,8 @@ public class DiaryAddViewModel : ViewModelBase
         Content = string.Empty; // 清空正文
         Tags.Clear(); // 清空标签
         UploadedImages.Clear(); // 清空图片
+        Accountings.Clear(); // 清空账单
+        ToDos.Clear(); // 清空代办事项
         
         if (Diary != null)
         {
@@ -95,6 +116,52 @@ public class DiaryAddViewModel : ViewModelBase
             await GetLocationAndWeatherByIp();  // 获取位置和天气
         }
     }
+    
+    //加载数据进度条
+    private bool _isLoading;
+
+    public bool IsLoading {
+        get => _isLoading;
+        private set => SetProperty(ref _isLoading, value);
+    }
+    
+    // AI分析命令
+    public ICommand AIAnalyzeCommand { get; }
+    private async void OnAIAnalyze()
+    {
+        if (string.IsNullOrEmpty(Content)) 
+        {
+            await _alertService.AlertAsync("提示", "请先填写日记内容！");
+            return;
+        }
+
+        IsLoading = true;
+        var response = await _aiAnalysisService.AnalyzeDiaryAsync(CurrentTime, Content);
+
+        if (response != null)
+        {
+            // 如果账单和待办事项不为空则清空
+            Accountings?.Clear();
+            ToDos?.Clear();   
+            
+            // 解析返回的数据，填充账单和代办事项
+            foreach (var accounting in response.Accountings)
+            {
+                Accountings!.Add(accounting);
+            }
+
+            foreach (var toDo in response.ToDos)
+            {
+                ToDos!.Add(toDo);
+            }
+            
+        }
+        else
+        {
+            await _alertService.AlertAsync("错误", "AI分析失败，请稍后再试。");
+        }
+        IsLoading = false;
+    }
 
     // 图片数据属性（支持多张图片）
     public ObservableCollection<byte[]> UploadedImages
@@ -108,6 +175,18 @@ public class DiaryAddViewModel : ViewModelBase
     {
         get => _tags;
         set => SetProperty(ref _tags, value);
+    }
+    
+    public ObservableCollection<Accounting> Accountings
+    {
+        get => _accountings;
+        set => SetProperty(ref _accountings, value);
+    }
+        
+    public ObservableCollection<ToDo> ToDos
+    {
+        get => _toDos;
+        set => SetProperty(ref _toDos, value);
     }
     
     public string Title
@@ -167,66 +246,63 @@ public class DiaryAddViewModel : ViewModelBase
     private async void SaveDiaryAsync()
     {
         // 弹出确认框
-        bool isConfirmed = await _alertService.ConfirmAsync("确认保存", "您确定要保存日记吗？");
-
-        if (isConfirmed)
+        var isConfirmed = await _alertService.ConfirmAsync("确认保存", "您确定要保存日记吗？");
+        if (!isConfirmed) return;
+        // 如果是编辑日记
+        if (Diary != null)
         {
-            // 如果是编辑日记
-            if (Diary != null)
-            {
-                // 更新日记的属性
-                Diary.Title = Title;
-                Diary.Content = Content;
-                Diary.DateTime = DateTime.Now;
-                Diary.Weather = CurrentWeatherCondition;
-                Diary.Location = CurrentLocation;
-                Diary.Tags = string.Join(" | ", Tags);
-                Diary.Images = string.Join(",", UploadedImages.Select(image => Convert.ToBase64String(image)));
+            // 更新日记的属性
+            Diary.Title = Title;
+            Diary.Content = Content;
+            Diary.DateTime = DateTime.Now;
+            Diary.Weather = CurrentWeatherCondition;
+            Diary.Location = CurrentLocation;
+            Diary.Tags = string.Join(" | ", Tags);
+            Diary.Images = string.Join(",", UploadedImages.Select(Convert.ToBase64String));
 
-                // 更新到数据库
-                await _appStorage.UpdateDiaryAsync(Diary);
+            // 更新到数据库
+            await _appStorage.UpdateDiaryAsync(Diary);
                 
-                if (await _appStorage.QueryDiaryByIdAsync(Diary.Id) != null)
-                {
-                    // 提示用户保存成功
-                    await _alertService.AlertAsync("保存成功", "日记已成功保存！");
-                    _menuViewModel.GoBack();
-                }
-                else
-                {
-                    // 提示用户保存失败
-                    await _alertService.AlertAsync("保存失败", "日记保存失败！");
-                }
-
+            if (await _appStorage.QueryDiaryByIdAsync(Diary.Id) != null)
+            {
+                // 提示用户保存成功
+                await _alertService.AlertAsync("保存成功", "日记已成功保存！");
+                _menuViewModel.GoBack();
             }
             else
             {
-                // 如果是新建日记
-                var newDiary = new Diary
-                {
-                    Title = Title,
-                    Content = Content,
-                    DateTime = DateTime.Now,
-                    Weather = CurrentWeatherCondition,
-                    Location = CurrentLocation,
-                    Tags = string.Join(" | ", Tags),
-                    Images = string.Join(",", UploadedImages.Select(image => Convert.ToBase64String(image)))
-                };
+                // 提示用户保存失败
+                await _alertService.AlertAsync("保存失败", "日记保存失败！");
+            }
 
-                // 保存到数据库
-                await _appStorage.InsertDiaryAsync(newDiary);
+        }
+        else
+        {
+            // 如果是新建日记
+            var newDiary = new Diary
+            {
+                Title = Title,
+                Content = Content,
+                DateTime = DateTime.Now,
+                Weather = CurrentWeatherCondition,
+                Location = CurrentLocation,
+                Tags = string.Join(" | ", Tags),
+                Images = string.Join(",", UploadedImages.Select(Convert.ToBase64String))
+            };
 
-                if (await _appStorage.QueryDiaryByIdAsync(newDiary.Id) != null)
-                {
-                    // 提示用户保存成功
-                    await _alertService.AlertAsync("保存成功", "日记已成功保存！");
-                    _menuViewModel.GoBack();
-                }
-                else
-                {
-                    // 提示用户保存失败
-                    await _alertService.AlertAsync("保存失败", "日记保存失败！");
-                }
+            // 保存到数据库
+            await _appStorage.InsertDiaryAsync(newDiary);
+
+            if (await _appStorage.QueryDiaryByIdAsync(newDiary.Id) != null)
+            {
+                // 提示用户保存成功
+                await _alertService.AlertAsync("保存成功", "日记已成功保存！");
+                _menuViewModel.GoBack();
+            }
+            else
+            {
+                // 提示用户保存失败
+                await _alertService.AlertAsync("保存失败", "日记保存失败！");
             }
         }
     }
@@ -249,14 +325,8 @@ public class DiaryAddViewModel : ViewModelBase
         // 调用天气服务获取天气信息
         var weatherInfo = await _weatherService.GetWeatherByLocationAsync(latitude, longitude);
 
-        if (weatherInfo != null)
-        {
-            CurrentWeatherCondition = $"{weatherInfo.Condition}"; // 更新天气状况
-        }
-        else
-        {
-            CurrentWeatherCondition = "无法获取天气信息"; // 获取不到天气信息时的提示
-        }
+        CurrentWeatherCondition = weatherInfo != null ? $"{weatherInfo.Condition}" : // 更新天气状况
+            "无法获取天气信息"; // 获取不到天气信息时的提示
     }
     
     // 添加标签命令
@@ -275,6 +345,68 @@ public class DiaryAddViewModel : ViewModelBase
     private void RemoveTag(string tag)
     {
         Tags.Remove(tag);
+    }
+    
+    // 删除账单命令
+    public ICommand RemoveAccountingCommand { get; }
+    // 删除账单逻辑
+    private async void RemoveAccounting(Accounting accounting)
+    {
+        var isConfirmed = await _alertService.ConfirmAsync("确认删除", "您确定要删除该账单吗？");
+        if (!isConfirmed) return;
+        Accountings.Remove(accounting);
+    }
+    
+    //保存账单命令
+    public ICommand SaveAccountingCommand { get; }
+    // 保存账单逻辑
+    private async void SaveAccounting(Accounting accounting)
+    {
+        var isConfirmed = await _alertService.ConfirmAsync("确认保存", "您确定要保存该账单吗？");
+        if (!isConfirmed) return;
+        await _accountingStorage.SaveAccountingAsync(accounting);
+        if (await _accountingStorage.GetAccounting(accounting.Id) != null)
+        {
+            // 提示用户保存成功
+            await _alertService.AlertAsync("保存成功", "账单已成功保存！");
+            Accountings.Remove(accounting);
+        }
+        else
+        {
+            // 提示用户保存失败
+            await _alertService.AlertAsync("保存失败", "账单保存失败！");
+        }
+    }
+    
+    // 删除待办事项命令
+    public ICommand RemoveToDoCommand { get; }
+    // 删除待办事项逻辑
+    private async void RemoveToDo(ToDo toDo)
+    {
+        var isConfirmed = await _alertService.ConfirmAsync("确认删除", "您确定要删除该代办吗？");
+        if (!isConfirmed) return;
+        ToDos.Remove(toDo);
+    }
+    
+    // 保存待办事项命令
+    public ICommand SaveToDoCommand { get; }
+    // 保存待办事项逻辑
+    private async void SaveToDo(ToDo toDo)
+    {
+        var isConfirmed = await _alertService.ConfirmAsync("确认保存", "您确定要保存该代办吗？");
+        if (!isConfirmed) return;
+        await _todoStorage.AddToDoItemAsync(toDo);
+        if (await _todoStorage.GetToDoItemAsync(toDo.Id) != null)
+        {
+            // 提示用户保存成功
+            await _alertService.AlertAsync("保存成功", "待办事项已成功保存！");
+            ToDos.Remove(toDo);
+        }
+        else
+        {
+            // 提示用户保存失败
+            await _alertService.AlertAsync("保存失败", "待办事项保存失败！");
+        }
     }
 
     // 从本地存储中选择并上传图片
@@ -323,14 +455,8 @@ public class DiaryAddViewModel : ViewModelBase
         // 调用天气服务获取天气信息
         var weatherInfo = await _weatherService.GetWeatherByLocationAsync(latitude, longitude);
 
-        if (weatherInfo != null)
-        {
-            CurrentWeatherCondition = $"{weatherInfo.Condition}"; // 更新天气状况
-        }
-        else
-        {
-            CurrentWeatherCondition = "无法获取天气信息"; // 获取不到天气信息时的提示
-        }
+        CurrentWeatherCondition = weatherInfo != null ? $"{weatherInfo.Condition}" : // 更新天气状况
+            "无法获取天气信息"; // 获取不到天气信息时的提示
     }
 
    

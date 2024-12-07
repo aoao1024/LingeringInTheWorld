@@ -20,4 +20,6 @@ public interface IToDoStorage
     Task<IList<ToDo>> GetTodoListAsync(
         Expression<Func<ToDo, bool>> where, int skip, int  take);
     
+    Task<ToDo> GetToDoItemAsync(int id);
+    
 }

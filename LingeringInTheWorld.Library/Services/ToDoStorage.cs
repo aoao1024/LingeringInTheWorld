@@ -74,6 +74,9 @@ public class ToDoStorage : IToDoStorage
     }
     public async Task<IList<ToDo>> GetTodoListAsync(Expression<Func<ToDo, bool>> where, int skip, int take)
         => await Connection.Table<ToDo>().Where(where).Skip(skip).Take(take).ToListAsync();
+    
+    public async Task<ToDo> GetToDoItemAsync(int id)
+        => await Connection.FindAsync<ToDo>(id);
 
     public async Task CloseAsync()
     {

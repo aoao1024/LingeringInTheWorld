@@ -2,6 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:u="https://irihi.tech/ursa"
+             xmlns:icon="https://github.com/projektanker/icons.avalonia"
              xmlns:lc="using:LingeringInTheWorld.Converters"
              xmlns:i="using:Avalonia.Xaml.Interactivity"
              xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
@@ -118,9 +120,13 @@
                                         <Border Background="#F0F0F0" Padding="2" CornerRadius="4">
                                             <TextBlock Text="{Binding}" FontSize="14" Padding="5,0" VerticalAlignment="Center" />
                                         </Border>
-                                        <Button Content="✕" FontWeight="Normal" Foreground="#B9AEDC"
+                                        <Button Foreground="#B9AEDC"
                                                 Command="{Binding DataContext.RemoveTagCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}" Padding="0" Width="30" Height="20" />
+                                                CommandParameter="{Binding}" Padding="0" Width="30" Height="20">
+                                            <icon:Icon Foreground="#B9AEDC"
+                                                       Value="fa-times">
+                                            </icon:Icon>
+                                        </Button>
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -164,7 +170,7 @@
                                         <Image Source="{Binding Converter={StaticResource ByteArrayToBitmapConverter}}"
                                                Stretch="UniformToFill" ClipToBounds="True" Width="100" Height="100" />
                                         <!-- 删除按钮放在图片右上角 -->
-                                        <Button Content="✕" FontWeight="Normal" Foreground="White"
+                                        <Button Content="✕" Foreground="White"
                                                 Background="Transparent" BorderBrush="Transparent"
                                                 Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}"
@@ -196,6 +202,92 @@
                         HorizontalAlignment="Left">
                     <TextBlock Text="AI" FontSize="12" Foreground="Gray" HorizontalAlignment="Center" />
                 </Border>
+                <StackPanel Grid.Row="1" Margin="8" VerticalAlignment="Center"
+                            IsVisible="{Binding IsLoading}">
+                    <ProgressBar Foreground="Gray"
+                                 IsIndeterminate="{Binding IsLoading}"
+                                 Width="50"
+                                 Height="50"
+                                 Margin="0,0,0,8"
+                                 Theme="{DynamicResource ProgressRing}"
+                                 ShowProgressText="False" />
+                    <Label Foreground="Gray"
+                           Content="正在分析"
+                           HorizontalAlignment="Center" />
+                </StackPanel>
+                <!-- 使用 ScrollViewer 让AI区域支持滚动 -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                              HorizontalAlignment="Stretch">
+                    <!-- 使用 WrapPanel 来自动换行 -->
+                    <WrapPanel HorizontalAlignment="Left" Orientation="Vertical">
+                        <ItemsControl ItemsSource="{Binding Accountings}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,10,5">
+                                        <Border Background="#F0F0F0" Width="26" Padding="0" CornerRadius="2" Height="30"
+                                                HorizontalAlignment="Left">
+                                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                                <TextBlock Text="账" FontSize="10" Foreground="Gray" HorizontalAlignment="Center" Padding="0"/>
+                                                <TextBlock Text="单" FontSize="10" Foreground="Gray" HorizontalAlignment="Center" Padding="0"/>
+                                            </StackPanel>
+                                        </Border>
+                                        <u:DatePicker SelectedDate="{Binding Time, Mode=TwoWay}" DisplayFormat="ddd  yyyy-MM-dd" Watermark="时间" Width="150" Margin="2,0"/>
+                                        <TextBox Text="{Binding Type, Mode=TwoWay}" Watermark="类型" Margin="2,0"/>
+                                        <TextBox Text="{Binding Category, Mode=TwoWay}" Watermark="类别" Margin="2,0"/>
+                                        <TextBox Text="{Binding Amount, Mode=TwoWay}" Watermark="金额" Margin="2,0"/>
+                                        <TextBox Text="{Binding Content, Mode=TwoWay}" Watermark="备注" Margin="2,0"/>
+                                        <Button Foreground="#B9AEDC" 
+                                                Command="{Binding DataContext.SaveAccountingCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}" Padding="0" Width="30" Height="20" Margin="2,0">
+                                            <icon:Icon Foreground="#B9AEDC"
+                                                       Value="fa-check">
+                                            </icon:Icon>
+                                        </Button>
+                                        <Button Foreground="#B9AEDC"
+                                                Command="{Binding DataContext.RemoveAccountingCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}" Padding="0" Width="30" Height="20" Margin="2,0">
+                                            <icon:Icon Foreground="#B9AEDC"
+                                                       Value="fa-times">
+                                            </icon:Icon>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding ToDos}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,10,5">
+                                        <Border Background="#F0F0F0" Width="26" Padding="0" CornerRadius="2" Height="30"
+                                                HorizontalAlignment="Left">
+                                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                                <TextBlock Text="代" FontSize="10" Foreground="Gray" HorizontalAlignment="Center" Padding="0"/>
+                                                <TextBlock Text="办" FontSize="10" Foreground="Gray" HorizontalAlignment="Center" Padding="0"/>
+                                            </StackPanel>
+                                        </Border>
+                                        <u:DateTimePicker SelectedDate="{Binding DeadLine, Mode=TwoWay}" DisplayFormat="ddd  yyyy-MM-dd hh:mm:ss" Watermark="截止日期" Margin="2,0"/>
+                                        <TextBox Text="{Binding Title, Mode=TwoWay}" Watermark="标题" Margin="2,0"/>
+                                        <TextBox Text="{Binding Content, Mode=TwoWay}" Watermark="描述" Margin="2,0"/>
+                                        <Button Foreground="#B9AEDC" 
+                                                Command="{Binding DataContext.SaveToDoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}" Padding="0" Width="30" Height="20" Margin="2,0">
+                                            <icon:Icon Foreground="#B9AEDC"
+                                                       Value="fa-check">
+                                            </icon:Icon>
+                                        </Button>
+                                        <Button Foreground="#B9AEDC"
+                                                Command="{Binding DataContext.RemoveToDoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}" Padding="0" Width="30" Height="20" Margin="2,0">
+                                            <icon:Icon Foreground="#B9AEDC"
+                                                       Value="fa-times">
+                                            </icon:Icon>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </WrapPanel>
+                </ScrollViewer>
             </Grid>
 
         </Grid>
@@ -233,7 +325,7 @@
                 VerticalContentAlignment="Center" HorizontalAlignment="Left"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}" />
 
-        <Button Grid.Row="4" Grid.Column="2" Content="AI" Foreground="#B9AEDC" Command="{Binding UploadImageCommand}"
+        <Button Grid.Row="4" Grid.Column="2" Content="AI" Foreground="#B9AEDC" Command="{Binding AIAnalyzeCommand}"
                 Padding="0" Margin="0,10" Width="40"
                 VerticalContentAlignment="Center" HorizontalAlignment="Center"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}" />

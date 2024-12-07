@@ -131,7 +131,6 @@ public class ServiceLocator
         serviceCollection.AddSingleton<DetailViewModel1>();
         serviceCollection.AddSingleton<MonthViewModel>();
         serviceCollection.AddSingleton<ExpectedExpensesViewModel>();
-
         serviceCollection
             .AddSingleton<ICashRootNavigationService, CashRootNavigationService>();
         serviceCollection
@@ -142,12 +141,8 @@ public class ServiceLocator
         serviceCollection.AddSingleton<IAccountingStorage, AccountingStorage>();
         serviceCollection.AddSingleton<IExpectedExpensesStorage, ExpectedExpensesStorage>();
         serviceCollection.AddSingleton<IMonthStatisticsService, MonthStatisticsService>();
-
-        serviceCollection
-            .AddSingleton<IPreferenceStorage, FilePreferenceStorage>();
-        serviceCollection.AddSingleton<IAlertService, AlertService>();
-
         serviceCollection.AddSingleton<AccountingListDesignViewModel>();
+        serviceCollection.AddSingleton<IAIAnalysisService,SparkAnalysisService>();
         
         
         //取对象

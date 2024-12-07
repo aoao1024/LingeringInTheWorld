@@ -19,7 +19,7 @@ namespace LingeringInTheWorld.Library.Models
 
         
 
-        // 日记前200个字，用于显示预览
+        // 日记前100个字，用于显示预览
         private string _snippet;
         [SQLite.Ignore]
         public string Snippet
