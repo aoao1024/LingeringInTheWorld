@@ -12,6 +12,9 @@ public class DiaryAddViewModelTest
     private readonly Mock<IWeatherService> _mockWeatherService;
     private readonly Mock<ILocationService> _mockLocationService;
     private readonly DiaryAddViewModel _viewModel;
+    private readonly Mock<IAIAnalysisService> _aiAnalysisService;
+    private readonly Mock<IToDoStorage> _todoStorage;
+    private readonly IMock<AccountingStorage> _accountingStorage;
 
     public DiaryAddViewModelTest()
     {
@@ -22,13 +25,19 @@ public class DiaryAddViewModelTest
         _mockLocationService = new Mock<ILocationService>();
         Mock<IMenuNavigationService> menuNevigationService = new();
         var menuViewModel = new MenuViewModel(menuNevigationService.Object);
+        _aiAnalysisService = new Mock<IAIAnalysisService>();
+        _todoStorage = new Mock<IToDoStorage>();
+        _accountingStorage = new Mock<AccountingStorage>();
         
         _viewModel = new DiaryAddViewModel(
             _mockAppStorage.Object, 
             _mockAlertService.Object, 
             _mockWeatherService.Object, 
             _mockLocationService.Object, 
-            menuViewModel
+            menuViewModel,
+            _aiAnalysisService.Object,
+            _todoStorage.Object,
+            _accountingStorage.Object
             );
     }
 
