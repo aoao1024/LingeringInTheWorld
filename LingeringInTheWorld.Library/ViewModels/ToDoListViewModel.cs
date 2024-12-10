@@ -91,8 +91,8 @@ public class ToDoListViewModel : ViewModelBase
     public async Task SetToDoItemFinishStatusAsync(ToDoItemViewModel toDoItemViewModel)
     {
         await _todoStorageService.UpdateToDoItemStatusAsync(toDoItemViewModel.ToDo.Id, !toDoItemViewModel.ToDo.Status);
+        await _todoStorageService.UpdateToDoItemFinishedTimeAsync(toDoItemViewModel.ToDo.Id, DateTime.Now);
         ToDoCollection.RemoveAt(ToDoCollection.IndexOf(toDoItemViewModel));
-        toDoItemViewModel.ToDo.Status = !toDoItemViewModel.ToDo.Status;
         ToDoCollection.Add(toDoItemViewModel);
     }
 

@@ -21,9 +21,13 @@ public class TodoStorageService : ITodoStorageService
 
     public async Task UpdateToDoItemStatusAsync(int id, bool status)
     {
-        await _toDoStorage.UpdateToDoItemAsync(id, null, null, null, status);
+        await _toDoStorage.UpdateToDoItemAsync(id, null, null,null, null, status);
     }
-    
+
+    public async Task UpdateToDoItemFinishedTimeAsync(int id, DateTime finishedTime)
+    {
+        await _toDoStorage.UpdateToDoItemAsync(id, null, finishedTime, null, null, false);
+    }
 
     public async Task<IList<ToDo>> GetAllTodoListAsync()
         => await _toDoStorage.GetTodoListAsync(todo => true, 0, int.MaxValue);

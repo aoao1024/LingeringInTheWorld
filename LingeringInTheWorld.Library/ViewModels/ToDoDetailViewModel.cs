@@ -40,7 +40,7 @@ public class ToDoDetailViewModel :ViewModelBase
 
     public async Task SubmitAsync()
     {
-        await _todoStorage.UpdateToDoItemAsync(_toDo.Id,_toDo.DeadLine,_toDo.Title,_toDo.Content,_toDo.Status);
+        await _todoStorage.UpdateToDoItemAsync(_toDo.Id,_toDo.DeadLine,null,_toDo.Title,_toDo.Content,_toDo.Status);
     }
 
 }

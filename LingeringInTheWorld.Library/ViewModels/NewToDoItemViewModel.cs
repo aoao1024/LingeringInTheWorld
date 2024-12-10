@@ -17,7 +17,7 @@ public class NewToDoItemViewModel :ViewModelBase
         AddNewToDoItemCommand = new AsyncRelayCommand(AddNewToDoItemATask);
         ToDo = new ToDo();
         // 给 DeadLine 设置一个默认值
-        _toDo.DeadLine = DateTime.Now;  // 设置为当前时间
+        _toDo.CreatedTime = DateTime.Now;  // 设置为当前时间
     }
 
     public ToDo ToDo
@@ -30,7 +30,6 @@ public class NewToDoItemViewModel :ViewModelBase
 
     public async Task AddNewToDoItemATask()
     {
-        
         await _todoStorageService.AddToDoItemAsync(ToDo);
         ToDo = new ToDo();
         _menuNavigationService.NavigateTo(MenuNavigationConstant.ToDoListView);

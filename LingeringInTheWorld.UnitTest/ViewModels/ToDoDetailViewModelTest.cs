@@ -19,7 +19,7 @@ public class ToDoDetailViewModelTest
 
         var toDoStorageMock = new Mock<IToDoStorage>();
         toDoStorageMock
-            .Setup(p => p.UpdateToDoItemAsync(toDoItem.Id, toDoItem.DeadLine, toDoItem.Title, toDoItem.Content, toDoItem.Status))
+            .Setup(p => p.UpdateToDoItemAsync(toDoItem.Id, toDoItem.DeadLine, null,toDoItem.Title, toDoItem.Content, toDoItem.Status))
             .Returns(() => Task.FromResult(true));
         var mockToDoStorage = toDoStorageMock.Object;
 
@@ -29,7 +29,7 @@ public class ToDoDetailViewModelTest
         await detailViewModel.SubmitAsync();
 
         toDoStorageMock.Verify(
-            p => p.UpdateToDoItemAsync(toDoItem.Id, toDoItem.DeadLine, toDoItem.Title, toDoItem.Content, toDoItem.Status),
+            p => p.UpdateToDoItemAsync(toDoItem.Id, toDoItem.DeadLine, null,toDoItem.Title, toDoItem.Content, toDoItem.Status),
             Times.Once);
     }
 
@@ -45,7 +45,7 @@ public class ToDoDetailViewModelTest
 
         var toDoStorageMock = new Mock<IToDoStorage>();
         toDoStorageMock
-            .Setup(p => p.UpdateToDoItemAsync(toDoItem.Id, toDoItem.DeadLine, toDoItem.Title, toDoItem.Content, toDoItem.Status))
+            .Setup(p => p.UpdateToDoItemAsync(toDoItem.Id, toDoItem.DeadLine,null, toDoItem.Title, toDoItem.Content, toDoItem.Status))
             .Throws(new Exception("Invalid ToDoItem"));
         var mockToDoStorage = toDoStorageMock.Object;
 
@@ -55,7 +55,7 @@ public class ToDoDetailViewModelTest
         await Assert.ThrowsAsync<Exception>(() => detailViewModel.SubmitAsync());
 
         toDoStorageMock.Verify(
-            p => p.UpdateToDoItemAsync(toDoItem.Id, toDoItem.DeadLine, toDoItem.Title, toDoItem.Content, toDoItem.Status),
+            p => p.UpdateToDoItemAsync(toDoItem.Id, toDoItem.DeadLine, null,toDoItem.Title, toDoItem.Content, toDoItem.Status),
             Times.Once);
     }
 }

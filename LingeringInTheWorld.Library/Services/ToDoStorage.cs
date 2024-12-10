@@ -23,7 +23,7 @@ public class ToDoStorage : IToDoStorage
     public async Task<int> DeleteToDoItemAsync(int id)
     =>await Connection.DeleteAsync<ToDo>(id);
     
-    public async Task<bool> UpdateToDoItemAsync(int id, DateTime? deadline, string title, string content, bool status)
+    public async Task<bool> UpdateToDoItemAsync(int id, DateTime? deadline, DateTime? finishedTime ,string title, string content, bool status)
     {
         var toDo =await Connection.FindAsync<ToDo>(id);
         if (toDo!=null)
@@ -32,6 +32,7 @@ public class ToDoStorage : IToDoStorage
             {
                 toDo.DeadLine = (DateTime)deadline;
             }
+            if (finishedTime != null) toDo.FinishedTime = (DateTime)finishedTime;
             if (title != null) toDo.Title = (string)title;
             if (content != null) toDo.Content = (string)content;
             if (status) toDo.Status = status;
