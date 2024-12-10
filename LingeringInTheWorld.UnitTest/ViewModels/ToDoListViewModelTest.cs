@@ -12,8 +12,8 @@ namespace LingeringInTheWorld.UnitTest.ViewModels;
 
 public class ToDoListViewModelTest :IDisposable
 {
-    private AppStorage _appStorage;
-    private ToDoStorage _toDoStorage;
+    private AppStorage _appStorage=null;
+    private ToDoStorage _toDoStorage=null;
     private ToDo[] toDoList;
     public ToDoListViewModelTest()
     {
@@ -66,7 +66,7 @@ public class ToDoListViewModelTest :IDisposable
     }
 
     [Fact]
-    public async Task OnloadMoreItemsAsync_Success()
+    public async Task OnloadMoreItemsAsync_Default()
     {
         var todoStorageService = new Mock<ITodoStorageService>();
         var toDoListViewModel = new ToDoListViewModel(todoStorageService.Object,null);
@@ -74,24 +74,19 @@ public class ToDoListViewModelTest :IDisposable
         var todo2 = new ToDo { Title = "test2", Content = "test2" };
         var todo3 = new ToDo { Title = "test3", Content = "test3" };
         var toDoItems=new List<ToDo> { todo1,todo2,todo3 };
-        var toDoItemViewModels= new List<ToDoItemViewModel>
-        {
-            new(todo1, toDoListViewModel),
-            new(todo2, toDoListViewModel),
-            new(todo3, toDoListViewModel)
-        };
-        todoStorageService.Setup(t => t.GetToDoList(It.IsAny<Expression<Func<ToDo, bool>>>(), 0, 10))
+        todoStorageService.Setup(t => 
+                t.GetToDoList(It.IsAny<Expression<Func<ToDo, bool>>>(), 0, 10))
             .ReturnsAsync(toDoItems);
         var loadMoreResult =await toDoListViewModel.ToDoCollection.OnLoadMore();
         var loadMoreResultList = loadMoreResult.ToList();
         Assert.NotEmpty(loadMoreResultList);
-        Assert.Equal(toDoItemViewModels[0].ToDo,loadMoreResultList[0].ToDo);
-        Assert.Equal(toDoItemViewModels[1].ToDo,loadMoreResultList[1].ToDo);
-        Assert.Equal(toDoItemViewModels[2].ToDo,loadMoreResultList[2].ToDo);
+        Assert.Equal(toDoItems[0],loadMoreResultList[0].ToDo);
+        Assert.Equal(toDoItems[1],loadMoreResultList[1].ToDo);
+        Assert.Equal(toDoItems[2],loadMoreResultList[2].ToDo);
     }
 
     [Fact]
-    public void AddViewNavigation()
+    public void AddViewNavigation_Default()
     {
         var contentNavigationService=new Mock<IContentNavigationService>();
         var toDoListViewModel= new ToDoListViewModel(null, contentNavigationService.Object);
@@ -99,7 +94,7 @@ public class ToDoListViewModelTest :IDisposable
         contentNavigationService.Verify(c=>c.NavigateTo(ContentNavigationConstant.NewToDoItemView,null),Times.Once);
     }
     [Fact]
-    public void DetailViewNavigation()
+    public void DetailViewNavigation_Default()
     {
         var todo1 = new ToDo { Title = "test1", Content = "test1" };
         var contentNavigationService=new Mock<IContentNavigationService>();
