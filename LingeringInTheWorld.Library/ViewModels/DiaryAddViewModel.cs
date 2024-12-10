@@ -254,7 +254,6 @@ public class DiaryAddViewModel : ViewModelBase
             // 更新日记的属性
             Diary.Title = Title;
             Diary.Content = Content;
-            Diary.DateTime = DateTime.Now;
             Diary.Weather = CurrentWeatherCondition;
             Diary.Location = CurrentLocation;
             Diary.Tags = string.Join(" | ", Tags);
@@ -395,6 +394,7 @@ public class DiaryAddViewModel : ViewModelBase
     {
         var isConfirmed = await _alertService.ConfirmAsync("确认保存", "您确定要保存该代办吗？");
         if (!isConfirmed) return;
+        toDo.CreatedTime = DateTime.Now;
         await _todoStorage.AddToDoItemAsync(toDo);
         if (await _todoStorage.GetToDoItemAsync(toDo.Id) != null)
         {

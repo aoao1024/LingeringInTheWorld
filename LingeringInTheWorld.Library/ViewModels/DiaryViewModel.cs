@@ -135,6 +135,7 @@ public class DiaryViewModel : ViewModelBase
         {
             return;
         }
+        Console.WriteLine("AppStorageOnUpdated--------" + diary.Content);
         DiaryCollection.Insert(index, diary);
     }
     
