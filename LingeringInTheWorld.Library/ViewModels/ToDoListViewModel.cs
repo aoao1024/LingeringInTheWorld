@@ -69,7 +69,6 @@ public class ToDoListViewModel : ViewModelBase
                 return toDoItemViewModels;
             }
         };
-
     }
 
     public ICommand OnInitializeCommand { get; }
@@ -100,9 +99,12 @@ public class ToDoListViewModel : ViewModelBase
 
     public async Task<int> DeleteToDoItemAsync(ToDoItemViewModel toDoItemViewModel)
     {
-        int deleteIndex = await _todoStorageService.DeleteToDoItemAsync(toDoItemViewModel.ToDo.Id);
-        ToDoCollection.RemoveAt(ToDoCollection.IndexOf(toDoItemViewModel));
-        return deleteIndex;
+        int deleteResult = await _todoStorageService.DeleteToDoItemAsync(toDoItemViewModel.ToDo.Id);
+        if (1==deleteResult)
+        {
+            ToDoCollection.RemoveAt(ToDoCollection.IndexOf(toDoItemViewModel));
+        }
+        return deleteResult;
     }
 
     public void ShowToDoItemDetailInfo(ToDoItemViewModel toDo)

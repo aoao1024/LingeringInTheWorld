@@ -41,9 +41,8 @@ public class ToDoStorage : IToDoStorage
             {
                 return true;
             }
-            return false;
         }
-            return false;
+        return false;
     }
     
     public async Task<bool> DeleteToDoItemsAsync(int[] ids)
