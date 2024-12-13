@@ -113,7 +113,7 @@ public class ToDoStorageTest :IDisposable
         updateToDo1=await _toDoStorage.TestConnection.FindAsync<ToDo>(toDo1.Id);
         Assert.False(result);
         Assert.Null(updateToDo1);
-        result=await _toDoStorage.UpdateToDoItemAsync(0, null, null, null, false);
+        result=await _toDoStorage.UpdateToDoItemAsync(0, null, null,null, null, false);
         Assert.False(result);
         // Arrange
         var mockConnection = new Mock<ISQLiteAsyncConnection>();
