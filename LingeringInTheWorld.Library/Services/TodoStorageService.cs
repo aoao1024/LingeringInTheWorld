@@ -34,4 +34,6 @@ public class TodoStorageService : ITodoStorageService
 
     public async Task<IList<ToDo>> GetToDoList(Expression<Func<ToDo, bool>> where, int skip, int take)
         => await _toDoStorage.GetTodoListAsync(where, skip, take);
+
+    public async Task<ToDo> GetToDoItem(int id) => await _toDoStorage.GetToDoItemAsync(id);
 }

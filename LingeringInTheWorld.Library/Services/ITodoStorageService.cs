@@ -16,4 +16,5 @@ public interface ITodoStorageService
     /*查询*/
     Task<IList<ToDo>> GetAllTodoListAsync();
     Task<IList<ToDo>> GetToDoList(Expression<Func<ToDo, bool>> where, int skip, int take);
+    Task<ToDo> GetToDoItem(int id);
 }
