@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using LingeringInTheWorld.Library.Models;
 using LingeringInTheWorld.Library.Services;
 using LingeringInTheWorld.UnitTest.Helpers;
@@ -62,6 +63,7 @@ public class ToDoStorageTest :IDisposable
         ToDo toDo2 = new ToDo(){Content = "Test Add2",Title = "Test Add2"};
         await _toDoStorage.AddToDoItemAsync(toDo1);
         await _toDoStorage.AddToDoItemAsync(toDo2);
+        var finishedTime = DateTime.Now;
         var deadline = DateTime.Today.AddDays(1);
         var title = "Test Update1";
         var content = "Test Update1";
@@ -82,6 +84,11 @@ public class ToDoStorageTest :IDisposable
         updateToDo1=await _toDoStorage.TestConnection.FindAsync<ToDo>(toDo1.Id);
         Assert.True(result);
         Assert.True(updateToDo1.Status);
+        result = await _toDoStorage.UpdateToDoItemAsync(toDo1.Id, deadline, finishedTime, title,content, status);
+        updateToDo1=await _toDoStorage.TestConnection.FindAsync<ToDo>(toDo1.Id);
+        Assert.True(result);
+        Assert.True(updateToDo1.Status);
+       
     }
     [Fact]
     public async Task UpdateToDoItemAsync_Deadline_Title_Content_Status_Fail()
@@ -90,6 +97,7 @@ public class ToDoStorageTest :IDisposable
         _toDoStorage = new ToDoStorage(GetPreferenceStorage());
         ToDo toDo1 = new ToDo(){Content = "Test Add1",Title = "Test Add1",DeadLine = DateTime.Today,Status = false};
         ToDo toDo2 = new ToDo(){Content = "Test Add2",Title = "Test Add2"};
+        var finishedTime = DateTime.Now;
         await _toDoStorage.AddToDoItemAsync(toDo1);
         await _toDoStorage.AddToDoItemAsync(toDo2);
         await _toDoStorage.DeleteToDoItemAsync(toDo1.Id);
@@ -115,16 +123,10 @@ public class ToDoStorageTest :IDisposable
         Assert.Null(updateToDo1);
         result=await _toDoStorage.UpdateToDoItemAsync(0, null, null,null, null, false);
         Assert.False(result);
-        // Arrange
-        var mockConnection = new Mock<ISQLiteAsyncConnection>();
-        var mockToDoItem = new ToDo
-        {
-            Id = 1,
-            DeadLine = DateTime.Now,
-            Title = "Test ToDo",
-            Content = "Test Content",
-            Status = false
-        };
+        result = await _toDoStorage.UpdateToDoItemAsync(0, deadline, finishedTime, title,content, status);
+        updateToDo1=await _toDoStorage.TestConnection.FindAsync<ToDo>(0);
+        Assert.False(result);
+        Assert.Null(updateToDo1);
         
     }
 
@@ -162,5 +164,42 @@ public class ToDoStorageTest :IDisposable
         var count = await _toDoStorage.TestConnection.Table<ToDo>().CountAsync();
         Assert.False(result);
         Assert.Equal(3, count);
+    }
+
+    [Fact]
+    public async Task GetToDoItemAsync_Default()
+    {
+        _appStorage =await AppStorageHelper.GetInitializedAppStorage();
+        _toDoStorage = new ToDoStorage(GetPreferenceStorage());
+        var toDo1 = new ToDo(){Content = "Test Delete1",Title = "Test Delete1"};
+        var toDo2 = new ToDo(){Content = "Test Delete2",Title = "Test Delete2"};
+        var toDo3 = new ToDo(){Content = "Test Delete3",Title = "Test Delete3"};
+        await _toDoStorage.AddToDoItemAsync(toDo1);
+        await _toDoStorage.AddToDoItemAsync(toDo2);
+        await _toDoStorage.AddToDoItemAsync(toDo3);
+        var todo= await _toDoStorage.GetToDoItemAsync(toDo1.Id);
+        Assert.NotNull(todo);
+        Assert.Equal(toDo1.Id,todo.Id);
+        Assert.Equal(toDo1.Title,todo.Title);
+        Assert.Equal(toDo1.Content,todo.Content);
+    }
+    [Fact]
+    public async Task GetTodoListAsync_Default()
+    {
+        _appStorage =await AppStorageHelper.GetInitializedAppStorage();
+        _toDoStorage = new ToDoStorage(GetPreferenceStorage());
+        var toDo1 = new ToDo(){Content = "Test Delete1",Title = "Test Delete1"};
+        var toDo2 = new ToDo(){Content = "Test Delete2",Title = "Test Delete2"};
+        var toDo3 = new ToDo(){Content = "Test Delete3",Title = "Test Delete3"};
+        await _toDoStorage.AddToDoItemAsync(toDo1);
+        await _toDoStorage.AddToDoItemAsync(toDo2);
+        await _toDoStorage.AddToDoItemAsync(toDo3);
+        Expression<Func<ToDo, bool>> filter = x => x.Id == toDo1.Id;
+        var toDoList = await _toDoStorage.GetTodoListAsync(filter, 0, 10);
+        Assert.NotNull(toDoList);
+        Assert.Single(toDoList);
+        Assert.Equal(toDo1.Id,toDoList[0].Id);
+        Assert.Equal(toDo1.Title,toDoList[0].Title);
+        Assert.Equal(toDo1.Content,toDoList[0].Content);
     }
 }

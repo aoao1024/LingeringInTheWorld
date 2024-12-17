@@ -19,9 +19,12 @@ public class ToDoStorage : IToDoStorage
     
     public async Task<int> AddToDoItemAsync(ToDo toDo) 
         => await Connection.InsertAsync(toDo);
-    
     public async Task<int> DeleteToDoItemAsync(int id)
     =>await Connection.DeleteAsync<ToDo>(id);
+    public async Task<IList<ToDo>> GetTodoListAsync(Expression<Func<ToDo, bool>> where, int skip, int take)
+        => await Connection.Table<ToDo>().Where(where).Skip(skip).Take(take).ToListAsync();
+    public async Task<ToDo> GetToDoItemAsync(int id)
+        => await Connection.FindAsync<ToDo>(id);
     
     public async Task<bool> UpdateToDoItemAsync(int id, DateTime? deadline, DateTime? finishedTime ,string title, string content, bool status)
     {
@@ -72,11 +75,7 @@ public class ToDoStorage : IToDoStorage
         });
         return result;
     }
-    public async Task<IList<ToDo>> GetTodoListAsync(Expression<Func<ToDo, bool>> where, int skip, int take)
-        => await Connection.Table<ToDo>().Where(where).Skip(skip).Take(take).ToListAsync();
-    
-    public async Task<ToDo> GetToDoItemAsync(int id)
-        => await Connection.FindAsync<ToDo>(id);
+   
 
     public async Task CloseAsync()
     {
