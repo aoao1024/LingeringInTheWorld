@@ -91,10 +91,11 @@ public class ToDoListViewModel : ViewModelBase
     {
         await _todoStorageService.UpdateToDoItemStatusAsync(toDoItemViewModel.ToDo.Id, !toDoItemViewModel.ToDo.Status);
         await _todoStorageService.UpdateToDoItemFinishedTimeAsync(toDoItemViewModel.ToDo.Id, DateTime.Now);
-        ToDoCollection.RemoveAt(ToDoCollection.IndexOf(toDoItemViewModel));
+        int index = ToDoCollection.IndexOf(toDoItemViewModel);
+        ToDoCollection.RemoveAt(index);
         ToDo toDo = await _todoStorageService.GetToDoItem(toDoItemViewModel.ToDo.Id);
         toDoItemViewModel.ToDo = toDo;
-        ToDoCollection.Add(toDoItemViewModel);
+        ToDoCollection.Insert(index,toDoItemViewModel);
     }
 
     public async Task<int> DeleteToDoItemAsync(ToDoItemViewModel toDoItemViewModel)

@@ -30,10 +30,16 @@
                   Margin="12">
         <ItemsControl.ItemTemplate >
         <DataTemplate >
+           
             <Border BorderBrush="WhiteSmoke" 
                     BorderThickness="1" CornerRadius="5" 
-                    Padding="4" Margin="0,5"
-                    Background="{Binding ToDo.Status, Converter={StaticResource StatusToBackGroundConverter}}">
+                    Padding="4" Margin="0,5">
+                <Border.Background>
+                    <MultiBinding Converter="{StaticResource StatusToBackGroundConverter}">
+                        <Binding Path="ToDo.Status"/>
+                        <Binding Path="ToDo.DeadLine"/>
+                    </MultiBinding>
+                </Border.Background>
                 <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
